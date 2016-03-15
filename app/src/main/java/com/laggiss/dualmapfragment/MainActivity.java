@@ -917,6 +917,7 @@ public class MainActivity extends FragmentActivity implements
         // Create a heat map tile provider, passing it the latlngs of the trees.
 
         if (!heatMapList.isEmpty()) {
+
             TileProvider mProvider = new HeatmapTileProvider.Builder()
                     .data(heatMapList)
                     .gradient(gradient)
@@ -925,7 +926,7 @@ public class MainActivity extends FragmentActivity implements
             // Add a tile overlay to the map, using the heat map tile provider.
             TileOverlay mOverlay = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
         } else{
-            Toast.makeText(this, "No trees found, increase radius or change species.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No trees found. Increase radius or change species.", Toast.LENGTH_SHORT).show();
         }
 
         heatMapList.clear();
