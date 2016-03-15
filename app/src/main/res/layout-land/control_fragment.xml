@@ -1,0 +1,143 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ToggleButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/useGPSToggle"
+        android:id="@+id/useGPSToggle"
+        android:checked="false"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:textOn="GPS ON"
+        android:textOff="GPS OFF"
+        />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/switchOnlineOffline"
+        android:id="@+id/switchOnlineOffline"
+        android:checked="false"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@id/useGPSToggle"/>
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/switchFollow"
+        android:id="@+id/switchFollowMe"
+        android:layout_below="@+id/switchOnlineOffline"
+        android:layout_alignStart="@+id/switchOnlineOffline"
+        android:checked="false"/>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:id="@+id/seperator1"
+        android:layout_below="@+id/switchFollowMe"
+        android:background="@android:color/darker_gray"
+        android:layout_alignEnd="@id/switchOnlineOffline"
+        />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/generaSpinner"
+        android:spinnerMode="dropdown"
+        android:layout_below="@+id/seperator1"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/switchOnlineOffline"
+        android:prompt="@string/generaSpinner"/>
+
+    <!--android:layout_alignEnd="@+id/buttonQuery"-->
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/speciesSpinner"
+        android:spinnerMode="dropdown"
+        android:layout_below="@+id/generaSpinner"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/switchOnlineOffline"
+      />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:id="@+id/seperator2"
+        android:layout_below="@+id/speciesSpinner"
+        android:background="@android:color/darker_gray"
+        android:layout_alignEnd="@id/switchOnlineOffline"/>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/radiusSpinner"
+        android:spinnerMode="dropdown"
+        android:layout_below="@+id/seperator2"
+        android:layout_alignTop="@+id/switchRadius"
+        android:layout_toEndOf="@+id/switchRadius"
+        android:layout_alignEnd="@id/switchOnlineOffline"/>
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/switchRadius"
+        android:id="@+id/switchRadius"
+        android:checked="false"
+        android:layout_below="@+id/seperator2"
+        android:layout_alignParentStart="true"/>
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/switchHeat"
+        android:id="@+id/switchHeat"
+        android:checked="false"
+        android:layout_below="@+id/radiusSpinner"
+        android:layout_alignEnd="@+id/switchOnlineOffline"/>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:id="@+id/seperator3"
+        android:layout_below="@+id/switchHeat"
+        android:background="@android:color/darker_gray"
+        android:layout_alignEnd="@id/switchOnlineOffline"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/buttonQuery"
+        android:id="@+id/buttonQuery"
+        android:layout_below="@+id/seperator3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignEnd="@+id/switchOnlineOffline"
+        />
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hideButton"
+        android:id="@+id/hideButton"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/clearButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignEnd="@+id/switchOnlineOffline"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/clearButton"
+        android:id="@+id/clearButton"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/buttonQuery"
+        android:layout_alignParentLeft="true"
+        android:layout_alignEnd="@+id/switchOnlineOffline"/>
+
+
+
+
+</RelativeLayout>

@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">DualMapFragment</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="switchRadius">Radius</string>
+    <string name="useGPSToggle">GPS</string>
+    <string name="buttonQuery">Query</string>
+    <string name="switchOnlineOffline">Online</string>
+    <string name="switchFollow">Follow</string>
+    <string name="hideButton">Hide Controls</string>
+    <string name="clearButton">Clear Map</string>
+    <string name="generaSpinner">Select genera...</string>
+    <string name="switchHeat">Heat Map</string>
+</resources>
