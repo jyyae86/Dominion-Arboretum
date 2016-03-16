@@ -140,7 +140,7 @@
         android:id="@+id/hideButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@id/clearButton"
+        android:layout_alignEnd="@+id/clearButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/clearButton"

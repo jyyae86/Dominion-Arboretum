@@ -42,7 +42,7 @@
         android:checked="false"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/switchFollowMe"
-        android:layout_alignEnd="@id/clearButton"
+        android:layout_alignEnd="@+id/clearButton"
         android:layout_alignParentEnd="false"/>
 
     <View
@@ -99,7 +99,7 @@
         android:spinnerMode="dropdown"
         android:layout_below="@+id/seperator2"
         android:layout_toEndOf="@+id/switchRadius"
-        android:layout_alignEnd="@id/clearButton"/>
+        android:layout_alignEnd="@+id/clearButton"/>
     <!--android:layout_alignEnd="@id/switchOnlineOffline"-->
     <!--android:layout_toEndOf="@+id/switchRadius"/>-->
 
