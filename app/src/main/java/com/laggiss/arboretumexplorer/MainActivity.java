@@ -404,7 +404,7 @@ public class MainActivity extends FragmentActivity implements
         if (radiusChecked == true) {
             pointsWithinRadius(currRadius);
         } else {
-            Log.e("asdfasdf", "Quyery button");
+//            Log.e("asdfasdf", "Quyery button");
             addMarkersFromDb();
         }
         ;
@@ -436,8 +436,8 @@ public class MainActivity extends FragmentActivity implements
                 while (!dbCursor.isAfterLast()) {
 
                     LatLng cpt = new LatLng(dbCursor.getDouble(5), dbCursor.getDouble(6));
-                    Log.e("asdfadfad", selargs[0]);
-                    Log.e("XXXXXXXXXXXXX", String.valueOf(cpt.latitude));
+//                    Log.e("asdfadfad", selargs[0]);
+//                    Log.e("XXXXXXXXXXXXX", String.valueOf(cpt.latitude));
                     if (heatMapChecked == true) {
 
                         heatMapList.add(cpt);
@@ -450,7 +450,7 @@ public class MainActivity extends FragmentActivity implements
 
                         thisMarkerOpt.icon(BitmapDescriptorFactory.defaultMarker(myHue));
                         if (mMap == null) {
-                            Log.e("XXXXXXXXXXXXX", "MAP ISNULL");//String.valueOf(cpt.latitude));
+//                            Log.e("XXXXXXXXXXXXX", "MAP ISNULL");//String.valueOf(cpt.latitude));
                         }
                         Marker marker = mMap.addMarker(thisMarkerOpt);
 
@@ -487,7 +487,7 @@ public class MainActivity extends FragmentActivity implements
 
 
     private void setUpMap() {
-        Log.e("setupmap", "was CALLED");
+//        Log.e("setupmap", "was CALLED");
 //        mMap.setOnMapLongClickListener(my1_OnMapLongClickListener);
         mMap.setOnMarkerDragListener(this);
         UiSettings mapSettings;
@@ -539,7 +539,7 @@ public class MainActivity extends FragmentActivity implements
         String x;
         x = marker.getId();
         String parseID = mMarkerHash.get(x);
-        Log.e("After drag latiude: ", String.valueOf(marker.getPosition().latitude));
+//        Log.e("After drag latiude: ", String.valueOf(marker.getPosition().latitude));
         Toast.makeText(this, parseID, Toast.LENGTH_SHORT).show();
         updatePointInDb(parseID, marker);
 
@@ -580,7 +580,7 @@ public class MainActivity extends FragmentActivity implements
     }
 
     private void updatePointInDb(String mMarkerParseId, Marker marker) {
-        Log.e("After  update: ", String.valueOf(marker.getPosition().latitude));
+//        Log.e("After  update: ", String.valueOf(marker.getPosition().latitude));
 
 
         StringBuilder sb = new StringBuilder();
@@ -592,7 +592,7 @@ public class MainActivity extends FragmentActivity implements
         sb.append(" ");
         sb.append("WHERE PARSEID = '");
         sb.append(mMarkerParseId).append("';");
-        Log.e("Query String: ", sb.toString());
+//        Log.e("Query String: ", sb.toString());
         // arboretum.update("ArboretumData",)
         arboretum.execSQL(sb.toString());
         //arboretum.close();
@@ -779,7 +779,7 @@ public class MainActivity extends FragmentActivity implements
             if(location == lastKnownPosition) {
 
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastKnownPosition.getLatitude(),lastKnownPosition.getLongitude()),18f));
-                Log.e("CAMERA","MODE LAST KL");
+//                Log.e("CAMERA","MODE LAST KL");
             }
 
             if (followChecked == true) {
@@ -842,7 +842,7 @@ public class MainActivity extends FragmentActivity implements
                 e.printStackTrace();
             }
         } else {
-            Log.i(TAG, "Location services connection failed with code " + connectionResult.getErrorCode());
+//            Log.i(TAG, "Location services connection failed with code " + connectionResult.getErrorCode());
         }
     }
 

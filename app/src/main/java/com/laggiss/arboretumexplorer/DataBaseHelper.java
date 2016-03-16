@@ -53,7 +53,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String dbPath = context.getDatabasePath(DB_NAME).getPath();//"/data/data/geoquiz.com.mycompanyx.geoquiz/databases/";//
         dbPath=dbPath.substring(0,dbPath.lastIndexOf("/")+1);
         DB_PATH=dbPath;
-        Log.e("DH : ",DB_NAME+" "+DB_PATH);
+//        Log.e("DH : ",DB_NAME+" "+DB_PATH);
     }
     @Override
     protected void finalize() throws Throwable {
@@ -66,7 +66,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void createDataBase() throws IOException {
 
         boolean dbExist = checkDataBase();
-        Log.e("Database Exist?: ",String.valueOf(dbExist));
+//        Log.e("Database Exist?: ",String.valueOf(dbExist));
 
         if(dbExist){
             //do nothing - database already exist
@@ -75,11 +75,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             //By calling this method and empty database will be created into the default system path
             //of your application so we are gonna be able to overwrite that database with our database.
             this.getReadableDatabase();
-            Log.e("Copy done: ", "copied database");
+//            Log.e("Copy done: ", "copied database");
             try {
 
                 copyDataBase();
-                Log.e("Copy done: ","copied database");
+//                Log.e("Copy done: ","copied database");
             } catch (IOException e) {
 
                 throw new Error("Error copying database");
@@ -99,7 +99,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         try{
             String myPath = DB_PATH + DB_NAME;
-            Log.e("CHK: ",myPath);
+//            Log.e("CHK: ",myPath);
             checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
 
         }catch(SQLiteException e){

@@ -204,7 +204,7 @@ public class ControlClass extends Fragment {
                 container, false);
 
         if(savedInstanceState != null){
-            Log.e("XXXXXXXXXXXXXXXXXXX", String.valueOf(savedInstanceState.getInt(CURRENT_SPECIES)));
+//            Log.e("XXXXXXXXXXXXXXXXXXX", String.valueOf(savedInstanceState.getInt(CURRENT_SPECIES)));
             cgen=savedInstanceState.getString(CURRENT_GENERA);
            xind=savedInstanceState.getInt(CURRENT_SPECIES);//speciesList.setSelection(savedInstanceState.getInt(CURRENT_SPECIES));
         }
