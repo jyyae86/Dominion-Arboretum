@@ -1,4 +1,4 @@
-package com.laggiss.dualmapfragment;
+package com.laggiss.arboretumexplorer;
 
 import android.content.Context;
 import android.database.SQLException;

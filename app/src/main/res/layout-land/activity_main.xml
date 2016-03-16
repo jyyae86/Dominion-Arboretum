@@ -10,7 +10,7 @@
     <!--<fragment-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="0dp"-->
-        <!--android:name="com.laggiss.dualmapfragment.ControlClass"-->
+        <!--android:name="arboretumexplorerer.ControlClass"-->
         <!--android:id="@+id/fragment"-->
         <!--android:layout_gravity="center_horizontal"-->
         <!--android:layout_weight="1"-->

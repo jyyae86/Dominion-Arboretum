@@ -7,7 +7,7 @@
 https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=5C:CD:36:01:E6:DC:0D:53:EB:F2:6C:AC:5E:79:4C:8E:A5:E8:6E:35%3Bcom.laggiss.dualmapfragment
 
     You can also add your credentials to an existing key, using this line:
-    5C:CD:36:01:E6:DC:0D:53:EB:F2:6C:AC:5E:79:4C:8E:A5:E8:6E:35;com.laggiss.dualmapfragment
+    5C:CD:36:01:E6:DC:0D:53:EB:F2:6C:AC:5E:79:4C:8E:A5:E8:6E:35;arboretumexplorerer
 
     Once you have your key (it starts with "AIza"), replace the "google_maps_key"
     string in this file.

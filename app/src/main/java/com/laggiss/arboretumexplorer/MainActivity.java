@@ -1,10 +1,7 @@
-package com.laggiss.dualmapfragment;
+package com.laggiss.arboretumexplorer;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.IntentSender;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -12,12 +9,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
-import android.text.TextUtils;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
 import android.util.Log;
@@ -386,7 +379,7 @@ public class MainActivity extends FragmentActivity implements
                         try {
                             // Show the dialog by calling startResolutionForResult(),
                             // and check the result in onActivityResult().
-                            status.startResolutionForResult(MainActivity.this,1000);//com.laggiss.dualmapfragment.MainActivity.this,1000);
+                            status.startResolutionForResult(MainActivity.this,1000);//com.laggiss.arboretumexplorer.MainActivity.this,1000);
                         } catch (IntentSender.SendIntentException e) {
                             // Ignore the error.
                         }

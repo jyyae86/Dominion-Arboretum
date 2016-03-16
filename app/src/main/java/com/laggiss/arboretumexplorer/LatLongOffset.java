@@ -1,4 +1,4 @@
-package com.laggiss.dualmapfragment;
+package com.laggiss.arboretumexplorer;
 
 /**
  * Created by Laggiss on 7/5/2015.
