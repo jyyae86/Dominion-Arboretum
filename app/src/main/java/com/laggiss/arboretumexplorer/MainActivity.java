@@ -181,7 +181,7 @@ public class MainActivity extends FragmentActivity implements
 
         if (savedInstanceState != null) {
             mMapFragment = (MapFragment) myFragmentManager.findFragmentByTag("map_tag");
-            //TODO check if following line works
+
             mMap = mMapFragment.getMap();
             myFragment = (ControlClass) myFragmentManager.findFragmentByTag("control_tag");
             fragmentTransaction.commit();
@@ -416,7 +416,7 @@ public class MainActivity extends FragmentActivity implements
     public void buttonQueryClicked(String link) {
         // updateMap(link);
 
-        if (radiusChecked == true) {
+        if (radiusChecked) {
             pointsWithinRadius(currRadius);
         } else {
 //            Log.e("asdfasdf", "Quyery button");
@@ -453,7 +453,7 @@ public class MainActivity extends FragmentActivity implements
                     LatLng cpt = new LatLng(dbCursor.getDouble(5), dbCursor.getDouble(6));
 //                    Log.e("asdfadfad", selargs[0]);
 //                    Log.e("XXXXXXXXXXXXX", String.valueOf(cpt.latitude));
-                    if (heatMapChecked == true) {
+                    if (heatMapChecked) {
 
                         heatMapList.add(cpt);
                         builder.include(cpt);
@@ -494,7 +494,7 @@ public class MainActivity extends FragmentActivity implements
             mMap.animateCamera(cu);
             //
         }
-        if (heatMapChecked == true) {
+        if (heatMapChecked) {
             addHeatMap();
         }
 
@@ -761,7 +761,7 @@ public class MainActivity extends FragmentActivity implements
             }
 
         }
-        if (heatMapChecked == true) {
+        if (heatMapChecked) {
             addHeatMap();
         }
     }
@@ -781,7 +781,7 @@ public class MainActivity extends FragmentActivity implements
     //                Log.e("CAMERA","MODE LAST KL");
                 }
 
-                if (followChecked == true) {
+                if (followChecked) {
                     followMe();
 
 
@@ -896,15 +896,21 @@ public class MainActivity extends FragmentActivity implements
 
     private void addHeatMap() {
 
-        // Create the gradient.
-        int[] colors = {
-                Color.rgb(102, 225, 0), // green
-                Color.rgb(255, 255, 0),
-                Color.rgb(255, 0, 0)    // red
-        };
 
+
+        // Create the gradient.
+//        int[] colors = {
+//                Color.rgb(102, 225, 0), // green
+//                Color.rgb(255, 255, 0),
+//                Color.rgb(255, 0, 0)    // red
+//        };
+        int[] colors = {
+                Color.rgb(randInt(0,25),255, randInt(0,25)), // green
+                Color.rgb(255, 255, 0),
+                Color.rgb(255, randInt(0,25), randInt(0,25))    // red
+        };
         float[] startPoints = {
-                0.5f, 0.75f, 1f
+                0.2f, 0.75f, 1f//0.75f, 1f
         };
 
         Gradient gradient = new Gradient(colors, startPoints);
