@@ -32,6 +32,8 @@ public class ControlClass extends Fragment {
     private onHeatMapChecked listenerSwitchHeatMap;
     private onRadiusChecked listenerSwitchRadius;
     private onRadiusSpinnerChange listenerRadiusSpinner;
+    private onGPSChecked listenerGPSChecked;
+
     private final static String CURRENT_SPECIES = "currentSpecies";
     private final static String CURRENT_GENERA = "currentGenera";
     private boolean followMeState;
@@ -93,7 +95,7 @@ public class ControlClass extends Fragment {
     private Spinner speciesList;
     private Spinner generaList;
     Spinner radiusSpinner;
-    private int xind=0;
+    private int xind = 0;
     private String cgen;
     // Define the events that the fragment will use to communicate
 
@@ -105,6 +107,10 @@ public class ControlClass extends Fragment {
 
     public interface onFollowMeChecked {
         void switchFollowMeChecked(Boolean switchState);
+    }
+
+    public interface onGPSChecked {
+        void switchGPSChecked(Boolean switchState);
     }
 
     public interface onRadiusChecked {
@@ -168,7 +174,12 @@ public class ControlClass extends Fragment {
             throw new ClassCastException(activity.toString()
                     + " must implement MyListFragment.OnItemSelectedListener");
         }
-
+        if (activity instanceof onGPSChecked) {
+            listenerGPSChecked = (onGPSChecked) activity;
+        } else {
+            throw new ClassCastException(activity.toString()
+                    + " must implement MyListFragment.OnItemSelectedListener");
+        }
         if (activity instanceof onHeatMapChecked) {
             listenerSwitchHeatMap = (onHeatMapChecked) activity;
         } else {
@@ -203,10 +214,10 @@ public class ControlClass extends Fragment {
         View view = inflater.inflate(R.layout.control_fragment,
                 container, false);
 
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
 //            Log.e("XXXXXXXXXXXXXXXXXXX", String.valueOf(savedInstanceState.getInt(CURRENT_SPECIES)));
-            cgen=savedInstanceState.getString(CURRENT_GENERA);
-           xind=savedInstanceState.getInt(CURRENT_SPECIES);//speciesList.setSelection(savedInstanceState.getInt(CURRENT_SPECIES));
+            cgen = savedInstanceState.getString(CURRENT_GENERA);
+            xind = savedInstanceState.getInt(CURRENT_SPECIES);//speciesList.setSelection(savedInstanceState.getInt(CURRENT_SPECIES));
         }
 
         Button buttonQuery = (Button) view.findViewById(R.id.buttonQuery);
@@ -241,6 +252,13 @@ public class ControlClass extends Fragment {
             }
         });
 
+        Switch gpsSwitch = (Switch) view.findViewById(R.id.switchGPS);
+        gpsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                sendGPSCheck(buttonView, isChecked);
+            }
+        });
 
         Switch radiusSwitch = (Switch) view.findViewById(R.id.switchRadius);
         radiusSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -298,7 +316,7 @@ public class ControlClass extends Fragment {
                 List<String> sList = makeSpeciesList(parent.getItemAtPosition(position).toString());
                 speciesAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, sList);
                 speciesList.setAdapter(speciesAdapter);
-                if(xind!=0 & generaList.getSelectedItem().toString()==cgen){
+                if (xind != 0 & generaList.getSelectedItem().toString() == cgen) {
                     //Log.e("UUUUUUUUUUUUUUU",String.valueOf(xind));
                     speciesList.setSelection(xind);
                 }
@@ -334,15 +352,15 @@ public class ControlClass extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(CURRENT_SPECIES, speciesList.getSelectedItemPosition());
-        outState.putString(CURRENT_GENERA,generaList.getSelectedItem().toString());
+        outState.putString(CURRENT_GENERA, generaList.getSelectedItem().toString());
 
     }
 
     private void sendRadiusCheck(CompoundButton b, boolean checkedState) {
 
-        if(checkedState==true) {
+        if (checkedState == true) {
             radiusSpinner.setEnabled(true);
-        }else{
+        } else {
             radiusSpinner.setEnabled(false);
         }
 
@@ -361,6 +379,10 @@ public class ControlClass extends Fragment {
 
         listenerSwitchFollowMe.switchFollowMeChecked(checkedState);
 
+    }
+
+    private void sendGPSCheck(CompoundButton b, boolean checkedState) {
+        listenerGPSChecked.switchGPSChecked(checkedState);
     }
 
     private void sendHeatMapCheck(CompoundButton b, boolean checkedState) {

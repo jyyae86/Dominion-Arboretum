@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -74,6 +75,7 @@ import java.util.Random;
 import static com.google.maps.android.SphericalUtil.computeDistanceBetween;
 
 public class MainActivity extends FragmentActivity implements
+        ControlClass.onGPSChecked,
         ControlClass.onQueryButtonClicked,
         ControlClass.onFollowMeChecked,
         ControlClass.onSpeciesSpinnerChange,
@@ -104,6 +106,7 @@ public class MainActivity extends FragmentActivity implements
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private LatLng GPSLatLng;
+    private boolean useGPS;
     private boolean followChecked;
     private boolean heatMapChecked;
     private boolean radiusChecked;
@@ -120,6 +123,7 @@ public class MainActivity extends FragmentActivity implements
     private static final String LAST_UPDATED_TIME_STRING_KEY = "LASTGPSTIME";
     private static final String QUERY_BUTTON_WAS_CLICKED = "QUERYCLICKED";
     private static final String CURRENT_SPECIES_SELECTED = "CURRSPECIES";
+    private static final String USE_GPS_VALUE = "USEGPS";
     private String mLastUpdateTime;
     private Location mCurrentLocation;
     private Location lastKnownPosition;
@@ -172,6 +176,7 @@ public class MainActivity extends FragmentActivity implements
 
         myFragmentManager = getFragmentManager();
 
+
         FragmentTransaction fragmentTransaction = myFragmentManager.beginTransaction();
 
         if (savedInstanceState != null) {
@@ -183,8 +188,12 @@ public class MainActivity extends FragmentActivity implements
             //mMap=mMapFragment.getMap();
 
         } else {
+
             mMapFragment = MapFragment.newInstance();
             fragmentTransaction.add(R.id.map, mMapFragment, "map_tag");
+
+            useGPS=true;
+
             mMapFragment.setRetainInstance(true);
             myFragment = new ControlClass();
             fragmentTransaction.add(R.id.myfragment, myFragment, "control_tag");
@@ -194,8 +203,9 @@ public class MainActivity extends FragmentActivity implements
                 @Override
                 public void onMapReady(GoogleMap googleMap) {
                     mMap = googleMap;
-                    setUpMap();
 
+                    setUpMap();
+                    //handleNewLocation(lastKnownPosition);
 
                 }
             });
@@ -251,7 +261,7 @@ public class MainActivity extends FragmentActivity implements
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
+        //handleNewLocation(lastKnownPosition);
     }
 
     private Boolean wasQuery = false;
@@ -309,6 +319,7 @@ public class MainActivity extends FragmentActivity implements
         outState.putString(LAST_UPDATED_TIME_STRING_KEY, mLastUpdateTime);
         outState.putBoolean(QUERY_BUTTON_WAS_CLICKED, wasQuery);
         outState.putString(CURRENT_SPECIES_SELECTED, stringCurrentSpecies);
+        outState.putBoolean(USE_GPS_VALUE,useGPS);
 
         super.onSaveInstanceState(outState);
 
@@ -341,6 +352,11 @@ public class MainActivity extends FragmentActivity implements
             if (savedInstanceState.keySet().contains(CURRENT_SPECIES_SELECTED)) {
                 stringCurrentSpecies = savedInstanceState.getString(
                         CURRENT_SPECIES_SELECTED);
+            }
+
+            if (savedInstanceState.keySet().contains(USE_GPS_VALUE)) {
+                useGPS = savedInstanceState.getBoolean(
+                        USE_GPS_VALUE);
             }
 
             handleNewLocation(mCurrentLocation);
@@ -379,7 +395,7 @@ public class MainActivity extends FragmentActivity implements
                         try {
                             // Show the dialog by calling startResolutionForResult(),
                             // and check the result in onActivityResult().
-                            status.startResolutionForResult(MainActivity.this,1000);//com.laggiss.arboretumexplorer.MainActivity.this,1000);
+                            status.startResolutionForResult(MainActivity.this, 1000);//com.laggiss.arboretumexplorer.MainActivity.this,1000);
                         } catch (IntentSender.SendIntentException e) {
                             // Ignore the error.
                         }
@@ -389,7 +405,6 @@ public class MainActivity extends FragmentActivity implements
                         // settings so we won't show the dialog.
                         break;
                 }
-
 
 
             }
@@ -501,24 +516,7 @@ public class MainActivity extends FragmentActivity implements
         }
 
 
-       // addGroundOverlay();
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(45.390841, -75.703888), 16));
-//        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(45.390841, -75.703888), 15), new GoogleMap.CancelableCallback() {
-//            @Override
-//            public void onFinish() {
-////                    //Toast.makeText(getBaseContext(), "Animation to Sydney complete", //Toast.LENGTH_SHORT)
-////                            .show();
-//
-//            }
-//
-//            @Override
-//            public void onCancel() {
-////                    //Toast.makeText(getBaseContext(), "Animation to Sydney cancelled", //Toast.LENGTH_SHORT)
-////                            .show();
-//
-//            }
-//        });
-        //myMap1.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+
     }
 
     @Override
@@ -771,23 +769,26 @@ public class MainActivity extends FragmentActivity implements
     private void handleNewLocation(Location location) {
         //Log.e(TAG, "Handle LOcation Called");//location.toString());
         //Toast.makeText(this, "Handle Location Called", Toast.LENGTH_SHORT).show();
-        if (location != null) {
-            double currentLatitude = location.getLatitude();
-            double currentLongitude = location.getLongitude();
-            GPSLatLng = new LatLng(currentLatitude, currentLongitude);
+        if (useGPS) {
+            if (location != null) {
+                double currentLatitude = location.getLatitude();
+                double currentLongitude = location.getLongitude();
+                GPSLatLng = new LatLng(currentLatitude, currentLongitude);
 
-            if(location == lastKnownPosition) {
+                if(location == lastKnownPosition) {
 
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastKnownPosition.getLatitude(),lastKnownPosition.getLongitude()),18f));
-//                Log.e("CAMERA","MODE LAST KL");
-            }
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastKnownPosition.getLatitude(),lastKnownPosition.getLongitude()),18f));
+    //                Log.e("CAMERA","MODE LAST KL");
+                }
 
-            if (followChecked == true) {
-                followMe();
+                if (followChecked == true) {
+                    followMe();
 
 
+                }
             }
         }
+
     }
 
     public List<String> makeSpeciesList(String inGenera) {
@@ -1058,6 +1059,17 @@ public class MainActivity extends FragmentActivity implements
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void switchGPSChecked(Boolean switchState) {
+        Toast.makeText(getApplicationContext(),String.valueOf(switchState),Toast.LENGTH_SHORT).show();
+
+        useGPS = switchState;
+        Toast.makeText(getApplicationContext(), String.valueOf(useGPS), Toast.LENGTH_SHORT).show();
+        if (switchState) {
+            handleNewLocation(lastKnownPosition);
+        }
     }
 //    private void setUpMapIfNeeded() {
 //

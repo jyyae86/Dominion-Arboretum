@@ -27,33 +27,35 @@
     <!--android:layout_alignParentTop="true"-->
     <!--android:layout_toEndOf="@id/useGPSToggle"/>-->
 
-    <View
-        android:id="@+id/centerShim"
-        android:layout_height="1dp"
-        android:layout_width="0dp"
-        android:visibility="invisible"
-        android:layout_centerHorizontal="true"/>
 
     <Switch
-        android:id="@+id/switchFollowMe"
-        android:layout_width="match_parent"
+        android:id="@+id/switchGPS"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/centerShim"
+        android:text="@string/switchGPS"
+        android:checked="true"
+/>
+
+    <Switch
+        android:id="@+id/switchFollowMe"
+        android:text="@string/switchFollow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:checked="false"
-        android:text="@string/switchFollow"/>
+        android:layout_toRightOf="@+id/switchGPS"/>
 
     <Switch
         android:id="@+id/switchHeat"
+        android:text="@string/switchHeat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/clearButton"
-        android:layout_alignParentEnd="false"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/centerShim"
         android:checked="false"
-        android:text="@string/switchHeat"/>
+        />
 
     <View
         android:id="@+id/seperator1"
