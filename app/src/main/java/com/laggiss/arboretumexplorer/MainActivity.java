@@ -899,18 +899,20 @@ public class MainActivity extends FragmentActivity implements
 
 
         // Create the gradient.
-//        int[] colors = {
-//                Color.rgb(102, 225, 0), // green
-//                Color.rgb(255, 255, 0),
-//                Color.rgb(255, 0, 0)    // red
-//        };
         int[] colors = {
-                Color.rgb(randInt(0,25),255, randInt(0,25)), // green
-                Color.rgb(255, 255, 0),
-                Color.rgb(255, randInt(0,25), randInt(0,25))    // red
+                Color.rgb(26,150,65), // green
+                Color.rgb(166,217,106),
+                Color.rgb(253,174,97),
+                Color.rgb(215,25,28)    // red
         };
+//        int[] colors = {
+//                Color.rgb(randInt(0,50),randInt(150,255), randInt(0,50)), // green
+//                Color.rgb(randInt(50,100),randInt(100,150), randInt(50,100)),
+//                Color.rgb(randInt(100,200),randInt(0,100), randInt(50,100)),
+//                Color.rgb(randInt(200,255), randInt(0,50), randInt(0,50))    // red
+//        };
         float[] startPoints = {
-                0.2f, 0.75f, 1f//0.75f, 1f
+                0.01f,0.45f,.75f,  .85f//0.75f, 1f
         };
 
         Gradient gradient = new Gradient(colors, startPoints);
@@ -921,7 +923,7 @@ public class MainActivity extends FragmentActivity implements
             TileProvider mProvider = new HeatmapTileProvider.Builder()
                     .data(heatMapList)
                     .gradient(gradient)
-                    .radius(20)
+                    .radius(15)
                     .build();
             // Add a tile overlay to the map, using the heat map tile provider.
             TileOverlay mOverlay = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
