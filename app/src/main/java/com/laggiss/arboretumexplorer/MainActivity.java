@@ -422,7 +422,7 @@ public class MainActivity extends FragmentActivity implements
 //            Log.e("asdfasdf", "Quyery button");
             addMarkersFromDb();
         }
-        ;
+
 
         wasQuery = true;
 
@@ -708,7 +708,7 @@ public class MainActivity extends FragmentActivity implements
                     LatLng dbPt = new LatLng(dbCursor.getDouble(5), dbCursor.getDouble(6));
 
                     if (computeDistanceBetween(dbPt, GPSLatLng) < radius) {
-                        if (heatMapChecked == true) {
+                        if (heatMapChecked) {
 
                             heatMapList.add(dbPt);
 
@@ -897,25 +897,7 @@ public class MainActivity extends FragmentActivity implements
     private void addHeatMap() {
 
 
-
-        // Create the gradient.
-        int[] colors = {
-                Color.rgb(26,150,65), // green
-                Color.rgb(166,217,106),
-                Color.rgb(253,174,97),
-                Color.rgb(215,25,28)    // red
-        };
-//        int[] colors = {
-//                Color.rgb(randInt(0,50),randInt(150,255), randInt(0,50)), // green
-//                Color.rgb(randInt(50,100),randInt(100,150), randInt(50,100)),
-//                Color.rgb(randInt(100,200),randInt(0,100), randInt(50,100)),
-//                Color.rgb(randInt(200,255), randInt(0,50), randInt(0,50))    // red
-//        };
-        float[] startPoints = {
-                0.01f,0.45f,.75f,  .85f//0.75f, 1f
-        };
-
-        Gradient gradient = new Gradient(colors, startPoints);
+        Gradient gradient = new HeatMapColors().getGradient(); //Gradient(colors, startPoints);
         // Create a heat map tile provider, passing it the latlngs of the trees.
 
         if (!heatMapList.isEmpty()) {
@@ -993,7 +975,7 @@ public class MainActivity extends FragmentActivity implements
         if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             VerticalButton bt = new VerticalButton(this, null);
             LinearLayout.LayoutParams btlayout = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
-            bt.setText("Map Settings...");
+            bt.setText(R.string.mapSettings);
             bt.setLayoutParams(btlayout);
             mRootView.addView(bt);
             bt.setOnClickListener(new View.OnClickListener() {
@@ -1023,7 +1005,7 @@ public class MainActivity extends FragmentActivity implements
             Button bt = new Button(this);
             bt.setId(buttonID);
             LinearLayout.LayoutParams btlayout = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-            bt.setText("Map Settings...");
+            bt.setText(R.string.mapSettings);
             bt.setLayoutParams(btlayout);
             mRootView.addView(bt);
             bt.setOnClickListener(new View.OnClickListener() {

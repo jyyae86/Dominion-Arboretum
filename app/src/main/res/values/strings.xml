@@ -12,4 +12,5 @@
     <string name="generaSpinner">Select genera...</string>
     <string name="switchHeat">Heat Map</string>
     <string name="switchGPS">GPS</string>
+    <string name="mapSettings">Map Settings...</string>
 </resources>
