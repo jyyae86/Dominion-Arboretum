@@ -117,7 +117,7 @@ public class MainActivity extends FragmentActivity implements
     ArrayList<LatLng> heatMapList = new ArrayList<LatLng>();
     private static final long INTERVAL = 2000;
     private static final long FASTEST_INTERVAL = 1000;
-    private String dbaseName = "ArboretumDataTest";
+    private String dbaseName = "ArboretumData";
     private DataBaseHelper myDbHelper;
     private SQLiteDatabase arboretum;
     Polyline line;
