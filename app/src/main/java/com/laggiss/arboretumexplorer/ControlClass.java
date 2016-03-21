@@ -14,9 +14,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,7 @@ public class ControlClass extends Fragment {
     private onRadiusChecked listenerSwitchRadius;
     private onRadiusSpinnerChange listenerRadiusSpinner;
     private onGPSChecked listenerGPSChecked;
+    private onLatinChecked listenerLatinChecked;
 
     private final static String CURRENT_SPECIES = "currentSpecies";
     private final static String CURRENT_GENERA = "currentGenera";
@@ -50,47 +53,47 @@ public class ControlClass extends Fragment {
             "Salix", "Sambucus", "Shepherdia", "Sorbaria", "Sorbus", "Staphylea", "Stephanandra",
             "Syringa", "Taxodium", "Thuja", "Tilia", "Tsuga", "Ulmus", "Vaccinium", "Viburnum"};
 
-    private String[] species = {"Alder sp.", "Almond-leaved Willow", "Alternate Leaf Dogwood", "American Elm",
-            "Amur Cork", "Amur maackia", "Ash", "Austrian pine", "Azalea", "Bald Cypress", "Balsam Poplar", "Basswood",
-            "Bay Willow", "Bearded Maple", "Beautybush", "Beech", "Birch", "Bittersweet", "Black Ash", "Black locust",
-            "Black Maple", "Black Oak", "Black Poplar", "Black spruce", "Blackberry", "Bladdernut", "Blue-beech",
-            "Blue Ash", "Blueberry", "Broom", "Buckeye/Horse Chestnut", "Buckthorn", "Buffaloberry", "Bur Oak",
-            "Bush Honeysuckle", "Butterfly-bush", "Butterfly Maple", "Button-bush", "Calycanthus", "Capadocian Maple",
-            "Carolina Poplar", "Catalpa", "Caucasian Linden", "Chamaecyparis", "Cherry and Plum", "Chinese Ash",
-            "Chinese Juniper", "Chinese Red Birch", "Chokeberry", "Colorado spruce", "Colutea", "Common Dogwood",
-            "Common Lilacs", "Common Lime", "Coolshade Elm", "Cornelian Cherry Dogwood", "Cotoneaster", "Crab Apple",
-            "Cranberry", "Creeping Juniper", "Currant", "Daphne", "Dawn Redwood", "Deutzia", "Devils Walking-stick",
-            "Dogwood", "Douglas Fir", "Dragon spruce", "Dwarf Dogwood", "Eastern Cottonwood", "Eastern Redcedar (Juniper)",
-            "Eastern White Cedar (Arborvitae)", "Eastern White Pine", "Elderberry", "Eleutherococcus", "Elm",
-            "Engelmann spruce", "English Oak", "Epaulette Tree", "Euonymus", "European Ash", "False indigo",
-            "False Spirea", "Field Elm", "Field Maple", "Forsythia", "Freeman Maple", "Fringe Tree", "Ginkgo",
-            "Glenleven Linden", "Goat Willow", "Gray Birch", "Green Ash", "Grey Poplar", "Griffin Poplar", "Hackberry",
-            "Hardy kiwi", "Hawthorn", "hazelnut", "Hazelnut", "Hemlock", "Hibiscus", "Hickory", "Himalayan Pine",
-            "Homestead Elm", "Honey locust", "Honeysuckle", "Hoptree", "Hydrangea", "Ironwood", "Jack Pine",
-            "Japanese Angelica-tree", "Japanese Ash", "Japanese Elm", "Japanese Maple", "Japanese Poplar", "Japanese Thuja",
-            "Jezo spruce", "Kaiser Linden", "Katsura", "Kentucky coffee tree", "Korean Maple", "Laburnum", "Lace Shrub",
-            "Larch (or Tamarack)", "Large-leaved Linden", "Largetooth Aspen", "Late-blooming Lilac Hybrids",
-            "Late-blooming Lilacs", "Leatherwood", "Lennea", "Lespedeza", "Lilac", "Linden", "Lodgepole Pine", "Magnolia",
-            "Manchu Striped Maple", "Manchurian Ash", "Manitoba Maple", "Manna Ash", "Maple", "Miyabei Maple",
-            "Mock-orange", "Moltkei Linden", "Monarch Birch", "Mongolian Linden", "Montain Maple", "Montpelier Maple",
-            "Moraine Ash", "Mountain-ash", "Mugo Pine", "Mulberry", "Ninebark", "Northern Bayberry", "Northern Pin Oak",
-            "Norway Maple", "Norway spruce", "Oak", "Oregon-grape", "Oregon Ash", "Other Ash", "Other Birch",
-            "Other Dogwood", "Other Lilac", "Other Oak", "Other Willow", "Painted Maple", "Paper Birch",
-            "Paperback Maple", "Pea Shrub", "Pear", "Persian Ironwood", "Persimmon", "Pin Oak", "Pine", "Pitch Pine",
-            "Plum Yew", "Ponderosa Pine", "Poplar", "Prickly Castor-oil", "Princess Tree", "Privet", "Purple-leaved Elm",
-            "Red Birch", "Red Maple", "Red Oak", "Red Pine", "Red spruce", "Redbud", "River Birch", "Rock Elm",
-            "Rocky Mountain Juniper", "Rose", "Roundleaf Dogwood", "Russain-olive", "Russian Elm", "Salt Tree",
-            "Saltcedar", "Sapporo Elm (Autumn Gold)", "Savin Juniper", "Scarlet Oak", "Scots Pine", "Sea-buckthorn",
-            "Serbian Elm", "Serbian spruce", "Serviceberry", "Seven-son Flower", "Shandong Maple", "Siberian Pine",
-            "Silver (White) Poplar", "Silver Linden", "Silver Maple", "Silverbell", "Small-leaved Linden", "Smoketree",
-            "Snowbell", "Snowberry", "Sophora", "Spirea", "Spoil-ax", "Spruce", "Staggerbush", "Striped Maple",
-            "Sugar Maple", "Sumac", "Swamp Chestnut Oak", "Swamp White Oak", "Sweet Birch", "Sweet Pepperbush", "Sweetgum",
-            "Swiss Stone Pine", "Sycamore Maple", "Sycamore or Plane Tree", "Syrian Ash", "Tatarian (or Amur) Maple",
-            "Texas Ash", "Three-flowered Maple", "Tree Lilac", "Trembling Aspen", "True Fir", "Tulip Tree",
-            "Ukurunduense Maple", "Variegated Redtwig Dogwood", "Walnut/Butternut", "Weeping Willow", "Weigela",
-            "Western Red Cedar", "Western White Pine", "White Ash", "White Oak", "White Spruce", "White Willow",
-            "Willow", "Wingnut", "Winterberry", "Wisteria", "Witch Hazel", "Wych Elm", "Yellow Birch", "Yellowwood",
-            "Yew", "Yucca"};
+//    private String[] species = {"Alder sp.", "Almond-leaved Willow", "Alternate Leaf Dogwood", "American Elm",
+//            "Amur Cork", "Amur maackia", "Ash", "Austrian pine", "Azalea", "Bald Cypress", "Balsam Poplar", "Basswood",
+//            "Bay Willow", "Bearded Maple", "Beautybush", "Beech", "Birch", "Bittersweet", "Black Ash", "Black locust",
+//            "Black Maple", "Black Oak", "Black Poplar", "Black spruce", "Blackberry", "Bladdernut", "Blue-beech",
+//            "Blue Ash", "Blueberry", "Broom", "Buckeye/Horse Chestnut", "Buckthorn", "Buffaloberry", "Bur Oak",
+//            "Bush Honeysuckle", "Butterfly-bush", "Butterfly Maple", "Button-bush", "Calycanthus", "Capadocian Maple",
+//            "Carolina Poplar", "Catalpa", "Caucasian Linden", "Chamaecyparis", "Cherry and Plum", "Chinese Ash",
+//            "Chinese Juniper", "Chinese Red Birch", "Chokeberry", "Colorado spruce", "Colutea", "Common Dogwood",
+//            "Common Lilacs", "Common Lime", "Coolshade Elm", "Cornelian Cherry Dogwood", "Cotoneaster", "Crab Apple",
+//            "Cranberry", "Creeping Juniper", "Currant", "Daphne", "Dawn Redwood", "Deutzia", "Devils Walking-stick",
+//            "Dogwood", "Douglas Fir", "Dragon spruce", "Dwarf Dogwood", "Eastern Cottonwood", "Eastern Redcedar (Juniper)",
+//            "Eastern White Cedar (Arborvitae)", "Eastern White Pine", "Elderberry", "Eleutherococcus", "Elm",
+//            "Engelmann spruce", "English Oak", "Epaulette Tree", "Euonymus", "European Ash", "False indigo",
+//            "False Spirea", "Field Elm", "Field Maple", "Forsythia", "Freeman Maple", "Fringe Tree", "Ginkgo",
+//            "Glenleven Linden", "Goat Willow", "Gray Birch", "Green Ash", "Grey Poplar", "Griffin Poplar", "Hackberry",
+//            "Hardy kiwi", "Hawthorn", "hazelnut", "Hazelnut", "Hemlock", "Hibiscus", "Hickory", "Himalayan Pine",
+//            "Homestead Elm", "Honey locust", "Honeysuckle", "Hoptree", "Hydrangea", "Ironwood", "Jack Pine",
+//            "Japanese Angelica-tree", "Japanese Ash", "Japanese Elm", "Japanese Maple", "Japanese Poplar", "Japanese Thuja",
+//            "Jezo spruce", "Kaiser Linden", "Katsura", "Kentucky coffee tree", "Korean Maple", "Laburnum", "Lace Shrub",
+//            "Larch (or Tamarack)", "Large-leaved Linden", "Largetooth Aspen", "Late-blooming Lilac Hybrids",
+//            "Late-blooming Lilacs", "Leatherwood", "Lennea", "Lespedeza", "Lilac", "Linden", "Lodgepole Pine", "Magnolia",
+//            "Manchu Striped Maple", "Manchurian Ash", "Manitoba Maple", "Manna Ash", "Maple", "Miyabei Maple",
+//            "Mock-orange", "Moltkei Linden", "Monarch Birch", "Mongolian Linden", "Montain Maple", "Montpelier Maple",
+//            "Moraine Ash", "Mountain-ash", "Mugo Pine", "Mulberry", "Ninebark", "Northern Bayberry", "Northern Pin Oak",
+//            "Norway Maple", "Norway spruce", "Oak", "Oregon-grape", "Oregon Ash", "Other Ash", "Other Birch",
+//            "Other Dogwood", "Other Lilac", "Other Oak", "Other Willow", "Painted Maple", "Paper Birch",
+//            "Paperback Maple", "Pea Shrub", "Pear", "Persian Ironwood", "Persimmon", "Pin Oak", "Pine", "Pitch Pine",
+//            "Plum Yew", "Ponderosa Pine", "Poplar", "Prickly Castor-oil", "Princess Tree", "Privet", "Purple-leaved Elm",
+//            "Red Birch", "Red Maple", "Red Oak", "Red Pine", "Red spruce", "Redbud", "River Birch", "Rock Elm",
+//            "Rocky Mountain Juniper", "Rose", "Roundleaf Dogwood", "Russain-olive", "Russian Elm", "Salt Tree",
+//            "Saltcedar", "Sapporo Elm (Autumn Gold)", "Savin Juniper", "Scarlet Oak", "Scots Pine", "Sea-buckthorn",
+//            "Serbian Elm", "Serbian spruce", "Serviceberry", "Seven-son Flower", "Shandong Maple", "Siberian Pine",
+//            "Silver (White) Poplar", "Silver Linden", "Silver Maple", "Silverbell", "Small-leaved Linden", "Smoketree",
+//            "Snowbell", "Snowberry", "Sophora", "Spirea", "Spoil-ax", "Spruce", "Staggerbush", "Striped Maple",
+//            "Sugar Maple", "Sumac", "Swamp Chestnut Oak", "Swamp White Oak", "Sweet Birch", "Sweet Pepperbush", "Sweetgum",
+//            "Swiss Stone Pine", "Sycamore Maple", "Sycamore or Plane Tree", "Syrian Ash", "Tatarian (or Amur) Maple",
+//            "Texas Ash", "Three-flowered Maple", "Tree Lilac", "Trembling Aspen", "True Fir", "Tulip Tree",
+//            "Ukurunduense Maple", "Variegated Redtwig Dogwood", "Walnut/Butternut", "Weeping Willow", "Weigela",
+//            "Western Red Cedar", "Western White Pine", "White Ash", "White Oak", "White Spruce", "White Willow",
+//            "Willow", "Wingnut", "Winterberry", "Wisteria", "Witch Hazel", "Wych Elm", "Yellow Birch", "Yellowwood",
+//            "Yew", "Yucca"};
 
     private Spinner speciesList;
     private Spinner generaList;
@@ -115,6 +118,10 @@ public class ControlClass extends Fragment {
 
     public interface onRadiusChecked {
         void switchRadiusChecked(Boolean switchState);
+    }
+
+    public interface onLatinChecked {
+        void checkboxLatinChecked(Boolean switchState);
     }
 
     public interface onHeatMapChecked {
@@ -170,6 +177,13 @@ public class ControlClass extends Fragment {
 
         if (activity instanceof onFollowMeChecked) {
             listenerSwitchFollowMe = (onFollowMeChecked) activity;
+        } else {
+            throw new ClassCastException(activity.toString()
+                    + " must implement MyListFragment.OnItemSelectedListener");
+        }
+
+        if (activity instanceof onLatinChecked) {
+            listenerLatinChecked = (onLatinChecked) activity;
         } else {
             throw new ClassCastException(activity.toString()
                     + " must implement MyListFragment.OnItemSelectedListener");
@@ -243,6 +257,9 @@ public class ControlClass extends Fragment {
                 clearButtonClick(v);
             }
         });
+
+
+
 
         Switch followSwitch = (Switch) view.findViewById(R.id.switchFollowMe);
         followSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -339,6 +356,22 @@ public class ControlClass extends Fragment {
             }
         });
 
+        CheckBox latinCheck = (CheckBox) view.findViewById(R.id.checkBox);
+        latinCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                sendLatinChecked(buttonView,isChecked);
+
+                ArrayAdapter<String> speciesAdapter;
+                List<String> sList = makeSpeciesList(generaList.getSelectedItem().toString());
+                speciesAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, sList);
+                speciesList.setAdapter(speciesAdapter);
+
+//                speciesList.setSelection(speciesList.getSelectedItemPosition());
+//                int h = speciesList.getSelectedItemPosition();
+//                Log.e("xxxxxxx",String.valueOf(h));
+            }
+        });
 
 //        speciesList = (Spinner) view.findViewById(R.id.speciesSpinner);
 //        ArrayAdapter<String> speciesAdapter;
@@ -381,6 +414,11 @@ public class ControlClass extends Fragment {
 
     }
 
+    private void sendLatinChecked(CompoundButton b, boolean checkedState) {
+
+        listenerLatinChecked.checkboxLatinChecked(checkedState);
+
+    }
     private void sendGPSCheck(CompoundButton b, boolean checkedState) {
         listenerGPSChecked.switchGPSChecked(checkedState);
     }

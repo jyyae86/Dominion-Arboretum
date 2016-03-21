@@ -78,6 +78,7 @@ public class MainActivity extends FragmentActivity implements
         ControlClass.onGPSChecked,
         ControlClass.onQueryButtonClicked,
         ControlClass.onFollowMeChecked,
+        ControlClass.onLatinChecked,
         ControlClass.onSpeciesSpinnerChange,
         ControlClass.onHideButtonClicked,
         ControlClass.onClearButtonClicked,
@@ -107,6 +108,8 @@ public class MainActivity extends FragmentActivity implements
     private LocationRequest mLocationRequest;
     private LatLng GPSLatLng;
     private boolean useGPS;
+    private boolean latinChecked;
+
     private boolean followChecked;
     private boolean heatMapChecked;
     private boolean radiusChecked;
@@ -114,7 +117,7 @@ public class MainActivity extends FragmentActivity implements
     ArrayList<LatLng> heatMapList = new ArrayList<LatLng>();
     private static final long INTERVAL = 2000;
     private static final long FASTEST_INTERVAL = 1000;
-    private String dbaseName = "ArboretumData";
+    private String dbaseName = "ArboretumDataTest";
     private DataBaseHelper myDbHelper;
     private SQLiteDatabase arboretum;
     Polyline line;
@@ -192,7 +195,7 @@ public class MainActivity extends FragmentActivity implements
             mMapFragment = MapFragment.newInstance();
             fragmentTransaction.add(R.id.map, mMapFragment, "map_tag");
 
-            useGPS=true;
+            useGPS = true;
 
             mMapFragment.setRetainInstance(true);
             myFragment = new ControlClass();
@@ -229,10 +232,8 @@ public class MainActivity extends FragmentActivity implements
                 .build();
 
 
-
-
         if (savedInstanceState != null) {
-            Toast.makeText(this, "savedInstanceState", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "savedInstanceState", Toast.LENGTH_LONG).show();
             updateValuesFromBundle(savedInstanceState);
 
         }
@@ -319,7 +320,7 @@ public class MainActivity extends FragmentActivity implements
         outState.putString(LAST_UPDATED_TIME_STRING_KEY, mLastUpdateTime);
         outState.putBoolean(QUERY_BUTTON_WAS_CLICKED, wasQuery);
         outState.putString(CURRENT_SPECIES_SELECTED, stringCurrentSpecies);
-        outState.putBoolean(USE_GPS_VALUE,useGPS);
+        outState.putBoolean(USE_GPS_VALUE, useGPS);
 
         super.onSaveInstanceState(outState);
 
@@ -409,7 +410,7 @@ public class MainActivity extends FragmentActivity implements
 
             }
         });
-                Log.e(TAG, "Location update started ..............: ");
+        //Log.e(TAG, "Location update started ..............: ");
     }
 
     @Override
@@ -434,9 +435,20 @@ public class MainActivity extends FragmentActivity implements
 
         String table = dbaseName;
         String[] columns = null;
-        String sel = "commonName = ?";
-        String[] selargs = new String[]{stringCurrentSpecies.replace("'", "''")};
+        String sel = null;
+        String[] selargs=null;
+        if (!latinChecked) {
+            sel = "commonName = ?";
+            selargs = new String[]{stringCurrentSpecies.replace("'", "''")};
+        }
+        if (latinChecked) {
+            sel = "sciName = ?";
+            selargs = new String[]{stringCurrentSpecies.replace("'", "\'")};
+        }
+
+
         String orderby = null;
+
 
         int myHue = randInt(0, 360);
 
@@ -461,11 +473,15 @@ public class MainActivity extends FragmentActivity implements
                     } else {
 
                         //Log.e("LTLNG", String.valueOf(cpt.latitude));
-                        MarkerOptions thisMarkerOpt = new MarkerOptions().position(cpt).title("You Are Here " + dbCursor.getString(1)).snippet(dbCursor.getString(dbCursor.getColumnIndex("PARSEID"))).draggable(true);
+                        MarkerOptions thisMarkerOpt = new MarkerOptions()
+                                .position(cpt)
+                                .title(dbCursor.getString(1))
+                                .snippet(dbCursor.getString(dbCursor.getColumnIndex("sciName")))
+                                .draggable(true);
 
                         thisMarkerOpt.icon(BitmapDescriptorFactory.defaultMarker(myHue));
                         if (mMap == null) {
-//                            Log.e("XXXXXXXXXXXXX", "MAP ISNULL");//String.valueOf(cpt.latitude));
+
                         }
                         Marker marker = mMap.addMarker(thisMarkerOpt);
 
@@ -516,7 +532,6 @@ public class MainActivity extends FragmentActivity implements
         }
 
 
-
     }
 
     @Override
@@ -538,7 +553,7 @@ public class MainActivity extends FragmentActivity implements
         x = marker.getId();
         String parseID = mMarkerHash.get(x);
 //        Log.e("After drag latiude: ", String.valueOf(marker.getPosition().latitude));
-        Toast.makeText(this, parseID, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, parseID, Toast.LENGTH_SHORT).show();
         updatePointInDb(parseID, marker);
 
 
@@ -694,7 +709,14 @@ public class MainActivity extends FragmentActivity implements
 
         String table = dbaseName;
         String[] columns = null;
-        String sel = "Lat > ? AND Lat < ? AND Lng > ? AND Lng < ? AND commonName = ?";
+
+        String sel = null;
+        if (!latinChecked) {
+            sel = "Lat > ? AND Lat < ? AND Lng > ? AND Lng < ? AND commonName = ?";
+        } else {
+            sel = "Lat > ? AND Lat < ? AND Lng > ? AND Lng < ? AND sciName = ?";
+        }
+
         String[] selargs = new String[]{String.valueOf(x.getMinLat()), String.valueOf(x.getMaxLat()), String.valueOf(x.getMinLong()), String.valueOf(x.getMaxLong()), stringCurrentSpecies};
         String orderby = null;
 
@@ -775,10 +797,10 @@ public class MainActivity extends FragmentActivity implements
                 double currentLongitude = location.getLongitude();
                 GPSLatLng = new LatLng(currentLatitude, currentLongitude);
 
-                if(location == lastKnownPosition) {
+                if (location == lastKnownPosition) {
 
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastKnownPosition.getLatitude(),lastKnownPosition.getLongitude()),18f));
-    //                Log.e("CAMERA","MODE LAST KL");
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastKnownPosition.getLatitude(), lastKnownPosition.getLongitude()), 18f));
+                    //                Log.e("CAMERA","MODE LAST KL");
                 }
 
                 if (followChecked) {
@@ -799,14 +821,24 @@ public class MainActivity extends FragmentActivity implements
         String[] columns = new String[]{"commonName", "sciName"};
         String sel = "sciName LIKE ?";
         String[] selargs = new String[]{inGenera + "%"};
-        String orderby = "commonName";
+
+        String orderby = null;
+        if (!latinChecked) {
+            orderby = "commonName";
+        } else {
+            orderby = "sciName";
+        }
 
         // try (Cursor dbCursor = arboretum.query(table, columns, sel, selargs, orderby, null, null, null)) {
         try (Cursor dbCursor = arboretum.query(table, columns, sel, selargs, orderby, null, null, null)) {
             if (dbCursor.moveToFirst()) {
                 while (!dbCursor.isAfterLast()) {
                     //Log.e("asdfas",dbCursor.getString(0));
-                    labels.add(dbCursor.getString(0));
+                    if (!latinChecked) {
+                        labels.add(dbCursor.getString(0));
+                    } else {
+                        labels.add(dbCursor.getString(1));
+                    }
 
 
                     dbCursor.moveToNext();
@@ -865,7 +897,7 @@ public class MainActivity extends FragmentActivity implements
     @Override
     public void speciesSpinnerChanged(String currentSpecies) {
         stringCurrentSpecies = currentSpecies;
-        Toast.makeText(this, stringCurrentSpecies, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, stringCurrentSpecies, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -909,7 +941,7 @@ public class MainActivity extends FragmentActivity implements
                     .build();
             // Add a tile overlay to the map, using the heat map tile provider.
             TileOverlay mOverlay = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
-        } else{
+        } else {
             Toast.makeText(this, "No trees found. Increase radius or change species.", Toast.LENGTH_SHORT).show();
         }
 
@@ -1053,14 +1085,22 @@ public class MainActivity extends FragmentActivity implements
 
     @Override
     public void switchGPSChecked(Boolean switchState) {
-        Toast.makeText(getApplicationContext(),String.valueOf(switchState),Toast.LENGTH_SHORT).show();
 
         useGPS = switchState;
-        Toast.makeText(getApplicationContext(), String.valueOf(useGPS), Toast.LENGTH_SHORT).show();
+
         if (switchState) {
             handleNewLocation(lastKnownPosition);
         }
     }
+
+    @Override
+    public void checkboxLatinChecked(Boolean switchState) {
+
+        latinChecked = switchState;
+
+    }
+
+
 //    private void setUpMapIfNeeded() {
 //
 //        if (mMap == null) {

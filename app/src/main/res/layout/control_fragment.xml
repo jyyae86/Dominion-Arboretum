@@ -77,13 +77,26 @@
         android:spinnerMode="dropdown"/>
 
 
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Latin"
+
+        android:layout_below="@+id/generaSpinner"
+        android:layout_alignParentStart="true"
+        android:checked="false"
+        android:textStyle="italic"/>
+
     <Spinner
         android:id="@+id/speciesSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
         android:layout_below="@+id/generaSpinner"
-        android:spinnerMode="dropdown"/>
+        android:spinnerMode="dropdown"
+        android:layout_alignParentStart="false"
+        android:layout_toEndOf="@id/checkBox"/>
 
     <View
         android:id="@+id/seperator2"
@@ -147,6 +160,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/clearButton"
         android:text="@string/hideButton"/>
+
 
 
 </RelativeLayout>
