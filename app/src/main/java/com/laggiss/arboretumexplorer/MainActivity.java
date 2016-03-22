@@ -117,7 +117,7 @@ public class MainActivity extends FragmentActivity implements
     ArrayList<LatLng> heatMapList = new ArrayList<LatLng>();
     private static final long INTERVAL = 2000;
     private static final long FASTEST_INTERVAL = 1000;
-    private String dbaseName = "ArboretumData";
+    private String dbaseName = "ArboretumDataTest";
     private DataBaseHelper myDbHelper;
     private SQLiteDatabase arboretum;
     Polyline line;
@@ -436,7 +436,7 @@ public class MainActivity extends FragmentActivity implements
         String table = dbaseName;
         String[] columns = null;
         String sel = null;
-        String[] selargs=null;
+        String[] selargs = null;
         if (!latinChecked) {
             sel = "commonName = ?";
             selargs = new String[]{stringCurrentSpecies.replace("'", "''")};
@@ -650,15 +650,23 @@ public class MainActivity extends FragmentActivity implements
 
                 IconGenerator iconFactory = new IconGenerator(this);
                 //iconFactory.setRotation(90);
+
+                String name = null;
+                if (latinChecked) {
+                    name = "sciName";
+                } else {
+                    name = "commonName";
+                }
+
                 MarkerOptions markerOptions = new MarkerOptions()
-                        .icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(dbCursor.getString(dbCursor.getColumnIndex("commonName")))))
+                        .icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(dbCursor.getString(dbCursor.getColumnIndex(name)))))
                         .position(new LatLng(dbCursor.getDouble(5), dbCursor.getDouble(6)))
                         .anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV());
 
                 MarkerOptions thisMarkerOpt = new MarkerOptions()
                         .position(new LatLng(dbCursor.getDouble(5), dbCursor.getDouble(6)))
-                        .title(dbCursor.getString(1))
-                        .snippet(dbCursor.getString(dbCursor.getColumnIndex("PARSEID")))
+                        .title(dbCursor.getString(dbCursor.getColumnIndex("commonName")))
+                        .snippet(dbCursor.getString(dbCursor.getColumnIndex("sciName")))
                         .anchor(0.5f, 0f)
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.pticonsm));
 
@@ -695,7 +703,7 @@ public class MainActivity extends FragmentActivity implements
                 .radius(radius)
                 .strokeColor(Color.RED)
                 .strokeWidth(0f)
-                .fillColor(Color.argb(95, 240, 240, 140)));
+                .fillColor(Color.argb(75, 240, 240, 140)));
 
         LatLngBounds bnds = new LatLngBounds(new LatLng(x.getMinLat(), x.getMinLong()), new LatLng(x.getMaxLat(), x.getMaxLong()));
 //        LatLngBounds.Builder builder = new LatLngBounds.Builder();
@@ -710,11 +718,14 @@ public class MainActivity extends FragmentActivity implements
         String table = dbaseName;
         String[] columns = null;
 
+
         String sel = null;
         if (!latinChecked) {
             sel = "Lat > ? AND Lat < ? AND Lng > ? AND Lng < ? AND commonName = ?";
+
         } else {
             sel = "Lat > ? AND Lat < ? AND Lng > ? AND Lng < ? AND sciName = ?";
+
         }
 
         String[] selargs = new String[]{String.valueOf(x.getMinLat()), String.valueOf(x.getMaxLat()), String.valueOf(x.getMinLong()), String.valueOf(x.getMaxLong()), stringCurrentSpecies};
@@ -748,8 +759,8 @@ public class MainActivity extends FragmentActivity implements
 
                             MarkerOptions thisMarkerOpt = new MarkerOptions();
                             thisMarkerOpt.position(new LatLng(dbCursor.getDouble(5), dbCursor.getDouble(6)));
-                            thisMarkerOpt.title(dbCursor.getString(1));
-                            thisMarkerOpt.snippet(dbCursor.getString(dbCursor.getColumnIndex("PARSEID")));
+                            thisMarkerOpt.title(dbCursor.getString(dbCursor.getColumnIndex("sciName")));
+                            thisMarkerOpt.snippet(dbCursor.getString(dbCursor.getColumnIndex("commonName")));
                             thisMarkerOpt.anchor(0.5f, 0.5f);
                             thisMarkerOpt.icon(BitmapDescriptorFactory.fromResource(R.drawable.pticonsm));
 
@@ -780,6 +791,8 @@ public class MainActivity extends FragmentActivity implements
 
                 dbCursor.close();
                 //arboretum.close();
+            } else {
+                Toast.makeText(this, "No trees found. Increase radius.", Toast.LENGTH_SHORT).show();
             }
 
         }
