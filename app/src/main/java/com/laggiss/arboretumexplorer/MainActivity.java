@@ -1,8 +1,10 @@
 package com.laggiss.arboretumexplorer;
 
+import android.Manifest;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.IntentSender;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -10,6 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
@@ -26,6 +29,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -130,6 +134,7 @@ public class MainActivity extends FragmentActivity implements
     private String mLastUpdateTime;
     private Location mCurrentLocation;
     private Location lastKnownPosition;
+    private static final int GPS_REQUEST_CODE = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,7 +190,14 @@ public class MainActivity extends FragmentActivity implements
         if (savedInstanceState != null) {
             mMapFragment = (MapFragment) myFragmentManager.findFragmentByTag("map_tag");
 
-            mMap = mMapFragment.getMap();
+            // Use async call to get the map.
+            //mMap = mMapFragment.getMap();
+            mMapFragment.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(GoogleMap googleMap) {
+                    mMap = googleMap;
+                }
+            });
             myFragment = (ControlClass) myFragmentManager.findFragmentByTag("control_tag");
             fragmentTransaction.commit();
             //mMap=mMapFragment.getMap();
@@ -369,48 +381,64 @@ public class MainActivity extends FragmentActivity implements
     }
 
     protected void startLocationUpdates() {
-        PendingResult<Status> pendingResult = LocationServices.FusedLocationApi.requestLocationUpdates(
-                mGoogleApiClient, mLocationRequest, this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
 
-        // Check if location services are availalbe and if not put dialog to put on the things.
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                .addLocationRequest(mLocationRequest);
-        //**************************
-        builder.setAlwaysShow(true); //this is the key ingredient
-        //**************************
-        PendingResult<LocationSettingsResult> result =
-                LocationServices.SettingsApi.checkLocationSettings(mGoogleApiClient, builder.build());
-        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
-            @Override
-            public void onResult(LocationSettingsResult result) {
-                final Status status = result.getStatus();
-                final LocationSettingsStates state = result.getLocationSettingsStates();
-                switch (status.getStatusCode()) {
-                    case LocationSettingsStatusCodes.SUCCESS:
-                        // All location settings are satisfied. The client can initialize location
-                        // requests here.
-                        break;
-                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                        // Location settings are not satisfied. But could be fixed by showing the user
-                        // a dialog.
-                        try {
-                            // Show the dialog by calling startResolutionForResult(),
-                            // and check the result in onActivityResult().
-                            status.startResolutionForResult(MainActivity.this, 1000);//com.laggiss.arboretumexplorer.MainActivity.this,1000);
-                        } catch (IntentSender.SendIntentException e) {
-                            // Ignore the error.
-                        }
-                        break;
-                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                        // Location settings are not satisfied. However, we have no way to fix the
-                        // settings so we won't show the dialog.
-                        break;
+
+        try {
+            PendingResult<Status> pendingResult = LocationServices.FusedLocationApi.requestLocationUpdates(
+                    mGoogleApiClient, mLocationRequest, this);
+
+            // Check if location services are availalbe and if not put dialog to put on the things.
+            LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                    .addLocationRequest(mLocationRequest);
+            //**************************
+            builder.setAlwaysShow(true); //this is the key ingredient
+            //**************************
+            PendingResult<LocationSettingsResult> result =
+                    LocationServices.SettingsApi.checkLocationSettings(mGoogleApiClient, builder.build());
+            result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+                @Override
+                public void onResult(LocationSettingsResult result) {
+                    final Status status = result.getStatus();
+                    final LocationSettingsStates state = result.getLocationSettingsStates();
+                    switch (status.getStatusCode()) {
+                        case LocationSettingsStatusCodes.SUCCESS:
+                            // All location settings are satisfied. The client can initialize location
+                            // requests here.
+                            break;
+                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                            // Location settings are not satisfied. But could be fixed by showing the user
+                            // a dialog.
+                            try {
+                                // Show the dialog by calling startResolutionForResult(),
+                                // and check the result in onActivityResult().
+                                status.startResolutionForResult(MainActivity.this, 1000);//com.laggiss.arboretumexplorer.MainActivity.this,1000);
+                            } catch (IntentSender.SendIntentException e) {
+                                // Ignore the error.
+                            }
+                            break;
+                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                            // Location settings are not satisfied. However, we have no way to fix the
+                            // settings so we won't show the dialog.
+                            break;
+                    }
+
+
                 }
-
-
-            }
-        });
-        //Log.e(TAG, "Location update started ..............: ");
+            });
+            //Log.e(TAG, "Location update started ..............: ");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -483,6 +511,7 @@ public class MainActivity extends FragmentActivity implements
                         if (mMap == null) {
 
                         }
+
                         Marker marker = mMap.addMarker(thisMarkerOpt);
 
 
@@ -524,7 +553,22 @@ public class MainActivity extends FragmentActivity implements
         UiSettings mapSettings;
         mapSettings = mMap.getUiSettings();
         if (mMap != null) {
-            mMap.setMyLocationEnabled(true);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+
+            try {
+                mMap.setMyLocationEnabled(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
             mapSettings.setZoomControlsEnabled(true);
 
@@ -582,8 +626,23 @@ public class MainActivity extends FragmentActivity implements
     @Override
     public void onConnected(Bundle bundle) {
 
-        lastKnownPosition = LocationServices.FusedLocationApi.getLastLocation(
-                mGoogleApiClient);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+
+        try {
+            lastKnownPosition = LocationServices.FusedLocationApi.getLastLocation(
+                    mGoogleApiClient);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if (lastKnownPosition != null) {
             handleNewLocation(lastKnownPosition);
@@ -637,7 +696,7 @@ public class MainActivity extends FragmentActivity implements
 
                     LatLng dbPt = new LatLng(dbCursor.getDouble(5), dbCursor.getDouble(6));
 
-                    darray.add((double) computeDistanceBetween(dbPt, GPSLatLng));
+                    darray.add(computeDistanceBetween(dbPt, GPSLatLng));
 
 
                     dbCursor.moveToNext();
@@ -811,7 +870,7 @@ public class MainActivity extends FragmentActivity implements
                 GPSLatLng = new LatLng(currentLatitude, currentLongitude);
 
                 if (location == lastKnownPosition) {
-
+                    Log.e("XXXXXXXXXXX","YYYYYYYYYYYYYYY");
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastKnownPosition.getLatitude(), lastKnownPosition.getLongitude()), 18f));
                     //                Log.e("CAMERA","MODE LAST KL");
                 }
@@ -986,13 +1045,31 @@ public class MainActivity extends FragmentActivity implements
 
 
     private boolean isGooglePlayServicesAvailable() {
-        int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-        if (ConnectionResult.SUCCESS == status) {
+
+        GoogleApiAvailability api = GoogleApiAvailability.getInstance();
+        int errorCheck = api.isGooglePlayServicesAvailable(this);
+        if(errorCheck == ConnectionResult.SUCCESS) {
+            //google play services available, hooray
             return true;
+        } else if(api.isUserResolvableError(errorCheck)) {
+            //GPS_REQUEST_CODE = 1000, and is used in onActivityResult
+            api.showErrorDialogFragment(this, errorCheck, GPS_REQUEST_CODE);
+            //stop our activity initialization code
+            return false;
         } else {
-            GooglePlayServicesUtil.getErrorDialog(status, this, 0).show();
+            //GPS not available, user cannot resolve this error
+            //todo: somehow inform user or fallback to different method
+            //stop our activity initialization code
             return false;
         }
+//        int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+//        //int status=GoogleApiAvailability.isGooglePlayServicesAvailable(this);
+//        if (ConnectionResult.SUCCESS == status) {
+//            return true;
+//        } else {
+//            GooglePlayServicesUtil.getErrorDialog(status, this, 0).show();
+//            return false;
+//        }
     }
 
     private void resizeFragment() {
