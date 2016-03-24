@@ -870,7 +870,7 @@ public class MainActivity extends FragmentActivity implements
                 GPSLatLng = new LatLng(currentLatitude, currentLongitude);
 
                 if (location == lastKnownPosition) {
-                    Log.e("XXXXXXXXXXX","YYYYYYYYYYYYYYY");
+
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastKnownPosition.getLatitude(), lastKnownPosition.getLongitude()), 18f));
                     //                Log.e("CAMERA","MODE LAST KL");
                 }
