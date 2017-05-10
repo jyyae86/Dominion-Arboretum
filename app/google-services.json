@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "820688318149",
+    "firebase_url": "https://dominion-arboretum.firebaseio.com",
+    "project_id": "dominion-arboretum",
+    "storage_bucket": "dominion-arboretum.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820688318149:android:77a26259ae294fed",
+        "android_client_info": {
+          "package_name": "com.laggiss.arboretumexplorer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820688318149-u84o6huui6tvptqnko4fho93a8helf6e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCY3u5AjESuDvzNKYPg7-_csEKZeypbOWk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

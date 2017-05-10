@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DualMapFragment.iml" filepath="$PROJECT_DIR$/DualMapFragment.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Dominion-Arboretum.iml" filepath="$PROJECT_DIR$/Dominion-Arboretum.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
