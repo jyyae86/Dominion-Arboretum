@@ -2,7 +2,9 @@ package com.laggiss.arboretumexplorer;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -13,7 +15,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,8 +24,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -59,6 +60,13 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.android.gms.maps.model.TileProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.maps.android.heatmaps.Gradient;
 import com.google.maps.android.heatmaps.HeatmapTileProvider;
 import com.google.maps.android.ui.IconGenerator;
@@ -130,9 +138,24 @@ public class MainActivity extends FragmentActivity implements
     private String mLastUpdateTime;
     private Location mCurrentLocation;
     private Location lastKnownPosition;
+    private SharedPreferences sharedPref;
+    private int userType;
+
+
+    //Firebase
+    FirebaseDatabase mDatabase;
+    DatabaseReference mRef;
+    FirebaseAuth mAuth;
+    FirebaseUser mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mDatabase = FirebaseDatabase.getInstance();
+        mRef = mDatabase.getReference();
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+
+//        mAuth.signOut();
         super.onCreate(savedInstanceState);
 
         if (!isGooglePlayServicesAvailable()) {
@@ -172,13 +195,18 @@ public class MainActivity extends FragmentActivity implements
 
         }
 
+
         //Log.e("Path isLLLLLLLLL",arboretum.getPath());
         //List<String> x = makeSpeciesList("Acer");
+
+//        ArrayList<Tree> trees = myDbHelper.createPOJO();
+//        myDbHelper.createMasterFirebaseDatabase(trees, mRef);
+//
+//        myDbHelper.loop();
 
         setContentView(R.layout.activity_main);
 
         myFragmentManager = getFragmentManager();
-
 
         FragmentTransaction fragmentTransaction = myFragmentManager.beginTransaction();
 
@@ -237,6 +265,7 @@ public class MainActivity extends FragmentActivity implements
             updateValuesFromBundle(savedInstanceState);
 
         }
+        updateFragment();
     }
 //    public static boolean isLocationEnabled(Context context) {
 //        int locationMode = 0;
@@ -475,7 +504,7 @@ public class MainActivity extends FragmentActivity implements
                         //Log.e("LTLNG", String.valueOf(cpt.latitude));
                         MarkerOptions thisMarkerOpt = new MarkerOptions()
                                 .position(cpt)
-                                .title(dbCursor.getString(1))
+                                .title(dbCursor.getString(7))
                                 .snippet(dbCursor.getString(dbCursor.getColumnIndex("sciName")))
                                 .draggable(true);
 
@@ -485,11 +514,10 @@ public class MainActivity extends FragmentActivity implements
                         }
                         Marker marker = mMap.addMarker(thisMarkerOpt);
 
-
                         builder.include(marker.getPosition());
 
 
-                        mMarkerHash.put(marker.getId(), dbCursor.getString(dbCursor.getColumnIndex("PARSEID")));
+                        mMarkerHash.put(marker.getId(), dbCursor.getString(dbCursor.getColumnIndex("changeType")));
 
 
                     }
@@ -530,6 +558,18 @@ public class MainActivity extends FragmentActivity implements
 
 
         }
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                String id = marker.getTitle();
+                Intent nIntent = new Intent(getApplicationContext(),LocalTreeInfoActivity.class);
+                nIntent.putExtra("id", id);
+                finish();
+                startActivity(nIntent);
+                return true;
+            }
+        });
 
 
     }
@@ -603,7 +643,7 @@ public class MainActivity extends FragmentActivity implements
         sb.append("Lng = ");
         sb.append(String.valueOf(marker.getPosition().longitude));
         sb.append(" ");
-        sb.append("WHERE PARSEID = '");
+        sb.append("WHERE changeType = '");
         sb.append(mMarkerParseId).append("';");
 //        Log.e("Query String: ", sb.toString());
         // arboretum.update("ArboretumData",)
@@ -672,7 +712,7 @@ public class MainActivity extends FragmentActivity implements
 
                 mMap.addMarker(thisMarkerOpt);
                 Marker marker = mMap.addMarker(markerOptions);
-                mMarkerHash.put(marker.getId(), dbCursor.getString(dbCursor.getColumnIndex("PARSEID")));
+                mMarkerHash.put(marker.getId(), dbCursor.getString(dbCursor.getColumnIndex("changeType")));
                 if (!(line == null)) {
                     if (line.isVisible()) {
                         line.remove();
@@ -767,7 +807,7 @@ public class MainActivity extends FragmentActivity implements
                             Marker marker = mMap.addMarker(thisMarkerOpt);
 
                             // Marker marker = mMap.addMarker(markerOptions);
-                            mMarkerHash.put(marker.getId(), dbCursor.getString(dbCursor.getColumnIndex("PARSEID")));
+                            mMarkerHash.put(marker.getId(), dbCursor.getString(dbCursor.getColumnIndex("changeType")));
 //                        if (!(line == null)) {
 //                            if (line.isVisible()) {
 //                                line.remove();
@@ -1114,6 +1154,7 @@ public class MainActivity extends FragmentActivity implements
     }
 
 
+
 //    private void setUpMapIfNeeded() {
 //
 //        if (mMap == null) {
@@ -1147,5 +1188,47 @@ public class MainActivity extends FragmentActivity implements
 //    ft.commit();
 //
 //}
+    public void startUploadTreeActivity(View v){
+        finish();
+        startActivity(new Intent(this, UploadTreeActivity.class));
 
+    }
+
+    public void startMyTreesActivity(View v){
+        finish();
+        startActivity(new Intent(this, MemberMyTreesActivity.class));
+    }
+
+    public void startAdminMenuActivity(View v){
+        finish();
+        startActivity(new Intent(this, AdminMenuActivity.class));
+    }
+
+    public void updateFragment(){
+       if(mUser == null){
+           myFragment.hideButtons(0);
+       }else{
+           mRef.addListenerForSingleValueEvent(new ValueEventListener() {
+               @Override
+               public void onDataChange(DataSnapshot dataSnapshot) {
+                   String id = mUser.getUid();
+                   userType = dataSnapshot.child("users").child(id).getValue(Integer.class);
+                   myFragment.hideButtons(userType);
+               }
+
+               @Override
+               public void onCancelled(DatabaseError databaseError) {
+
+               }
+           });
+       }
+    }
+
+    public void signOut(View v){
+        mAuth.signOut();
+        finish();
+        startActivity(new Intent(this, EmailLoginActivity.class));
+    }
 }
+
+

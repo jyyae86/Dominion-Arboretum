@@ -88,6 +88,7 @@ public class EmailLoginActivity extends AppCompatActivity {
     }
 
     protected void createMainActivityWithoutLogin(View v){
+        //temp
         finish();
         startActivity(new Intent(this,MainActivity.class));
     }

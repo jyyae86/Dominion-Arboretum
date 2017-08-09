@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight">
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="6dp"
+            android:layout_margin="6dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:src="@drawable/tree"
+            android:layout_gravity="left|center_vertical" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="270dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center_vertical|center_horizontal"
+            android:paddingLeft="5dp"
+            android:padding="5dp"
+            android:paddingTop="5dp"
+            android:descendantFocusability="blocksDescendants"
+            android:paddingRight="5dp">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="26sp"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:text="Tree Common Name"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:id="@+id/treeCommonName" />
+
+            <TextView
+                android:id="@+id/treeCreator"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="Tree Creator"
+                android:textSize="14sp"
+                android:layout_gravity="center"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

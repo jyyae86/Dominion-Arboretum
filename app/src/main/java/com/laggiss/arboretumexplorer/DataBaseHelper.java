@@ -1,16 +1,22 @@
 package com.laggiss.arboretumexplorer;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.google.firebase.database.DatabaseReference;
+
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 
 /**
@@ -27,6 +33,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     private final Context myContext;
 
+    public static int MASTER = 0;
+    public static int ADD = 1;
+    public static int EDIT = 2;
+    public static int DELETE = -1;
+
     /**
      * Constructor
      * Takes and keeps a reference of the passed context in order to access to the application assets and resources.
@@ -39,6 +50,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         // See this article for more information: http://bit.ly/6LRzfx
         if (mInstance == null) {
             mInstance = new DataBaseHelper(context.getApplicationContext());
+            mInstance.openDataBase();
+            Log.e("opened db", "asdf");
         }
         return mInstance;
     }
@@ -64,7 +77,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
      * Creates a empty database on the system and rewrites it with your own database.
      * */
     public void createDataBase() throws IOException {
-
         boolean dbExist = checkDataBase();
 //        Log.e("Database Exist?: ",String.valueOf(dbExist));
 
@@ -100,7 +112,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         try{
             String myPath = DB_PATH + DB_NAME;
 //            Log.e("CHK: ",myPath);
-            checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
+            checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE);
 
         }catch(SQLiteException e){
 
@@ -152,8 +164,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         //Open the database
         String myPath = DB_PATH + DB_NAME;
-        myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
-
+        File file = new File(myPath);
+        if (file.exists() && !file.isDirectory()) {
+            myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE);
+        }
     }
 
     @Override
@@ -175,6 +189,160 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
+
+    //one time use method to populate the database
+    public ArrayList<Tree> createPOJO(){
+        ArrayList<Tree> trees = new ArrayList<Tree>();
+        Cursor c = myDataBase.rawQuery("SELECT * FROM " +"ArboretumData "+ " ",null);
+        //Move to first row
+        int counter = 0;
+        if(c.moveToFirst()){
+            //create a tree object using the columns of the row
+            do{
+                Tree newTree = new Tree(c.getString(0),c.getString(1),c.getString(2),c.getString(3),
+                        c.getInt(4),c.getDouble(5),c.getDouble(6));
+                trees.add(newTree);
+            }while(c.moveToNext());
+        }
+        c.close();
+        return trees;
+
+    }
+
+
+
+    public void createMasterFirebaseDatabase(ArrayList<Tree> trees, DatabaseReference mRef){
+        mRef = mRef.child("master");
+        for(int i = 0; i < trees.size(); i++) {
+            DatabaseReference tempRef = mRef.push();
+            //maybe dont need this
+            String firebaseKey = tempRef.getKey();
+            trees.get(i).setFirebaseID(firebaseKey);
+
+            tempRef.setValue(trees.get(i));
+
+            trees.get(i).setFirebaseID(firebaseKey);
+            ContentValues values = new ContentValues();
+
+//            values.put("commonName", trees.get(i).getCommonName());
+            values.put("firebaseID", firebaseKey);
+
+            int test = i + 1;
+            long e = myDataBase.update("ArboretumData", values, "firebaseID = " + test, null);
+
+        }
+    }
+
+    public SQLiteDatabase getMyDataBase(){
+        return myDataBase;
+    }
+
+    public void loop(){
+        Cursor c = myDataBase.rawQuery("SELECT * FROM " +"ArboretumData "+ " ",null);
+        c.moveToFirst();
+        for(int i = 0; i < 100; i++){
+
+            Log.e("asdf","asdf");
+            Log.e("0", c.getString(0));
+            Log.e("1", c.getString(1));
+            Log.e("2", c.getString(2));
+            Log.e("3", c.getString(3));
+            Log.e("4", c.getString(4));
+            Log.e("5", c.getString(5));
+            Log.e("6", c.getString(6));
+            Log.e("7", c.getString(7));
+            c.moveToNext();
+        }
+        c.close();
+    }
+
+    public ArrayList<Tree> getAddedTrees(){
+        ArrayList<Tree> addedTrees = new ArrayList<Tree>();
+        Cursor c = myDataBase.rawQuery("SELECT * FROM MyTrees WHERE changeType = '" + ADD + "'", null);
+        if(c.moveToFirst()){
+            //create a tree object using the columns of the row
+            do{
+                Tree newTree = new Tree(c.getString(0),c.getString(1),c.getString(2),c.getString(3),
+                        c.getInt(4),c.getDouble(5),c.getDouble(6), c.getString(7));
+                addedTrees.add(newTree);
+            }while(c.moveToNext());
+        }
+        c.close();
+        return addedTrees;
+    }
+
+    public Tree getTreeFromSQL(String id){
+        Cursor c = myDataBase.rawQuery("SELECT * FROM ArboretumData WHERE firebaseID = '" + id + "'", null);
+        c.moveToFirst();
+        Tree nTree = new Tree(c.getString(0),c.getString(1),c.getString(2),c.getString(3),
+                c.getInt(4),c.getDouble(5),c.getDouble(6));
+        c.close();
+        return nTree;
+
+    }
+
+    public Tree getTreeFromMyTrees(String id){
+        Cursor c = myDataBase.rawQuery("SELECT * FROM MyTrees WHERE firebaseID = '" + id + "'", null);
+        c.moveToFirst();
+        Tree nTree = new Tree(c.getString(0),c.getString(1),c.getString(2),c.getString(3),
+                c.getInt(4),c.getDouble(5),c.getDouble(6));
+        c.close();
+        return nTree;
+
+    }
+
+    public boolean existsInMyTrees(String id){
+        boolean result = false;
+        Cursor c = myDataBase.rawQuery("SELECT * FROM MyTrees WHERE firebaseID = '" + id + "'", null);
+        c.moveToFirst();
+        if(c.getCount() < 0){
+            result = true;
+            Log.e("a",c.getString(0));
+            Log.e("b",c.getString(1));
+            Log.e("c",c.getString(2));
+            Log.e("d",c.getString(3));
+            Log.e("e",c.getString(4));
+            Log.e("f",c.getString(5));
+            Log.e("g",c.getString(6));
+            Log.e("h",c.getString(7));
+        }
+        c.close();
+        return result;
+    }
+
+    public void deleteTree(String id){
+        //if they delete a tree that they didnt add, it would break because the ids are different i think
+        Cursor cArboreData = myDataBase.rawQuery("DELETE FROM ArboretumData WHERE firebaseID = '" + id + "'", null);
+        Cursor cMyTrees = myDataBase.rawQuery("DELETE FROM MyTrees WHERE firebaseID = '" + id + "'", null);
+        cArboreData.moveToFirst();
+        cMyTrees.moveToFirst();
+        cArboreData.close();
+        cMyTrees.close();
+    }
+
+    public void editTree(Tree tree, String firebaseID){
+        ContentValues cv = new ContentValues();
+        cv.put("creatorName",tree.getCreatorName());
+        cv.put("commonName", tree.getCommonName());
+        cv.put("sciName", tree.getSciName());
+        cv.put("crownArea", tree.getCrownArea());
+        cv.put("Lat", tree.getLat());
+        cv.put("lng", tree.getLng());
+        cv.put("changeType", tree.getChangeType());
+
+        myDataBase.update("MyTrees", cv, "firebaseID = firebaseID", null);
+        myDataBase.update("ArboretumData", cv, "firebaseID = firebaseID", null);
+    }
+
+    public void addRowToMaster(ContentValues cv){
+        long e = myDataBase.insert("ArboretumData", null, cv);
+    }
+
+    public void openDatabaseFirstTime(){
+
+
+    }
+
 
     // Add your public helper methods to access and get content from the database.
     // You could return cursors by doing "return myDataBase.query(....)" so it'd be easy

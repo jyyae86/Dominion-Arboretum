@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_upload_tree"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.laggiss.arboretumexplorer.UploadTreeActivity">
+
+
+    <TextView
+        android:text="Common Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Crown Area (meters?)"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextCommonName"
+        android:layout_alignParentStart="true"
+        android:id="@+id/textView12"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <TextView
+        android:text="Scientific Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextCrownArea"
+        android:layout_alignParentStart="true"
+        android:id="@+id/textView16"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <TextView
+        android:text="Latitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextSciName"
+        android:layout_alignParentStart="true"
+        android:id="@+id/textView17"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:layout_below="@+id/textView17"
+        android:layout_alignParentStart="true"
+        android:id="@+id/editTextLat"
+        android:hint="Ex: 45.2389"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="Longitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextLat"
+        android:layout_alignParentStart="true"
+        android:id="@+id/textView18"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName|numberDecimal"
+        android:ems="10"
+        android:layout_below="@+id/textView18"
+        android:layout_alignParentStart="true"
+        android:id="@+id/editTextLng"
+        android:hint="Ex: -72.8478"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="Creator Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextLng"
+        android:layout_alignParentStart="true"
+        android:id="@+id/textView19"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/textView19"
+        android:layout_alignParentStart="true"
+        android:id="@+id/editTextCreatorName"
+        android:hint="Ex: John Doe"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/editTextSciName"
+        android:hint="Ex: Syringa"
+        android:layout_below="@+id/textView16"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:hint="Ex: Lilac"
+        android:id="@+id/editTextCommonName"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="Add Tree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="addOrEditTree"
+        android:id="@+id/buttonAdd"
+        android:layout_below="@+id/editTextCreatorName"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName|numberDecimal"
+        android:ems="10"
+        android:id="@+id/editTextCrownArea"
+        android:hint="Ex: 10"
+        android:layout_below="@+id/textView12"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Use current location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView4"
+        android:layout_alignBaseline="@+id/textView17"
+        android:layout_alignBottom="@+id/textView17"
+        android:layout_toEndOf="@+id/textView18"
+        android:onClick="populateLatAndLng"/>
+
+    <Button
+        android:text="Back to Main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/buttonAdd"
+        android:layout_toStartOf="@+id/buttonAdd"
+        android:id="@+id/button3"
+        android:onClick="startMainActivity" />
+
+
+</RelativeLayout>

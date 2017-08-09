@@ -13,4 +13,105 @@
     <string name="switchHeat">Heat Map</string>
     <string name="switchGPS">GPS</string>
     <string name="mapSettings">Map Settings...</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string-array name="genera">
+        <item>Acer</item>
+        <item>Actinidia</item>
+        <item>Aesculus</item>
+        <item>Alnus</item>
+        <item>Amelanchier</item>
+        <item>Amorpha</item>
+        <item>Aralia</item>
+        <item>Aronia</item>
+        <item>Betula</item>
+        <item>Buddleia</item>
+        <item>Calycanthus</item>
+        <item>Carpinus</item>
+        <item>Carya</item>
+        <item>Catalpa</item>
+        <item>Celastrus</item>
+        <item>Celtis</item>
+        <item>Cephalanthus</item>
+        <item>Cercidiphyllum</item>
+        <item>Chamaecyparis</item>
+        <item>Chionanthus</item>
+        <item>Colutea</item>
+        <item>Cornus</item>
+        <item>Corylus</item>
+        <item>Cotoneaster</item>
+        <item>Crataegus</item>
+        <item>Cytisus</item>
+        <item>Daphne</item>
+        <item>Deutzia</item>
+        <item>Diervilla</item>
+        <item>Dirca</item>
+        <item>Eleutherococcus</item>
+        <item>Euonymus</item>
+        <item>Fagus</item>
+        <item>Forsythia</item>
+        <item>Fraxinus</item>
+        <item>Ginkgo</item>
+        <item>Gleditsia</item>
+        <item>Gymnocladus</item>
+        <item>Hibiscus</item>
+        <item>Hydrangea</item>
+        <item>Juniperus</item>
+        <item>Kolkwitzia</item>
+        <item>Laburnum</item>
+        <item>Larix</item>
+        <item>Lennea</item>
+        <item>Lespedeza</item>
+        <item>Lonicera</item>
+        <item>Maackia</item>
+        <item>Magnolia</item>
+        <item>Malus</item>
+        <item>Metasequoia</item>
+        <item>Morus</item>
+        <item>Myrica</item>
+        <item>Ostrya</item>
+        <item>Phellodendron</item>
+        <item>Philadelphus</item>
+        <item>Physocarpus</item>
+        <item>Picea</item>
+        <item>Pinus</item>
+        <item>Populus</item>
+        <item>Pseudotsuga</item>
+        <item>Ptelea</item>
+        <item>Pterostyrax</item>
+        <item>Quercus</item>
+        <item>Rhamnus</item>
+        <item>Rhododendron</item>
+        <item>Ribes</item>
+        <item>Robinia</item>
+        <item>Rubus</item>
+        <item>Salix</item>
+        <item>Sambucus</item>
+        <item>Shepherdia</item>
+        <item>Sorbaria</item>
+        <item>Sorbus</item>
+        <item>Staphylea</item>
+        <item>Stephanandra</item>
+        <item>Syringa</item>
+        <item>Taxodium</item>
+        <item>Thuja</item>
+        <item>Tilia</item>
+        <item>Tsuga</item>
+        <item>Ulmus</item>
+        <item>Vaccinium</item>
+        <item>Viburnum</item>
+        <item>Other</item>
+    </string-array>
 </resources>

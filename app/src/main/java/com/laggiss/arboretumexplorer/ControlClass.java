@@ -7,7 +7,6 @@ package com.laggiss.arboretumexplorer;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,6 +100,11 @@ public class ControlClass extends Fragment {
     private String cgen;
     // Define the events that the fragment will use to communicate
 
+    private Button addTree;
+    private Button myTrees;
+    private Button allTrees;
+    private Button signOut;
+
 
     public interface onQueryButtonClicked {
 
@@ -147,7 +150,17 @@ public class ControlClass extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
 
+    public void hideButtons(int userType){
+        if(userType == 0){
+            addTree.setVisibility(View.GONE);
+            myTrees.setVisibility(View.GONE);
+            allTrees.setVisibility(View.GONE);
+            signOut.setVisibility(View.GONE);
+        }else if(userType == 1){
+            allTrees.setVisibility(View.GONE);
+        }
     }
 
     // Store the listenerx (activity) that will have events fired once the fragment is attached
@@ -233,6 +246,12 @@ public class ControlClass extends Fragment {
             cgen = savedInstanceState.getString(CURRENT_GENERA);
             xind = savedInstanceState.getInt(CURRENT_SPECIES);//speciesList.setSelection(savedInstanceState.getInt(CURRENT_SPECIES));
         }
+
+
+        myTrees = (Button) view.findViewById(R.id.buttonMyTrees);
+        addTree = (Button) view.findViewById(R.id.buttonAddTree);
+        allTrees = (Button) view.findViewById(R.id.buttonAllTrees);
+        signOut = (Button) view.findViewById(R.id.buttonSignOut);
 
         Button buttonQuery = (Button) view.findViewById(R.id.buttonQuery);
         buttonQuery.setOnClickListener(new View.OnClickListener() {

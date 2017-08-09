@@ -15,6 +15,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class EmailSignUpActivity extends AppCompatActivity {
     Button signIn;
@@ -24,10 +27,17 @@ public class EmailSignUpActivity extends AppCompatActivity {
 
     //instance of Firebase Auth
     private FirebaseAuth mAuth;
+    //instance of Firebase DB
+    FirebaseDatabase mDatabase;
+    DatabaseReference mReference;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //initialize database
+        mDatabase = FirebaseDatabase.getInstance();
+        mReference = mDatabase.getReference().child("users");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email_sign_up);
 
@@ -67,6 +77,9 @@ public class EmailSignUpActivity extends AppCompatActivity {
                         //dismiss progess dialog
                         progressDialog.dismiss();
                         if(task.isSuccessful()) {
+                            FirebaseUser user = task.getResult().getUser();
+                            mReference.child(user.getUid()).setValue(0);
+
                             Toast.makeText(EmailSignUpActivity.this, "Sign up successful", Toast.LENGTH_SHORT).show();
                             finish();
                             startActivity(new Intent(getApplicationContext(), EmailLoginActivity.class));

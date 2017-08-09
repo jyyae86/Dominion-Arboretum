@@ -40,15 +40,16 @@
         android:layout_alignParentEnd="true" />
 
     <EditText
+        android:id="@+id/editTextEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:id="@+id/editTextEmail"
-        android:hint="Email"
-        android:layout_below="@+id/textView"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_below="@+id/textView"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:text="admin@gmail.com" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -59,7 +60,8 @@
         android:hint="Password"
         android:layout_below="@+id/editTextEmail"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:text="123456" />
 
     <TextView
         android:text="Continue without login"
