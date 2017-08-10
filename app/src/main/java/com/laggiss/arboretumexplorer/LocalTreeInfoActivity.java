@@ -1,8 +1,8 @@
 package com.laggiss.arboretumexplorer;
 
 import android.content.Intent;
-import android.provider.ContactsContract;
 import android.view.View;
+import android.widget.Button;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -19,10 +19,11 @@ public class LocalTreeInfoActivity extends AbstractTreeInfoActivity {
         lat.setText(Double.toString(nTree.getLat()));
         lng.setText(Double.toString(nTree.getLng()));
         creatorName.setText(nTree.getCreatorName());
+        Button merge = (Button)findViewById(R.id.buttonMerge);
+        merge.setVisibility(View.GONE);
     }
 
-    public void editTree(View v){
-        finish();
+    public void startEditTreeActivity(View v){
         Intent nIntent = new Intent(this, EditMasterActivity.class);
         nIntent.putExtra("id", id);
         startActivity(nIntent);
@@ -30,10 +31,8 @@ public class LocalTreeInfoActivity extends AbstractTreeInfoActivity {
 
     public void deleteTree(View v){
         DatabaseReference usrDeletedTree = FirebaseDatabase.getInstance().getReference().child("userDeletedTrees");
-        String tempRef = usrDeletedTree.push().getKey();
-        usrDeletedTree.child(tempRef).setValue(SQLiteDB.getTreeFromSQL(id));
+        usrDeletedTree.child(id).setValue(SQLiteDB.getTreeFromSQL(id));
         SQLiteDB.deleteTree(id);
-        finish();
         startActivity(new Intent(this, MainActivity.class));
     }
 }

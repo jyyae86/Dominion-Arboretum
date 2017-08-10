@@ -27,14 +27,18 @@ public abstract class AbstractTreeInfoActivity extends AppCompatActivity {
 
     FirebaseDatabase mDB;
     DatabaseReference mRef;
+    DatabaseReference master;
 
     DataBaseHelper SQLiteDB;
+
+    String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         mDB = FirebaseDatabase.getInstance();
-        mRef = mDB.getReference().child("userAddedTrees");
+        mRef = mDB.getReference();
+        master = mRef.child("master");
 
         SQLiteDB = DataBaseHelper.getInstance(this);
         super.onCreate(savedInstanceState);
@@ -49,6 +53,7 @@ public abstract class AbstractTreeInfoActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         id = intent.getStringExtra("id");
+        type = intent.getStringExtra("type");
 
         populateInfo(id);
 
@@ -59,10 +64,9 @@ public abstract class AbstractTreeInfoActivity extends AppCompatActivity {
 
     public void deleteTree(View v){}
 
-    public void startEditTreeActivity(View v){
-        finish();
-        Intent intent = new Intent(getApplicationContext(), EditTreeActivity.class);
-        intent.putExtra("id", id);
-        startActivity(intent);
+    public void startEditTreeActivity(View v){}
+
+    public void startMainActivity(View v){
+        startActivity(new Intent(this, MainActivity.class));
     }
 }

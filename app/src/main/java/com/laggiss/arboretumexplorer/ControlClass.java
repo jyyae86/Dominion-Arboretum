@@ -104,6 +104,7 @@ public class ControlClass extends Fragment {
     private Button myTrees;
     private Button allTrees;
     private Button signOut;
+    private Button update;
 
 
     public interface onQueryButtonClicked {
@@ -252,6 +253,9 @@ public class ControlClass extends Fragment {
         addTree = (Button) view.findViewById(R.id.buttonAddTree);
         allTrees = (Button) view.findViewById(R.id.buttonAllTrees);
         signOut = (Button) view.findViewById(R.id.buttonSignOut);
+
+        update = (Button) view.findViewById(R.id.buttonUpdate);
+        update.setVisibility(View.GONE);
 
         Button buttonQuery = (Button) view.findViewById(R.id.buttonQuery);
         buttonQuery.setOnClickListener(new View.OnClickListener() {
@@ -478,5 +482,11 @@ public class ControlClass extends Fragment {
         return labels;
 
     }
+
+    public void showUpdateButton(){
+        update.setVisibility(View.VISIBLE);
+    }
+
+
 
 }

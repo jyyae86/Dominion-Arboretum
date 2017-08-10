@@ -275,7 +275,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Cursor c = myDataBase.rawQuery("SELECT * FROM ArboretumData WHERE firebaseID = '" + id + "'", null);
         c.moveToFirst();
         Tree nTree = new Tree(c.getString(0),c.getString(1),c.getString(2),c.getString(3),
-                c.getInt(4),c.getDouble(5),c.getDouble(6));
+                c.getInt(4),c.getDouble(5),c.getDouble(6), c.getString(7));
         c.close();
         return nTree;
 
@@ -285,7 +285,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Cursor c = myDataBase.rawQuery("SELECT * FROM MyTrees WHERE firebaseID = '" + id + "'", null);
         c.moveToFirst();
         Tree nTree = new Tree(c.getString(0),c.getString(1),c.getString(2),c.getString(3),
-                c.getInt(4),c.getDouble(5),c.getDouble(6));
+                c.getInt(4),c.getDouble(5),c.getDouble(6), c.getString(7));
         c.close();
         return nTree;
 
@@ -338,9 +338,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         long e = myDataBase.insert("ArboretumData", null, cv);
     }
 
-    public void openDatabaseFirstTime(){
-
-
+    public void clearDB(){
+        myDataBase.rawQuery("DELETE FROM ArboretumData", null);
     }
 
 

@@ -6,12 +6,11 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.view.View;
 
 import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -97,7 +96,6 @@ public abstract class AbstractEditTreeActivity extends AppCompatActivity{
     protected abstract void populateFields(String id);
 
     protected void startMainActivity(View v){
-        finish();
         startActivity(new Intent(this, MainActivity.class));
     }
 

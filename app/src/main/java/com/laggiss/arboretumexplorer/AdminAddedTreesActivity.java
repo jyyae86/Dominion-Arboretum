@@ -3,51 +3,75 @@ package com.laggiss.arboretumexplorer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public abstract class AbstractMyTreesActivity extends AppCompatActivity {
-    DataBaseHelper mDBHelper;
+/**
+ * Created by jyyae86 on 2017-06-15.
+ */
+
+public class AdminAddedTreesActivity extends AppCompatActivity {
+
     FirebaseDatabase mDB;
     DatabaseReference mRef;
     FirebaseAuth mAuth;
 
     ListView myTreeList;
 
+//    private final ArrayList<ArrayList<Tree>> trees;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mDB = FirebaseDatabase.getInstance();
+        mRef = mDB.getReference().child("userAddedTrees");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_trees);
 
         myTreeList = (ListView) findViewById(R.id.myTreeList);
-        ArrayList<Tree> trees = getTreeArray();
-        TreeArrayAdapter adapter = new TreeArrayAdapter(this, trees);
-        myTreeList.setAdapter(adapter);
-        myTreeList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        mRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id){
-                Log.e("clicked","clicked");
-                Tree selected = (Tree) parent.getItemAtPosition(position);
-                Intent nIntent = new Intent(getApplicationContext(), LocalTreeInfoActivity.class);
-                nIntent.putExtra("id", selected.getFirebaseID());
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<Tree> trees = new ArrayList<Tree>();
+                for (DataSnapshot child: dataSnapshot.getChildren()) {
+                    trees.add(child.getValue(Tree.class));
+                }
 
-                startActivity(nIntent);
+                populateListView(trees);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
     }
 
-    public abstract ArrayList<Tree> getTreeArray();
+    private void populateListView(ArrayList<Tree> trees){
+        TreeArrayAdapter adapter = new TreeArrayAdapter(this, trees);
+        myTreeList.setAdapter(adapter);
+        myTreeList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id){
+                Tree selected = (Tree) parent.getItemAtPosition(position);
+                Intent nIntent = new Intent(getApplicationContext(), RemoteTreeInfoActivity.class);
+                String test = selected.getFirebaseID();
+                nIntent.putExtra("id", selected.getFirebaseID());
 
-    public void startMainActivity(View v){
-        startActivity(new Intent(this,MainActivity.class));
+                startActivity(nIntent);
+            }
+        });
+
+
     }
 }

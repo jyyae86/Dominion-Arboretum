@@ -1,13 +1,11 @@
 package com.laggiss.arboretumexplorer;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import android.content.Intent;
 import android.view.View;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * Created by jyyae86 on 2017-06-07.
@@ -16,6 +14,13 @@ import android.view.View;
 public class RemoteTreeInfoActivity extends AbstractTreeInfoActivity {
     @Override
     public void populateInfo(String id){
+        if(type.equals("add")){
+            mRef = mDB.getReference().child("userAddedTrees");
+        }else if(type.equals("edit")){
+            mRef = mDB.getReference().child("userEditedTrees");
+        }else{//delete
+            mRef = mDB.getReference().child("userDeletedTrees");
+        }
         mRef = mRef.child(id);
         mRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -38,23 +43,25 @@ public class RemoteTreeInfoActivity extends AbstractTreeInfoActivity {
 
     public void deleteTree(View v){
         mRef.removeValue();
-        finish();
-        startActivity(new Intent(this,AdminTreesActivity.class));
+        startActivity(new Intent(this,MainActivity.class));
     }
 
     public void startEditTreeActivity(View v){
-        finish();
         Intent nIntent = new Intent(this, EditTreeActivity.class);
         nIntent.putExtra("id", id);
         startActivity(nIntent);
     }
 
     public void mergeTree(View v){
-        mRef.removeValue();
-        DatabaseReference masterDB = FirebaseDatabase.getInstance().getReference().child("master");
-        String ref = masterDB.push().getKey();
-        masterDB.child(ref).setValue(selected);
-        finish();
-        startActivity(new Intent(this,AdminTreesActivity.class));
+        if(type.equals("delete")){
+            mRef.removeValue();
+            master.child(id).removeValue();
+        }else{
+            mRef.removeValue();
+            master.child(id).setValue(selected);
+            startActivity(new Intent(this,MainActivity.class));
+        }
+
     }
+
 }

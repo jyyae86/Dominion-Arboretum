@@ -92,7 +92,6 @@ public class EmailSignUpActivity extends AppCompatActivity {
     }
 
     protected void createLoginActivity(View v){
-        finish();
         startActivity(new Intent(this, EmailLoginActivity.class));
     }
 }

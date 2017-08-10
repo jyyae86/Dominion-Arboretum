@@ -48,7 +48,6 @@ public class EditTreeActivity extends AbstractEditTreeActivity{
         Tree nTree = new Tree(creName,comName,sciName,cArea,DataBaseHelper.ADD,lat,lng,firebaseID);
         mDBHelper.editTree(nTree, firebaseID);
         mRef.setValue(nTree);
-        finish();
         startActivity(new Intent(this, MainActivity.class));
 
     }

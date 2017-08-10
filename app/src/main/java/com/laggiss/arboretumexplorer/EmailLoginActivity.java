@@ -83,13 +83,11 @@ public class EmailLoginActivity extends AppCompatActivity {
 
     protected void createSignUpActivity(View v){
         //redirects to signup
-        finish();
         startActivity(new Intent(this,EmailSignUpActivity.class));
     }
 
     protected void createMainActivityWithoutLogin(View v){
         //temp
-        finish();
         startActivity(new Intent(this,MainActivity.class));
     }
 

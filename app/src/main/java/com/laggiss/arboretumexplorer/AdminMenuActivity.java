@@ -14,21 +14,18 @@ public class AdminMenuActivity extends AppCompatActivity {
     }
 
     protected void startAdminAddedTreesActivity(View v){
-        finish();
         Intent nIntent = new Intent(this, AdminTreesActivity.class);
         nIntent.putExtra("type", "add");
         startActivity(nIntent);
     }
 
     protected void startAdminEditedTreesActivity(View v){
-        finish();
         Intent nIntent = new Intent(this, AdminTreesActivity.class);
         nIntent.putExtra("type", "edit");
         startActivity(nIntent);
     }
 
     protected void startAdminDeletedTreesActivity(View v){
-        finish();
         Intent nIntent = new Intent(this, AdminTreesActivity.class);
         nIntent.putExtra("type", "delete");
         startActivity(nIntent);

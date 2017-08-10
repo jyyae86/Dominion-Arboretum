@@ -4,7 +4,7 @@
 
     To get one, follow this link, follow the directions and press "Create" at the end:
 
-https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=5C:CD:36:01:E6:DC:0D:53:EB:F2:6C:AC:5E:79:4C:8E:A5:E8:6E:35%3Bcom.laggiss.dualmapfragment
+https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=5B:BF:6C:88:0A:4F:CE:A9:27:D9:B9:15:0A:21:60:22:79:64:74:F8%3Bcom.laggiss.dualmapfragment
 
     You can also add your credentials to an existing key, using this line:
     5C:CD:36:01:E6:DC:0D:53:EB:F2:6C:AC:5E:79:4C:8E:A5:E8:6E:35;arboretumexplorerer
@@ -13,6 +13,6 @@ https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend
     string in this file.
     -->
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
-        AIzaSyAyRc1bey0PVeMv7uWnXnmpZoyO-PzM4ns
+        AIzaSyDK6Bx57V3aH6pwYLgtY6pUgyjUmltMKQQ
     </string>
 </resources>

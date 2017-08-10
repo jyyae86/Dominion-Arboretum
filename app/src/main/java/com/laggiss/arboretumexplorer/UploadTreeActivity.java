@@ -9,6 +9,7 @@ import android.widget.Toast;
 public class UploadTreeActivity extends AbstractEditTreeActivity {
 
     protected void addOrEditTree(View v){
+        mRef = mRef.child("userAddedTrees");
         String creator = creatorName.getText().toString();
         String common = commonName.getText().toString();
         String latString = latitude.getText().toString();
@@ -48,7 +49,6 @@ public class UploadTreeActivity extends AbstractEditTreeActivity {
         progressDialog.dismiss();
         Toast.makeText(this,"finished",Toast.LENGTH_SHORT).show();
 
-        finish();
         startActivity(new Intent(this,MainActivity.class));
     }
 

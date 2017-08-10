@@ -78,8 +78,7 @@ public class AdminTreesActivity extends AppCompatActivity {
                 String test = selected.getFirebaseID();
                 nIntent.putExtra("id", selected.getFirebaseID());
                 nIntent.putExtra("source", "admin");
-
-                finish();
+                nIntent.putExtra("type", type);
                 startActivity(nIntent);
             }
         });

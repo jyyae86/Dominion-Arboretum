@@ -50,7 +50,6 @@ public class EditMasterActivity extends AbstractEditTreeActivity {
         mDBHelper.editTree(nTree, firebaseID);
         DatabaseReference usrEditedTrees = FirebaseDatabase.getInstance().getReference().child("userEditedTrees");
         usrEditedTrees.child(firebaseID).setValue(nTree);
-        finish();
         startActivity(new Intent(this, MainActivity.class));
 
     }

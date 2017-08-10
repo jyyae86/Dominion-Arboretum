@@ -71,7 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/textView7"
         android:layout_alignParentEnd="true"
-        android:onClick="editTree"
+        android:onClick="startEditTreeActivity"
         android:text="Edit Tree" />
 
     <Button
@@ -145,4 +145,13 @@
         android:layout_below="@+id/button2"
         android:onClick="mergeTree"
         android:text="Merge" />
+
+    <Button
+        android:id="@+id/buttonReturn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/buttonMerge"
+        android:layout_below="@+id/textView14"
+        android:onClick="startMainActivity"
+        android:text="Back" />
 </RelativeLayout>

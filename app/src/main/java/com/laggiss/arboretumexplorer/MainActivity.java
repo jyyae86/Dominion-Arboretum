@@ -2,6 +2,8 @@ package com.laggiss.arboretumexplorer;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
@@ -25,7 +27,6 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -78,6 +79,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import static com.google.maps.android.SphericalUtil.computeDistanceBetween;
@@ -266,6 +268,19 @@ public class MainActivity extends FragmentActivity implements
 
         }
         updateFragment();
+
+        DatabaseReference master = mRef.child("master");
+        master.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                myFragment.showUpdateButton();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 //    public static boolean isLocationEnabled(Context context) {
 //        int locationMode = 0;
@@ -565,7 +580,6 @@ public class MainActivity extends FragmentActivity implements
                 String id = marker.getTitle();
                 Intent nIntent = new Intent(getApplicationContext(),LocalTreeInfoActivity.class);
                 nIntent.putExtra("id", id);
-                finish();
                 startActivity(nIntent);
                 return true;
             }
@@ -1189,18 +1203,15 @@ public class MainActivity extends FragmentActivity implements
 //
 //}
     public void startUploadTreeActivity(View v){
-        finish();
         startActivity(new Intent(this, UploadTreeActivity.class));
 
     }
 
     public void startMyTreesActivity(View v){
-        finish();
         startActivity(new Intent(this, MemberMyTreesActivity.class));
     }
 
     public void startAdminMenuActivity(View v){
-        finish();
         startActivity(new Intent(this, AdminMenuActivity.class));
     }
 
@@ -1228,6 +1239,43 @@ public class MainActivity extends FragmentActivity implements
         mAuth.signOut();
         finish();
         startActivity(new Intent(this, EmailLoginActivity.class));
+    }
+
+    public void updateDB(View v){
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("downloading...");
+        progressDialog.show();
+        myDbHelper.clearDB();
+        DatabaseReference master = FirebaseDatabase.getInstance().getReference().child("master");
+        master.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Map<String, Object> masterDB = (Map<String, Object>) dataSnapshot.getValue();
+                for(String k : masterDB.keySet()) {
+                    Map<String, Object> m1 = (Map<String, Object>)masterDB.get(k);
+                    ContentValues cv = new ContentValues();
+                    for(String k1 : m1.keySet()) {
+                        try{
+                            cv.put(k1, (String)m1.get(k1));
+                        }catch(Exception e){
+                            try{
+                                cv.put(k1, (double)m1.get(k1));
+                            }catch(Exception f){
+                                cv.put(k1, (long)m1.get(k1));
+                            }
+                        }
+                    }
+                    myDbHelper.addRowToMaster(cv);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        progressDialog.dismiss();
     }
 }
 
