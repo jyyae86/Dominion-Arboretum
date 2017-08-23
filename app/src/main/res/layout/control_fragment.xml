@@ -171,9 +171,9 @@
         android:layout_alignParentStart="true"
         android:id="@+id/linearLayout2">
         <Button
-            android:layout_weight="1"
+            android:layout_weight="20"
             android:id="@+id/buttonMyTrees"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:onClick="startMyTreesActivity"
             android:text="My Trees"
@@ -182,9 +182,9 @@
             android:layout_alignBottom="@+id/buttonAddTree" />
 
         <Button
-            android:layout_weight="1"
+            android:layout_weight="20"
             android:id="@+id/buttonAddTree"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/hideButton"
             android:layout_toEndOf="@+id/buttonMyTrees"
@@ -194,9 +194,9 @@
             android:layout_alignBottom="@+id/buttonAllTrees" />
 
         <Button
-            android:layout_weight="1"
+            android:layout_weight="20"
             android:id="@+id/buttonAllTrees"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/hideButton"
             android:layout_toEndOf="@+id/buttonAddTree"
@@ -205,26 +205,33 @@
             android:visibility="visible" />
 
         <Button
-            android:layout_weight="1"
+            android:layout_weight="20"
             android:id="@+id/buttonSignOut"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/hideButton"
             android:onClick="signOut"
             android:text="Logout"
             android:visibility="visible" />
+
+        <Button
+            android:id="@+id/buttonHelp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:text="Help" />
     </LinearLayout>
 
     <Button
         android:id="@+id/buttonUpdate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/linearLayout2"
         android:onClick="updateDB"
-        android:text="Update Database" />
+        android:text="Update Database"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>

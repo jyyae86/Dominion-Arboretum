@@ -33,6 +33,7 @@
 
         <activity android:name=".UploadTreeActivity" />
         <activity android:name=".EmailLoginActivity">
+
         </activity>
         <activity android:name=".EmailSignUpActivity" />
         <!-- <activity android:name=".UploadTreeActivity" /> -->
@@ -42,14 +43,14 @@
         <activity android:name=".EditTreeActivity" />
         <activity android:name=".WelcomeActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter></activity>
         <activity android:name=".AdminTreesActivity" />
         <activity android:name=".AdminMenuActivity" />
         <activity android:name=".EditMasterActivity"/>
+        <activity android:name=".MemberMenuActivity"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

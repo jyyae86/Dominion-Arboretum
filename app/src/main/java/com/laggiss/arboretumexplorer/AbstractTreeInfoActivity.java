@@ -2,6 +2,7 @@ package com.laggiss.arboretumexplorer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
@@ -25,9 +26,8 @@ public abstract class AbstractTreeInfoActivity extends AppCompatActivity {
 
     Tree selected;
 
-    FirebaseDatabase mDB;
+    FirebaseDatabaseUtility mFirebaseUtil;
     DatabaseReference mRef;
-    DatabaseReference master;
 
     DataBaseHelper SQLiteDB;
 
@@ -36,9 +36,7 @@ public abstract class AbstractTreeInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        mDB = FirebaseDatabase.getInstance();
-        mRef = mDB.getReference();
-        master = mRef.child("master");
+        mFirebaseUtil = new FirebaseDatabaseUtility();
 
         SQLiteDB = DataBaseHelper.getInstance(this);
         super.onCreate(savedInstanceState);

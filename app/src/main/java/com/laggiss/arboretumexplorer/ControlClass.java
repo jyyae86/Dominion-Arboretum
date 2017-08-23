@@ -153,14 +153,16 @@ public class ControlClass extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    public void hideButtons(int userType){
-        if(userType == 0){
-            addTree.setVisibility(View.GONE);
-            myTrees.setVisibility(View.GONE);
-            allTrees.setVisibility(View.GONE);
-            signOut.setVisibility(View.GONE);
-        }else if(userType == 1){
-            allTrees.setVisibility(View.GONE);
+    public void showButtons(int userType){
+        if(userType == 1){
+            addTree.setEnabled(true);
+            myTrees.setEnabled(true);
+            signOut.setEnabled(true);
+        }else if(userType == 2){
+            addTree.setEnabled(true);
+            myTrees.setEnabled(true);
+            signOut.setEnabled(true);
+            allTrees.setEnabled(true);
         }
     }
 
@@ -253,6 +255,11 @@ public class ControlClass extends Fragment {
         addTree = (Button) view.findViewById(R.id.buttonAddTree);
         allTrees = (Button) view.findViewById(R.id.buttonAllTrees);
         signOut = (Button) view.findViewById(R.id.buttonSignOut);
+
+        addTree.setEnabled(false);
+        myTrees.setEnabled(false);
+        signOut.setEnabled(false);
+        allTrees.setEnabled(false);
 
         update = (Button) view.findViewById(R.id.buttonUpdate);
         update.setVisibility(View.GONE);

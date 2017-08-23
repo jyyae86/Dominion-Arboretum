@@ -17,7 +17,7 @@
         android:layout_below="@+id/button7"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="41dp"
-        android:onClick="startAdminDeletedTreesActivity"
+        android:onClick="startDeletedTreesActivity"
         android:text="Deleted Trees" />
 
     <Button
@@ -27,16 +27,16 @@
         android:layout_alignStart="@+id/button6"
         android:layout_below="@+id/button6"
         android:layout_marginTop="48dp"
-        android:onClick="startAdminEditedTreesActivity"
+        android:onClick="startEditedTreesActivity"
         android:text="Edited Trees" />
 
     <Button
-        android:text="Added Trees"
+        android:id="@+id/button6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
-        android:id="@+id/button6"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:onClick="startAdminAddedTreesActivity" />
+        android:layout_marginTop="56dp"
+        android:onClick="startAddedTreesActivity"
+        android:text="Added Trees" />
 </RelativeLayout>

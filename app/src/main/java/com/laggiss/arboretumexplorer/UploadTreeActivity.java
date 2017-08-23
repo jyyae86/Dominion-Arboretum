@@ -9,7 +9,9 @@ import android.widget.Toast;
 public class UploadTreeActivity extends AbstractEditTreeActivity {
 
     protected void addOrEditTree(View v){
-        mRef = mRef.child("userAddedTrees");
+        progressDialog.setMessage("loading, please wait");
+        progressDialog.show();
+
         String creator = creatorName.getText().toString();
         String common = commonName.getText().toString();
         String latString = latitude.getText().toString();
@@ -23,7 +25,6 @@ public class UploadTreeActivity extends AbstractEditTreeActivity {
         String tempRef = mRef.push().getKey();
 
         Tree nTree = new Tree(creator, common, sciName, cArea, DataBaseHelper.ADD, lat, lng, tempRef);
-        mRef.child(tempRef).setValue(nTree);
 
         //for MyTrees
         ContentValues values = new ContentValues();
@@ -39,12 +40,6 @@ public class UploadTreeActivity extends AbstractEditTreeActivity {
 
         long e = SQLiteDB.getMyDataBase().insert("MyTrees", null, values);
         long f = SQLiteDB.getMyDataBase().insert("ArboretumData", null, values);
-
-        progressDialog.setMessage("loading, please wait");
-        progressDialog.show();
-
-        //mRef.child(nTree.getCommonName()).setValue(nTree);
-        //should have some sort of confirmation for if it succeeded
 
         progressDialog.dismiss();
         Toast.makeText(this,"finished",Toast.LENGTH_SHORT).show();

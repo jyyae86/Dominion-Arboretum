@@ -19,14 +19,20 @@ public class LocalTreeInfoActivity extends AbstractTreeInfoActivity {
         lat.setText(Double.toString(nTree.getLat()));
         lng.setText(Double.toString(nTree.getLng()));
         creatorName.setText(nTree.getCreatorName());
-        Button merge = (Button)findViewById(R.id.buttonMerge);
-        merge.setVisibility(View.GONE);
     }
 
     public void startEditTreeActivity(View v){
-        Intent nIntent = new Intent(this, EditMasterActivity.class);
-        nIntent.putExtra("id", id);
-        startActivity(nIntent);
+        String type = getIntent().getStringExtra("type");
+        if(type.equals("master")){
+            Intent nIntent = new Intent(this, EditMasterActivity.class);
+            nIntent.putExtra("id", id);
+            startActivity(nIntent);
+        }else{
+            Intent nIntent = new Intent(this, EditTreeActivity.class);
+            nIntent.putExtra("id", id);
+            startActivity(nIntent);
+        }
+
     }
 
     public void deleteTree(View v){
@@ -34,5 +40,10 @@ public class LocalTreeInfoActivity extends AbstractTreeInfoActivity {
         usrDeletedTree.child(id).setValue(SQLiteDB.getTreeFromSQL(id));
         SQLiteDB.deleteTree(id);
         startActivity(new Intent(this, MainActivity.class));
+    }
+
+    public void mergeTree(View v){
+        //upload to firebase
+
     }
 }

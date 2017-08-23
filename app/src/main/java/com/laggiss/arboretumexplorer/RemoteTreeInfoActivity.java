@@ -13,32 +13,42 @@ import com.google.firebase.database.ValueEventListener;
 
 public class RemoteTreeInfoActivity extends AbstractTreeInfoActivity {
     @Override
-    public void populateInfo(String id){
-        if(type.equals("add")){
-            mRef = mDB.getReference().child("userAddedTrees");
-        }else if(type.equals("edit")){
-            mRef = mDB.getReference().child("userEditedTrees");
-        }else{//delete
-            mRef = mDB.getReference().child("userDeletedTrees");
+    public void populateInfo(String id) {
+        if (type.equals("add")){
+            mFirebaseUtil.setUserAddedTrees();
+        } else if ( type.equals("edit") ) {
+            mFirebaseUtil.setUserEditedTrees();
+        } else {
+            //delete
+            mFirebaseUtil.setUserDeletedTrees();
         }
-        mRef = mRef.child(id);
-        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                selected =  dataSnapshot.getValue(Tree.class);
-                commonName.setText(selected.getCommonName());
-                sciName.setText(selected.getSciName());
-                cArea.setText(selected.getCrownArea());
-                lat.setText(Double.toString(selected.getLat()));
-                lng.setText(Double.toString(selected.getLng()));
-                creatorName.setText(selected.getCreatorName());
-            }
 
+        mFirebaseUtil.getTree(id, new FirebaseTreeHandler() {
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-
+            public void onTreeReceived(Tree tree) {
+                commonName.setText(tree.getCommonName());
+                sciName.setText(tree.getSciName());
+                cArea.setText(tree.getCrownArea());
+                lat.setText(Double.toString(tree.getLat()));
+                lng.setText(Double.toString(tree.getLng()));
+                creatorName.setText(tree.getCreatorName());
             }
         });
+
+
+//        mRef = mFirebaseUtil.getRef();
+//        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                selected =  dataSnapshot.getValue(Tree.class);
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
     }
 
     public void deleteTree(View v){
@@ -52,16 +62,16 @@ public class RemoteTreeInfoActivity extends AbstractTreeInfoActivity {
         startActivity(nIntent);
     }
 
-    public void mergeTree(View v){
-        if(type.equals("delete")){
-            mRef.removeValue();
-            master.child(id).removeValue();
-        }else{
-            mRef.removeValue();
-            master.child(id).setValue(selected);
-            startActivity(new Intent(this,MainActivity.class));
-        }
-
-    }
+//    public void mergeTree(View v){
+//        if (type.equals("delete")) {
+//            mRef.removeValue();
+//            master.child(id).removeValue();
+//        } else {
+//            mRef.removeValue();
+//            master.child(id).setValue(selected);
+//            startActivity(new Intent(this,MainActivity.class));
+//        }
+//
+//    }
 
 }

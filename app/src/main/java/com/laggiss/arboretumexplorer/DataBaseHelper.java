@@ -256,9 +256,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         c.close();
     }
 
-    public ArrayList<Tree> getAddedTrees(){
+    public ArrayList<Tree> getTrees(String type){
         ArrayList<Tree> addedTrees = new ArrayList<Tree>();
-        Cursor c = myDataBase.rawQuery("SELECT * FROM MyTrees WHERE changeType = '" + ADD + "'", null);
+        int changeType;
+        if(type.equals("add")){
+            changeType = ADD;
+        }else if(type.equals("edit")){
+            changeType = EDIT;
+        }else{
+            changeType = DELETE;
+        }
+
+        Cursor c = myDataBase.rawQuery("SELECT * FROM MyTrees WHERE changeType = '" + changeType + "'", null);
         if(c.moveToFirst()){
             //create a tree object using the columns of the row
             do{
@@ -291,20 +300,23 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public boolean exists(String id){
+        boolean result = true;
+        Cursor c = myDataBase.rawQuery("SELECT * FROM ArboretumData WHERE firebaseID = '" + id + "'", null);
+        c.moveToFirst();
+        if(c.getCount() <= 0){
+            result = false;
+        }
+        c.close();
+        return result;
+    }
+
     public boolean existsInMyTrees(String id){
-        boolean result = false;
+        boolean result = true;
         Cursor c = myDataBase.rawQuery("SELECT * FROM MyTrees WHERE firebaseID = '" + id + "'", null);
         c.moveToFirst();
-        if(c.getCount() < 0){
-            result = true;
-            Log.e("a",c.getString(0));
-            Log.e("b",c.getString(1));
-            Log.e("c",c.getString(2));
-            Log.e("d",c.getString(3));
-            Log.e("e",c.getString(4));
-            Log.e("f",c.getString(5));
-            Log.e("g",c.getString(6));
-            Log.e("h",c.getString(7));
+        if(c.getCount() <= 0){
+            result = false;
         }
         c.close();
         return result;
@@ -313,11 +325,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void deleteTree(String id){
         //if they delete a tree that they didnt add, it would break because the ids are different i think
         Cursor cArboreData = myDataBase.rawQuery("DELETE FROM ArboretumData WHERE firebaseID = '" + id + "'", null);
-        Cursor cMyTrees = myDataBase.rawQuery("DELETE FROM MyTrees WHERE firebaseID = '" + id + "'", null);
         cArboreData.moveToFirst();
-        cMyTrees.moveToFirst();
         cArboreData.close();
-        cMyTrees.close();
     }
 
     public void editTree(Tree tree, String firebaseID){
@@ -329,9 +338,37 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put("Lat", tree.getLat());
         cv.put("lng", tree.getLng());
         cv.put("changeType", tree.getChangeType());
+        cv.put("firebaseID", firebaseID);
 
-        myDataBase.update("MyTrees", cv, "firebaseID = firebaseID", null);
-        myDataBase.update("ArboretumData", cv, "firebaseID = firebaseID", null);
+        myDataBase.update("ArboretumData", cv, "firebaseID = '" + firebaseID + "'", null);
+        if(existsInMyTrees(firebaseID)){
+            myDataBase.update("MyTrees", cv, "firebaseID = '" + firebaseID + "'", null);
+        }else{
+            myDataBase.insert("MyTrees", null, cv);
+        }
+
+    }
+
+    public int addTreeToMaster(Tree tree){
+        //check if tree exists
+        boolean xd = exists(tree.getFirebaseID());
+        if(xd){
+            return 0;
+        }else{
+            ContentValues cv = new ContentValues();
+            cv.put("creatorName",tree.getCreatorName());
+            cv.put("commonName", tree.getCommonName());
+            cv.put("sciName", tree.getSciName());
+            cv.put("crownArea", tree.getCrownArea());
+            cv.put("Lat", tree.getLat());
+            cv.put("lng", tree.getLng());
+            cv.put("changeType", tree.getChangeType());
+            cv.put("firebaseID", tree.getFirebaseID());
+
+            myDataBase.insert("ArboretumData", null, cv);
+            return 1;
+        }
+
     }
 
     public void addRowToMaster(ContentValues cv){

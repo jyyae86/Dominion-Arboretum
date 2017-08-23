@@ -63,6 +63,7 @@ import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.android.gms.maps.model.TileProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -152,12 +153,12 @@ public class MainActivity extends FragmentActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mDatabase = FirebaseDatabase.getInstance();
-        mRef = mDatabase.getReference();
+        FirebaseDatabaseUtility mFirebase = new FirebaseDatabaseUtility();
+        mFirebase.setMaster();
+        mRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
 
-//        mAuth.signOut();
         super.onCreate(savedInstanceState);
 
         if (!isGooglePlayServicesAvailable()) {
@@ -270,10 +271,28 @@ public class MainActivity extends FragmentActivity implements
         updateFragment();
 
         DatabaseReference master = mRef.child("master");
-        master.addValueEventListener(new ValueEventListener() {
+        master.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                myFragment.showUpdateButton();
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Tree t = dataSnapshot.getValue(Tree.class);
+                int i = myDbHelper.addTreeToMaster(t);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Tree t = dataSnapshot.getValue(Tree.class);
+                myDbHelper.editTree(t, t.getFirebaseID());
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Tree t = dataSnapshot.getValue(Tree.class);
+                myDbHelper.deleteTree(t.getFirebaseID());
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
             }
 
             @Override
@@ -580,6 +599,7 @@ public class MainActivity extends FragmentActivity implements
                 String id = marker.getTitle();
                 Intent nIntent = new Intent(getApplicationContext(),LocalTreeInfoActivity.class);
                 nIntent.putExtra("id", id);
+                nIntent.putExtra("type","master");
                 startActivity(nIntent);
                 return true;
             }
@@ -1208,7 +1228,7 @@ public class MainActivity extends FragmentActivity implements
     }
 
     public void startMyTreesActivity(View v){
-        startActivity(new Intent(this, MemberMyTreesActivity.class));
+        startActivity(new Intent(this, MemberMenuActivity.class));
     }
 
     public void startAdminMenuActivity(View v){
@@ -1217,14 +1237,14 @@ public class MainActivity extends FragmentActivity implements
 
     public void updateFragment(){
        if(mUser == null){
-           myFragment.hideButtons(0);
+           myFragment.showButtons(0);
        }else{
            mRef.addListenerForSingleValueEvent(new ValueEventListener() {
                @Override
                public void onDataChange(DataSnapshot dataSnapshot) {
                    String id = mUser.getUid();
                    userType = dataSnapshot.child("users").child(id).getValue(Integer.class);
-                   myFragment.hideButtons(userType);
+                   myFragment.showButtons(userType);
                }
 
                @Override
@@ -1241,42 +1261,42 @@ public class MainActivity extends FragmentActivity implements
         startActivity(new Intent(this, EmailLoginActivity.class));
     }
 
-    public void updateDB(View v){
-        ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("downloading...");
-        progressDialog.show();
-        myDbHelper.clearDB();
-        DatabaseReference master = FirebaseDatabase.getInstance().getReference().child("master");
-        master.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Map<String, Object> masterDB = (Map<String, Object>) dataSnapshot.getValue();
-                for(String k : masterDB.keySet()) {
-                    Map<String, Object> m1 = (Map<String, Object>)masterDB.get(k);
-                    ContentValues cv = new ContentValues();
-                    for(String k1 : m1.keySet()) {
-                        try{
-                            cv.put(k1, (String)m1.get(k1));
-                        }catch(Exception e){
-                            try{
-                                cv.put(k1, (double)m1.get(k1));
-                            }catch(Exception f){
-                                cv.put(k1, (long)m1.get(k1));
-                            }
-                        }
-                    }
-                    myDbHelper.addRowToMaster(cv);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        progressDialog.dismiss();
-    }
+//    public void updateDB(View v){
+//        ProgressDialog progressDialog = new ProgressDialog(this);
+//        progressDialog.setMessage("downloading...");
+//        progressDialog.show();
+//        myDbHelper.clearDB();
+//        DatabaseReference master = FirebaseDatabase.getInstance().getReference().child("master");
+//        master.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                Map<String, Object> masterDB = (Map<String, Object>) dataSnapshot.getValue();
+//                for(String k : masterDB.keySet()) {
+//                    Map<String, Object> m1 = (Map<String, Object>)masterDB.get(k);
+//                    ContentValues cv = new ContentValues();
+//                    for(String k1 : m1.keySet()) {
+//                        try{
+//                            cv.put(k1, (String)m1.get(k1));
+//                        }catch(Exception e){
+//                            try{
+//                                cv.put(k1, (double)m1.get(k1));
+//                            }catch(Exception f){
+//                                cv.put(k1, (long)m1.get(k1));
+//                            }
+//                        }
+//                    }
+//                    myDbHelper.addRowToMaster(cv);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//
+//        progressDialog.dismiss();
+//    }
 }
 
 

@@ -1,5 +1,6 @@
 package com.laggiss.arboretumexplorer;
 
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,6 +26,7 @@ public class WelcomeActivity extends AppCompatActivity {
     DatabaseReference mRef;
     DataBaseHelper mDBHelper;
     private SQLiteDatabase arboretum;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,9 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     protected void downloadTreeData(View v){
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("downloading");
+        progressDialog.show();
         mRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -99,6 +104,12 @@ public class WelcomeActivity extends AppCompatActivity {
                     }
                     mDBHelper.addRowToMaster(cv);
                 }
+                SharedPreferences.Editor editor = mPrefs.edit();
+                editor.putBoolean("downloadedDB", true);
+                editor.commit(); // Very important to save the preference and delete the pro
+                progressDialog.dismiss();
+                finish();
+                startActivity(new Intent(getApplicationContext(), EmailLoginActivity.class));
             }
 
             @Override
@@ -107,10 +118,6 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         });
         //add preference
-        SharedPreferences.Editor editor = mPrefs.edit();
-        editor.putBoolean("downloadedDB", true);
-        editor.commit(); // Very important to save the preference and delete the pro
-        finish();
-        startActivity(new Intent(this, EmailLoginActivity.class));
+
     }
 }
