@@ -17,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -432,10 +433,12 @@ public class ControlClass extends Fragment {
     }
 
     private void sendQueryClick(View v) {
-
-        String selTree = speciesList.getSelectedItem().toString();
-        listenerQueryButton.buttonQueryClicked(selTree);
-
+        if(speciesList != null){
+            String selTree = speciesList.getSelectedItem().toString();
+            listenerQueryButton.buttonQueryClicked(selTree);
+        }else{
+            Toast.makeText(getActivity(), "There are no trees with this genera", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void sendFollowCheck(CompoundButton b, boolean checkedState) {

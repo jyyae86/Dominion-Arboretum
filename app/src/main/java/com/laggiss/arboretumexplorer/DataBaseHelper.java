@@ -323,10 +323,40 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public void deleteTree(String id){
-        //if they delete a tree that they didnt add, it would break because the ids are different i think
-        Cursor cArboreData = myDataBase.rawQuery("DELETE FROM ArboretumData WHERE firebaseID = '" + id + "'", null);
-        cArboreData.moveToFirst();
-        cArboreData.close();
+        //check to see if it is a tree added by user
+
+        Cursor added = myDataBase.rawQuery("SELECT * FROM MyTrees WHERE firebaseID = '" + id + "' AND changeType = '" + ADD + "'", null);
+        if(added.getCount() <= 0){
+            //if it isnt a user added tree, ie it is from master, delete the tree and add the tree to MyTrees with change type of delete. Also clear any edits of this tree.
+            Cursor cMyTrees = myDataBase.rawQuery("DELETE FROM MyTrees WHERE firebaseID = '" + id + "'", null);//clear edits first
+            cMyTrees.moveToFirst();
+            cMyTrees.close();
+
+            Tree tree = getTreeFromSQL(id);
+            ContentValues cv = new ContentValues(); //copy tree
+            cv.put("creatorName",tree.getCreatorName());
+            cv.put("commonName", tree.getCommonName());
+            cv.put("sciName", tree.getSciName());
+            cv.put("crownArea", tree.getCrownArea());
+            cv.put("Lat", tree.getLat());
+            cv.put("lng", tree.getLng());
+            cv.put("changeType", DELETE);
+            cv.put("firebaseID", id);
+            myDataBase.insert("MyTrees", null, cv);
+
+            Cursor cArboreData = myDataBase.rawQuery("DELETE FROM ArboretumData WHERE firebaseID = '" + id + "'", null); //delete tree from master
+            cArboreData.moveToFirst();
+            cArboreData.close();
+        }else{
+            //if the tree is added by user, just delete it from arboretumData and MyTrees
+            Cursor cMyTrees = myDataBase.rawQuery("DELETE FROM MyTrees WHERE firebaseID = '" + id + "'", null);//clear edits first
+            cMyTrees.moveToFirst();
+            cMyTrees.close();
+
+            Cursor cArboreData = myDataBase.rawQuery("DELETE FROM ArboretumData WHERE firebaseID = '" + id + "'", null); //delete tree from master
+            cArboreData.moveToFirst();
+            cArboreData.close();
+        }
     }
 
     public void editTree(Tree tree, String firebaseID){
@@ -351,8 +381,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public int addTreeToMaster(Tree tree){
         //check if tree exists
-        boolean xd = exists(tree.getFirebaseID());
-        if(xd){
+        boolean existsInMaster = exists(tree.getFirebaseID());
+        if(existsInMaster){
             return 0;
         }else{
             ContentValues cv = new ContentValues();
@@ -373,6 +403,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public void addRowToMaster(ContentValues cv){
         long e = myDataBase.insert("ArboretumData", null, cv);
+    }
+
+    public void removeTreeFromMyTrees(String id){
+        Cursor selected = myDataBase.rawQuery("SELECT * FROM MyTrees WHERE firebaseID = '" + id + "'", null);
+        if(selected.getCount() > 0){
+            //if it is not in myTrees, it do nothing
+            Cursor c = myDataBase.rawQuery("DELETE FROM MyTrees WHERE firebaseID = '" + id + "'", null);
+            c.moveToFirst();
+            c.close();
+        }
     }
 
     public void clearDB(){

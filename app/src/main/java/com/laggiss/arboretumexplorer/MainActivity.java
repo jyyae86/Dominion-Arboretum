@@ -148,13 +148,12 @@ public class MainActivity extends FragmentActivity implements
     //Firebase
     FirebaseDatabase mDatabase;
     DatabaseReference mRef;
+    FirebaseDatabaseUtility mFirebaseUtil;
     FirebaseAuth mAuth;
     FirebaseUser mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        FirebaseDatabaseUtility mFirebase = new FirebaseDatabaseUtility();
-        mFirebase.setMaster();
         mRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
@@ -270,36 +269,7 @@ public class MainActivity extends FragmentActivity implements
         }
         updateFragment();
 
-        DatabaseReference master = mRef.child("master");
-        master.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Tree t = dataSnapshot.getValue(Tree.class);
-                int i = myDbHelper.addTreeToMaster(t);
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Tree t = dataSnapshot.getValue(Tree.class);
-                myDbHelper.editTree(t, t.getFirebaseID());
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Tree t = dataSnapshot.getValue(Tree.class);
-                myDbHelper.deleteTree(t.getFirebaseID());
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        mFirebaseUtil = new FirebaseDatabaseUtility(this);
     }
 //    public static boolean isLocationEnabled(Context context) {
 //        int locationMode = 0;

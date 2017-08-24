@@ -66,7 +66,7 @@
         android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonEditTree"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/textView7"
@@ -79,8 +79,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/textView9"
-        android:layout_alignStart="@+id/button"
-        android:id="@+id/button2"
+        android:layout_alignStart="@+id/buttonEditTree"
+        android:id="@+id/buttonDeleteTree"
         android:onClick="deleteTree" />
 
     <TextView
@@ -138,11 +138,11 @@
         android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
     <Button
-        android:id="@+id/buttonMerge"
+        android:id="@+id/buttonMergeTree"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/button2"
-        android:layout_below="@+id/button2"
+        android:layout_alignStart="@+id/buttonDeleteTree"
+        android:layout_below="@+id/buttonDeleteTree"
         android:onClick="mergeTree"
         android:text="Merge" />
 
@@ -150,7 +150,7 @@
         android:id="@+id/buttonReturn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/buttonMerge"
+        android:layout_alignStart="@+id/buttonMergeTree"
         android:layout_below="@+id/textView14"
         android:onClick="startMainActivity"
         android:text="Back" />

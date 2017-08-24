@@ -26,12 +26,15 @@ public class MemberMyTreesActivity extends AppCompatActivity {
 
     ListView myTreeList;
 
+    String type;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_trees);
 
         Intent intent = getIntent();
+        type = intent.getStringExtra("type");
 
         myTreeList = (ListView) findViewById(R.id.myTreeList);
 
@@ -45,7 +48,7 @@ public class MemberMyTreesActivity extends AppCompatActivity {
                 Tree selected = (Tree) parent.getItemAtPosition(position);
                 Intent nIntent = new Intent(getApplicationContext(), LocalTreeInfoActivity.class);
                 nIntent.putExtra("id", selected.getFirebaseID());
-                nIntent.putExtra("type", "myTrees");
+                nIntent.putExtra("type", type);
 
                 startActivity(nIntent);
 

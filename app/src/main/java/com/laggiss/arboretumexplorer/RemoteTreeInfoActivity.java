@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 /**
@@ -14,16 +15,17 @@ import com.google.firebase.database.ValueEventListener;
 public class RemoteTreeInfoActivity extends AbstractTreeInfoActivity {
     @Override
     public void populateInfo(String id) {
+        mRef = FirebaseDatabase.getInstance().getReference();
         if (type.equals("add")){
-            mFirebaseUtil.setUserAddedTrees();
+            FirebaseDatabaseUtility.getInstance().setUserAddedTrees();
         } else if ( type.equals("edit") ) {
-            mFirebaseUtil.setUserEditedTrees();
+            FirebaseDatabaseUtility.getInstance().setUserEditedTrees();
         } else {
             //delete
-            mFirebaseUtil.setUserDeletedTrees();
+            FirebaseDatabaseUtility.getInstance().setUserDeletedTrees();
         }
 
-        mFirebaseUtil.getTree(id, new FirebaseTreeHandler() {
+        FirebaseDatabaseUtility.getInstance().getTree(id, new FirebaseTreeHandler() {
             @Override
             public void onTreeReceived(Tree tree) {
                 commonName.setText(tree.getCommonName());
@@ -52,7 +54,8 @@ public class RemoteTreeInfoActivity extends AbstractTreeInfoActivity {
     }
 
     public void deleteTree(View v){
-        mRef.removeValue();
+        FirebaseDatabaseUtility.getInstance().deleteTree(id);
+        finish();
         startActivity(new Intent(this,MainActivity.class));
     }
 
@@ -62,16 +65,21 @@ public class RemoteTreeInfoActivity extends AbstractTreeInfoActivity {
         startActivity(nIntent);
     }
 
-//    public void mergeTree(View v){
-//        if (type.equals("delete")) {
-//            mRef.removeValue();
-//            master.child(id).removeValue();
-//        } else {
-//            mRef.removeValue();
-//            master.child(id).setValue(selected);
-//            startActivity(new Intent(this,MainActivity.class));
-//        }
-//
-//    }
+    public void mergeTree(View v){
+        if (type.equals("delete")) {
+            FirebaseDatabaseUtility.getInstance().deleteTreeInMaster(id);
+            FirebaseDatabaseUtility.getInstance().deleteTree(id);
+        } else {
+            FirebaseDatabaseUtility.getInstance().getTree(id, new FirebaseTreeHandler() {
+                @Override
+                public void onTreeReceived(Tree tree) {
+                    FirebaseDatabaseUtility.getInstance().addTreeToMaster(id, tree);
+                    FirebaseDatabaseUtility.getInstance().deleteTree(id);
+                }
+            });
+        }
+        finish();
+        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+    }
 
 }

@@ -2,13 +2,12 @@ package com.laggiss.arboretumexplorer;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by jyyae86 on 2017-06-07.
@@ -24,9 +23,12 @@ public abstract class AbstractTreeInfoActivity extends AppCompatActivity {
     TextView creatorName;
     String id;
 
+    Button editTree;
+    Button deleteTree;
+    Button mergeTree;
+
     Tree selected;
 
-    FirebaseDatabaseUtility mFirebaseUtil;
     DatabaseReference mRef;
 
     DataBaseHelper SQLiteDB;
@@ -36,11 +38,14 @@ public abstract class AbstractTreeInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        mFirebaseUtil = new FirebaseDatabaseUtility();
-
         SQLiteDB = DataBaseHelper.getInstance(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tree_info);
+
+//        editTree = (Button)findViewById(R.id.buttonEditTree);
+//        editTree.setEnabled(false);
+        deleteTree = (Button)findViewById(R.id.buttonDeleteTree);
+        mergeTree = (Button)findViewById(R.id.buttonMergeTree);
 
         commonName = (TextView) findViewById(R.id.textViewCommonName);
         sciName = (TextView) findViewById(R.id.textViewScientificName);

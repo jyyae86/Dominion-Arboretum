@@ -6,6 +6,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import android.content.Context;
+
+import java.util.Map;
 
 /**
  * Created by jyyae86 on 2017-06-19.
@@ -16,26 +19,149 @@ import com.google.firebase.database.ValueEventListener;
 
 public class FirebaseDatabaseUtility {
     private FirebaseDatabase mDB;
+    private DatabaseReference root;
     private DatabaseReference mRef;
     private Tree selected;
+    private static FirebaseDatabaseUtility instance;
 
-    public FirebaseDatabaseUtility(){
+    private DataBaseHelper myDBHelper;
+
+    public static FirebaseDatabaseUtility getInstance(){
+        return instance;
+    }
+
+    public FirebaseDatabaseUtility(Context context){
         this.mDB = FirebaseDatabase.getInstance();
         this.mRef = mDB.getReference();
+        this.root = mDB.getReference();
+        this.myDBHelper = DataBaseHelper.getInstance(context);
+
+        DatabaseReference master = root.child("master");
+        master.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Tree t = dataSnapshot.getValue(Tree.class);
+                int i = myDBHelper.addTreeToMaster(t);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Tree t = dataSnapshot.getValue(Tree.class);
+                myDBHelper.editTree(t, t.getFirebaseID());
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Tree t = dataSnapshot.getValue(Tree.class);
+                myDBHelper.deleteTree(t.getFirebaseID());
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        //add listeners for added, editted and deleted trees
+
+        DatabaseReference userAddedTrees = root.child("userAddedTrees");
+        userAddedTrees.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Tree selected = dataSnapshot.getValue(Tree.class);
+                myDBHelper.removeTreeFromMyTrees(selected.getFirebaseID());
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseReference userEditedTrees = root.child("userEditedTrees");
+        userEditedTrees.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Tree selected = dataSnapshot.getValue(Tree.class);
+                myDBHelper.removeTreeFromMyTrees(selected.getFirebaseID());
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseReference userDeletedTrees = root.child("userDeletedTrees");
+        userDeletedTrees.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Tree selected = dataSnapshot.getValue(Tree.class);
+                myDBHelper.removeTreeFromMyTrees(selected.getFirebaseID());
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        this.instance = this;
     }
 
-    public FirebaseDatabaseUtility(String ref){
-        this.mDB = FirebaseDatabase.getInstance();
-        this.mRef = mDB.getReference().child(ref);
-    }
-
-//    public void goToChild(String ref){
-//        mRef = mRef.child(ref);
-//    }
 
     public void getTree(String id, final FirebaseTreeHandler handler){
-        mRef = mRef.child(id);
-        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference tmpRef = mRef.child(id);
+        tmpRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Tree n = dataSnapshot.getValue(Tree.class);
@@ -73,33 +199,15 @@ public class FirebaseDatabaseUtility {
         return mDB;
     }
 
-    public void addTree(final FirebaseTreeHandler handler){
-        mRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Tree n = dataSnapshot.getValue(Tree.class);
-                handler.onTreeReceived(n);
-            }
+    public void addTreeToMaster(String id, Tree tree){
+        root.child("master").child(id).setValue(tree);
+    }
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+    public void deleteTree(String id){
+        mRef.child(id).removeValue();
+    }
 
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+    public void deleteTreeInMaster(String id){
+        root.child("master").child(id).removeValue();
     }
 }
