@@ -268,8 +268,10 @@ public class MainActivity extends FragmentActivity implements
 
         }
         updateFragment();
+        if(FirebaseDatabaseUtility.getInstance() == null){
+            mFirebaseUtil = new FirebaseDatabaseUtility(this);
+        }
 
-        mFirebaseUtil = new FirebaseDatabaseUtility(this);
     }
 //    public static boolean isLocationEnabled(Context context) {
 //        int locationMode = 0;
@@ -1193,7 +1195,11 @@ public class MainActivity extends FragmentActivity implements
 //
 //}
     public void startUploadTreeActivity(View v){
-        startActivity(new Intent(this, UploadTreeActivity.class));
+        Intent intent = new Intent(this, UploadTreeActivity.class);
+        intent.putExtra("lat", mCurrentLocation.getLatitude());
+        intent.putExtra("lng", mCurrentLocation.getLongitude());
+        startActivity(intent);
+//        startActivity(new Intent(this, UploadTreeActivity.class));
 
     }
 

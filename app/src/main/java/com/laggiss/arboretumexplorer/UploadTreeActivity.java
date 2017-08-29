@@ -48,7 +48,11 @@ public class UploadTreeActivity extends AbstractEditTreeActivity {
     }
 
     protected void populateFields(String id){
-
+        Intent intent = getIntent();
+        double lat = intent.getDoubleExtra("lat", 0.0);
+        double lng = intent.getDoubleExtra("lng", 0.0);
+        latitude.setText(Double.toString(lat));
+        longitude.setText(Double.toString(lng));
     }
 
     public void startMainActivity(View v){

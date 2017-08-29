@@ -1,14 +1,13 @@
 package com.laggiss.arboretumexplorer;
 
+import android.content.Context;
+
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import android.content.Context;
-
-import java.util.Map;
 
 /**
  * Created by jyyae86 on 2017-06-19.
@@ -53,7 +52,7 @@ public class FirebaseDatabaseUtility {
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 Tree t = dataSnapshot.getValue(Tree.class);
-                myDBHelper.deleteTree(t.getFirebaseID());
+                myDBHelper.removeTreeFromMyTrees(t.getFirebaseID());
             }
 
             @Override

@@ -74,9 +74,9 @@ public abstract class AbstractEditTreeActivity extends AppCompatActivity{
         mUser = mAuth.getCurrentUser();
         mRef = mDatabase.getReference();
 
-        if(firebaseID != null){
+//        if(firebaseID != null){
             populateFields(firebaseID);
-        }
+//        }
 
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);

@@ -433,7 +433,7 @@ public class ControlClass extends Fragment {
     }
 
     private void sendQueryClick(View v) {
-        if(speciesList != null){
+        if(speciesList.getSelectedItem() != null){
             String selTree = speciesList.getSelectedItem().toString();
             listenerQueryButton.buttonQueryClicked(selTree);
         }else{
