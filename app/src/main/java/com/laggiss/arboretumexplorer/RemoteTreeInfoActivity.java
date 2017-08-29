@@ -15,6 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 public class RemoteTreeInfoActivity extends AbstractTreeInfoActivity {
     @Override
     public void populateInfo(String id) {
+        editTree.setVisibility(View.GONE);
         mRef = FirebaseDatabase.getInstance().getReference();
         if (type.equals("add")){
             FirebaseDatabaseUtility.getInstance().setUserAddedTrees();
@@ -70,6 +71,8 @@ public class RemoteTreeInfoActivity extends AbstractTreeInfoActivity {
             FirebaseDatabaseUtility.getInstance().deleteTreeInMaster(id);
             FirebaseDatabaseUtility.getInstance().deleteTree(id);
         } else {
+            selected.getFirebaseID();
+            FirebaseDatabaseUtility.getInstance().checkIfGeneraExists(selected.getSciName());
             FirebaseDatabaseUtility.getInstance().getTree(id, new FirebaseTreeHandler() {
                 @Override
                 public void onTreeReceived(Tree tree) {

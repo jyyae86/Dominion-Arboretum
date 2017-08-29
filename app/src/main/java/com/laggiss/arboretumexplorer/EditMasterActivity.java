@@ -35,7 +35,10 @@ public class EditMasterActivity extends AbstractEditTreeActivity {
         Tree nTree = new Tree(creName,comName,sciName,cArea,DataBaseHelper.EDIT,lat,lng,firebaseID);
 
         mDBHelper.editTree(nTree, firebaseID);
-        startActivity(new Intent(this, MainActivity.class));
+        Intent intent = new Intent(this, LocalTreeInfoActivity.class);
+        intent.putExtra("type", type);
+        intent.putExtra("id", firebaseID);
+        startActivity(intent);
 
     }
 }

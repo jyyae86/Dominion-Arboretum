@@ -34,11 +34,13 @@ public class LocalTreeInfoActivity extends AbstractTreeInfoActivity {
         String type = getIntent().getStringExtra("type");
         if(type.equals("master")){
             Intent nIntent = new Intent(this, EditMasterActivity.class);
+            nIntent.putExtra("type", type);
             nIntent.putExtra("id", id);
             startActivity(nIntent);
         }else{
             Intent nIntent = new Intent(this, EditTreeActivity.class);
             nIntent.putExtra("id", id);
+            nIntent.putExtra("type", type);
             startActivity(nIntent);
         }
 

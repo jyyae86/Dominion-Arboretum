@@ -42,7 +42,7 @@ public abstract class AbstractTreeInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tree_info);
 
-//        editTree = (Button)findViewById(R.id.buttonEditTree);
+        editTree = (Button)findViewById(R.id.buttonEditTree);
 //        editTree.setEnabled(false);
         deleteTree = (Button)findViewById(R.id.buttonDeleteTree);
         mergeTree = (Button)findViewById(R.id.buttonMergeTree);

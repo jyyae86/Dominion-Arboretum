@@ -7,6 +7,7 @@ package com.laggiss.arboretumexplorer;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,11 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ControlClass extends Fragment {
@@ -39,18 +44,19 @@ public class ControlClass extends Fragment {
     private final static String CURRENT_SPECIES = "currentSpecies";
     private final static String CURRENT_GENERA = "currentGenera";
     private boolean followMeState;
-    private String[] genera = {"Acer", "Actinidia", "Aesculus", "Alnus", "Amelanchier",
-            "Amorpha", "Aralia", "Aronia", "Betula", "Buddleia", "Calycanthus", "Carpinus", "Carya",
-            "Catalpa", "Celastrus", "Celtis", "Cephalanthus", "Cercidiphyllum", "Chamaecyparis",
-            "Chionanthus", "Colutea", "Cornus", "Corylus", "Cotoneaster", "Crataegus", "Cytisus",
-            "Daphne", "Deutzia", "Diervilla", "Dirca", "Eleutherococcus", "Euonymus", "Fagus",
-            "Forsythia", "Fraxinus", "Ginkgo", "Gleditsia", "Gymnocladus", "Hibiscus", "Hydrangea",
-            "Juniperus", "Kolkwitzia", "Laburnum", "Larix", "Lennea", "Lespedeza", "Lonicera",
-            "Maackia", "Magnolia", "Malus", "Metasequoia", "Morus", "Myrica", "Ostrya",
-            "Phellodendron", "Philadelphus", "Physocarpus", "Picea", "Pinus", "Populus", "Pseudotsuga",
-            "Ptelea", "Pterostyrax", "Quercus", "Rhamnus", "Rhododendron", "Ribes", "Robinia", "Rubus",
-            "Salix", "Sambucus", "Shepherdia", "Sorbaria", "Sorbus", "Staphylea", "Stephanandra",
-            "Syringa", "Taxodium", "Thuja", "Tilia", "Tsuga", "Ulmus", "Vaccinium", "Viburnum"};
+    private String[] genera;
+//    private String[] genera = {"Acer", "Actinidia", "Aesculus", "Alnus", "Amelanchier",
+//            "Amorpha", "Aralia", "Aronia", "Betula", "Buddleia", "Calycanthus", "Carpinus", "Carya",
+//            "Catalpa", "Celastrus", "Celtis", "Cephalanthus", "Cercidiphyllum", "Chamaecyparis",
+//            "Chionanthus", "Colutea", "Cornus", "Corylus", "Cotoneaster", "Crataegus", "Cytisus",
+//            "Daphne", "Deutzia", "Diervilla", "Dirca", "Eleutherococcus", "Euonymus", "Fagus",
+//            "Forsythia", "Fraxinus", "Ginkgo", "Gleditsia", "Gymnocladus", "Hibiscus", "Hydrangea",
+//            "Juniperus", "Kolkwitzia", "Laburnum", "Larix", "Lennea", "Lespedeza", "Lonicera",
+//            "Maackia", "Magnolia", "Malus", "Metasequoia", "Morus", "Myrica", "Ostrya",
+//            "Phellodendron", "Philadelphus", "Physocarpus", "Picea", "Pinus", "Populus", "Pseudotsuga",
+//            "Ptelea", "Pterostyrax", "Quercus", "Rhamnus", "Rhododendron", "Ribes", "Robinia", "Rubus",
+//            "Salix", "Sambucus", "Shepherdia", "Sorbaria", "Sorbus", "Staphylea", "Stephanandra",
+//            "Syringa", "Taxodium", "Thuja", "Tilia", "Tsuga", "Ulmus", "Vaccinium", "Viburnum"};
 
 //    private String[] species = {"Alder sp.", "Almond-leaved Willow", "Alternate Leaf Dogwood", "American Elm",
 //            "Amur Cork", "Amur maackia", "Ash", "Austrian pine", "Azalea", "Bald Cypress", "Balsam Poplar", "Basswood",
@@ -251,6 +257,54 @@ public class ControlClass extends Fragment {
             xind = savedInstanceState.getInt(CURRENT_SPECIES);//speciesList.setSelection(savedInstanceState.getInt(CURRENT_SPECIES));
         }
 
+//        //one time method for uploading the spinner
+//        LinkedList<String> list = new LinkedList<String>();
+//        for(int i = 0; i < genera.length; i++){
+//            list.add(i,genera[i]);
+//        }
+//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+//        ref.child("genera").setValue(list);
+        FirebaseDatabaseUtility.getInstance().getGenera(new FirebaseGeneraHandler() {
+            @Override
+            public void onGeneraReceived(ArrayList<String> list) {
+                genera = new String[list.size()];
+                for(int i = 0; i < genera.length; i++){
+                    genera[i] = list.get(i).toString();
+                }
+                ArrayAdapter<String> generaAdapter;
+                generaAdapter = new ArrayAdapter<String>(
+                        getActivity(),
+                        android.R.layout.simple_spinner_dropdown_item,
+                        genera);
+                generaList.setAdapter(generaAdapter);
+                generaList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        ArrayAdapter<String> speciesAdapter;
+                        List<String> sList = makeSpeciesList(parent.getItemAtPosition(position).toString());
+                        speciesAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, sList);
+                        speciesList.setAdapter(speciesAdapter);
+                        if (xind != 0 & generaList.getSelectedItem().toString() == cgen) {
+                            //Log.e("UUUUUUUUUUUUUUU",String.valueOf(xind));
+                            speciesList.setSelection(xind);
+                        }
+                        speciesList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                sendSpeciesSelected(parent.getItemAtPosition(position).toString());
+                            }
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+                            }
+                        });
+                    }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+            }
+        });
+
 
         myTrees = (Button) view.findViewById(R.id.buttonMyTrees);
         addTree = (Button) view.findViewById(R.id.buttonAddTree);
@@ -261,9 +315,6 @@ public class ControlClass extends Fragment {
         myTrees.setEnabled(false);
         signOut.setEnabled(false);
         allTrees.setEnabled(false);
-
-        update = (Button) view.findViewById(R.id.buttonUpdate);
-        update.setVisibility(View.GONE);
 
         Button buttonQuery = (Button) view.findViewById(R.id.buttonQuery);
         buttonQuery.setOnClickListener(new View.OnClickListener() {
@@ -345,59 +396,20 @@ public class ControlClass extends Fragment {
             }
         });
         radiusSpinner.setEnabled(false);
-
         // Setup Genera, Species Spinners
         speciesList = (Spinner) view.findViewById(R.id.speciesSpinner);
         generaList = (Spinner) view.findViewById(R.id.generaSpinner);
 
-        ArrayAdapter<String> generaAdapter;
-        generaAdapter = new ArrayAdapter<String>(
-                getActivity(),
-                android.R.layout.simple_spinner_dropdown_item,
-                genera);
-        generaList.setAdapter(generaAdapter);
-        generaList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ArrayAdapter<String> speciesAdapter;
-                List<String> sList = makeSpeciesList(parent.getItemAtPosition(position).toString());
-                speciesAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, sList);
-                speciesList.setAdapter(speciesAdapter);
-                if (xind != 0 & generaList.getSelectedItem().toString() == cgen) {
-                    //Log.e("UUUUUUUUUUUUUUU",String.valueOf(xind));
-                    speciesList.setSelection(xind);
-                }
-                speciesList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        sendSpeciesSelected(parent.getItemAtPosition(position).toString());
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         CheckBox latinCheck = (CheckBox) view.findViewById(R.id.checkBox);
         latinCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 sendLatinChecked(buttonView,isChecked);
-
                 ArrayAdapter<String> speciesAdapter;
                 List<String> sList = makeSpeciesList(generaList.getSelectedItem().toString());
                 speciesAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, sList);
                 speciesList.setAdapter(speciesAdapter);
-
 //                speciesList.setSelection(speciesList.getSelectedItemPosition());
 //                int h = speciesList.getSelectedItemPosition();
 //                Log.e("xxxxxxx",String.valueOf(h));
@@ -412,13 +424,13 @@ public class ControlClass extends Fragment {
         return view;
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt(CURRENT_SPECIES, speciesList.getSelectedItemPosition());
-        outState.putString(CURRENT_GENERA, generaList.getSelectedItem().toString());
-
-    }
+//    @Override
+//    public void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        outState.putInt(CURRENT_SPECIES, speciesList.getSelectedItemPosition());
+//        outState.putString(CURRENT_GENERA, generaList.getSelectedItem().toString());
+//
+//    }
 
     private void sendRadiusCheck(CompoundButton b, boolean checkedState) {
 

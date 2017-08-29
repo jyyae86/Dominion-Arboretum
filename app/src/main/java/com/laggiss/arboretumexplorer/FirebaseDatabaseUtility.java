@@ -7,11 +7,20 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Created by jyyae86 on 2017-06-19.
  */
+
+interface FirebaseGeneraHandler {
+    public void onGeneraReceived(ArrayList<String> list);
+}
+
  interface FirebaseTreeHandler {
     public void onTreeReceived(Tree tree);
 }
@@ -25,6 +34,7 @@ public class FirebaseDatabaseUtility {
 
     private DataBaseHelper myDBHelper;
 
+    private LinkedList<String> genera = new LinkedList<String>();
     public static FirebaseDatabaseUtility getInstance(){
         return instance;
     }
@@ -154,6 +164,34 @@ public class FirebaseDatabaseUtility {
 
             }
         });
+
+        root.child("genera").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                genera.add(dataSnapshot.getValue(String.class));
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         this.instance = this;
     }
 
@@ -200,6 +238,42 @@ public class FirebaseDatabaseUtility {
 
     public void addTreeToMaster(String id, Tree tree){
         root.child("master").child(id).setValue(tree);
+
+    }
+
+    public void checkIfGeneraExists(String s){
+        boolean exist = false;
+        for(String sciName : genera){
+            if(s.contains(sciName)){
+                exist = true;
+                break;
+            }
+        }
+        if(!exist){
+            genera.add(s.split(" ")[0]);
+            root.child("genera").setValue(genera);
+        }
+    }
+
+    public void getGenera(final FirebaseGeneraHandler handler){
+        root.child("genera").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                GenericTypeIndicator<ArrayList<String>> t = new GenericTypeIndicator<ArrayList<String>>() {
+                    @Override
+                    protected Object clone() throws CloneNotSupportedException {
+                        return super.clone();
+                    }
+                };
+                ArrayList<String> list = dataSnapshot.getValue(t);
+                handler.onGeneraReceived(list);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void deleteTree(String id){

@@ -38,6 +38,7 @@ public abstract class AbstractEditTreeActivity extends AppCompatActivity{
     FirebaseUser mUser;
 
     DataBaseHelper mDBHelper;
+    String type;
 
     private LocationManager locationManager;
     private LocationListener locationListener;
@@ -52,6 +53,7 @@ public abstract class AbstractEditTreeActivity extends AppCompatActivity{
         Intent nIntent = getIntent();
         try{
             firebaseID = nIntent.getStringExtra("id");
+            type = nIntent.getStringExtra("type");
         }catch(NullPointerException e){
 
         }
