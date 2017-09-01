@@ -14,6 +14,7 @@ public class LocalTreeInfoActivity extends AbstractTreeInfoActivity {
         Tree nTree;
         if(type.equals("master")){
             nTree = SQLiteDB.getTreeFromSQL(id);
+            mergeTree.setEnabled(false);
         }else{
             nTree = SQLiteDB.getTreeFromMyTrees(id);
         }
@@ -24,9 +25,12 @@ public class LocalTreeInfoActivity extends AbstractTreeInfoActivity {
         lng.setText(Double.toString(nTree.getLng()));
         creatorName.setText(nTree.getCreatorName());
 
-//        if(type.equals("add") || type.equals("edit")||type.equals(null)){
-//            editTree.setEnabled(true);
-//        }
+        if(type.equals("delete")){
+            editTree.setEnabled(false);
+            deleteTree.setText("Undo Delete");
+        }else if(type.equals("edit")){
+            deleteTree.setText("Revert Changes");
+        }
 
     }
 
@@ -47,7 +51,20 @@ public class LocalTreeInfoActivity extends AbstractTreeInfoActivity {
     }
 
     public void deleteTree(View v){
-        SQLiteDB.deleteTree(id);
+        if(type.equals("delete")){
+            Tree selected = SQLiteDB.getTreeFromMyTrees(id);
+            SQLiteDB.undoDelete(selected);
+        }else if(type.equals("edit")){
+            SQLiteDB.deleteTree(id);
+            FirebaseDatabaseUtility.getInstance().getTreeFromMaster(id, new FirebaseTreeHandler() {
+                @Override
+                public void onTreeReceived(Tree tree) {
+                    SQLiteDB.addTreeToMaster(tree);
+                }
+            });
+        }else{
+            SQLiteDB.deleteTree(id);
+        }
         startActivity(new Intent(this, MainActivity.class));
     }
 

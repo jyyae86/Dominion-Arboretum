@@ -359,6 +359,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public void undoDelete(Tree tree){
+        addTreeToMaster(tree);
+        Cursor cMyTrees = myDataBase.rawQuery("DELETE FROM MyTrees WHERE firebaseID = '" + tree.getFirebaseID() + "'", null);//clear edits first
+        cMyTrees.moveToFirst();
+        cMyTrees.close();
+    }
+
     public void editTree(Tree tree, String firebaseID){
         ContentValues cv = new ContentValues();
         cv.put("creatorName",tree.getCreatorName());

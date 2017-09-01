@@ -111,7 +111,8 @@ public class ControlClass extends Fragment {
     private Button myTrees;
     private Button allTrees;
     private Button signOut;
-    private Button update;
+    private Button buttonQuery;
+
 
 
     public interface onQueryButtonClicked {
@@ -302,6 +303,7 @@ public class ControlClass extends Fragment {
                     public void onNothingSelected(AdapterView<?> parent) {
                     }
                 });
+                buttonQuery.setEnabled(true);
             }
         });
 
@@ -316,13 +318,14 @@ public class ControlClass extends Fragment {
         signOut.setEnabled(false);
         allTrees.setEnabled(false);
 
-        Button buttonQuery = (Button) view.findViewById(R.id.buttonQuery);
+        buttonQuery = (Button) view.findViewById(R.id.buttonQuery);
         buttonQuery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendQueryClick(v);
             }
         });
+        buttonQuery.setEnabled(false);
 
         final Button buttonHide = (Button) view.findViewById(R.id.hideButton);
         buttonHide.setOnClickListener(new View.OnClickListener() {
@@ -424,6 +427,7 @@ public class ControlClass extends Fragment {
         return view;
     }
 
+
 //    @Override
 //    public void onSaveInstanceState(Bundle outState) {
 //        super.onSaveInstanceState(outState);
@@ -504,11 +508,4 @@ public class ControlClass extends Fragment {
         return labels;
 
     }
-
-    public void showUpdateButton(){
-        update.setVisibility(View.VISIBLE);
-    }
-
-
-
 }

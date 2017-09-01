@@ -33,7 +33,8 @@ public class EditTreeActivity extends AbstractEditTreeActivity{
         String sciName = scientificName.getText().toString();
         double lat = Double.parseDouble(latitude.getText().toString());
         double lng = Double.parseDouble(longitude.getText().toString());
-        Tree nTree = new Tree(creName,comName,sciName,cArea,DataBaseHelper.ADD,lat,lng,firebaseID);
+        int changeType = mDBHelper.getTreeFromMyTrees(firebaseID).getChangeType();
+        Tree nTree = new Tree(creName,comName,sciName,cArea,changeType,lat,lng,firebaseID);
         mDBHelper.editTree(nTree, firebaseID);
 
         Intent intent = new Intent(this, LocalTreeInfoActivity.class);

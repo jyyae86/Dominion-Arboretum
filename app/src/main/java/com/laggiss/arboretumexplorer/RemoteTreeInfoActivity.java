@@ -15,7 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 public class RemoteTreeInfoActivity extends AbstractTreeInfoActivity {
     @Override
     public void populateInfo(String id) {
-        editTree.setVisibility(View.GONE);
+        editTree.setEnabled(false);
         mRef = FirebaseDatabase.getInstance().getReference();
         if (type.equals("add")){
             FirebaseDatabaseUtility.getInstance().setUserAddedTrees();
@@ -29,6 +29,7 @@ public class RemoteTreeInfoActivity extends AbstractTreeInfoActivity {
         FirebaseDatabaseUtility.getInstance().getTree(id, new FirebaseTreeHandler() {
             @Override
             public void onTreeReceived(Tree tree) {
+                selected = tree;
                 commonName.setText(tree.getCommonName());
                 sciName.setText(tree.getSciName());
                 cArea.setText(tree.getCrownArea());
@@ -39,19 +40,7 @@ public class RemoteTreeInfoActivity extends AbstractTreeInfoActivity {
         });
 
 
-//        mRef = mFirebaseUtil.getRef();
-//        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                selected =  dataSnapshot.getValue(Tree.class);
 //
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
     }
 
     public void deleteTree(View v){
@@ -71,7 +60,6 @@ public class RemoteTreeInfoActivity extends AbstractTreeInfoActivity {
             FirebaseDatabaseUtility.getInstance().deleteTreeInMaster(id);
             FirebaseDatabaseUtility.getInstance().deleteTree(id);
         } else {
-            selected.getFirebaseID();
             FirebaseDatabaseUtility.getInstance().checkIfGeneraExists(selected.getSciName());
             FirebaseDatabaseUtility.getInstance().getTree(id, new FirebaseTreeHandler() {
                 @Override

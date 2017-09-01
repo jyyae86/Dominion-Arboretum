@@ -1,6 +1,7 @@
 package com.laggiss.arboretumexplorer;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -195,10 +196,9 @@ public class FirebaseDatabaseUtility {
         this.instance = this;
     }
 
-
-    public void getTree(String id, final FirebaseTreeHandler handler){
-        DatabaseReference tmpRef = mRef.child(id);
-        tmpRef.addListenerForSingleValueEvent(new ValueEventListener() {
+    public void getTreeFromMaster(String id, final FirebaseTreeHandler handler){
+        DatabaseReference master = root.child("master").child(id);
+        master.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Tree n = dataSnapshot.getValue(Tree.class);
@@ -207,6 +207,22 @@ public class FirebaseDatabaseUtility {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void getTree(String id, final FirebaseTreeHandler handler){
+        DatabaseReference tmpRef = mRef.child(id);
+        tmpRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Tree n = dataSnapshot.getValue(Tree.class);
+                    handler.onTreeReceived(n);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
             }
         });
