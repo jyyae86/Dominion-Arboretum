@@ -265,48 +265,9 @@ public class ControlClass extends Fragment {
 //        }
 //        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 //        ref.child("genera").setValue(list);
-        FirebaseDatabaseUtility.getInstance().getGenera(new FirebaseGeneraHandler() {
-            @Override
-            public void onGeneraReceived(ArrayList<String> list) {
-                genera = new String[list.size()];
-                for(int i = 0; i < genera.length; i++){
-                    genera[i] = list.get(i).toString();
-                }
-                ArrayAdapter<String> generaAdapter;
-                generaAdapter = new ArrayAdapter<String>(
-                        getActivity(),
-                        android.R.layout.simple_spinner_dropdown_item,
-                        genera);
-                generaList.setAdapter(generaAdapter);
-                generaList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        ArrayAdapter<String> speciesAdapter;
-                        List<String> sList = makeSpeciesList(parent.getItemAtPosition(position).toString());
-                        speciesAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, sList);
-                        speciesList.setAdapter(speciesAdapter);
-                        if (xind != 0 & generaList.getSelectedItem().toString() == cgen) {
-                            //Log.e("UUUUUUUUUUUUUUU",String.valueOf(xind));
-                            speciesList.setSelection(xind);
-                        }
-                        speciesList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                sendSpeciesSelected(parent.getItemAtPosition(position).toString());
-                            }
-                            @Override
-                            public void onNothingSelected(AdapterView<?> parent) {
-                            }
-                        });
-                    }
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                    }
-                });
-                buttonQuery.setEnabled(true);
-            }
-        });
-
+        DataBaseHelper mDBHelper = new DataBaseHelper(getActivity());
+        mDBHelper.openDataBase();
+        genera = mDBHelper.getGenera();
 
         myTrees = (Button) view.findViewById(R.id.buttonMyTrees);
         addTree = (Button) view.findViewById(R.id.buttonAddTree);
@@ -402,6 +363,39 @@ public class ControlClass extends Fragment {
         // Setup Genera, Species Spinners
         speciesList = (Spinner) view.findViewById(R.id.speciesSpinner);
         generaList = (Spinner) view.findViewById(R.id.generaSpinner);
+
+        ArrayAdapter<String> generaAdapter;
+        generaAdapter = new ArrayAdapter<String>(
+                getActivity(),
+                android.R.layout.simple_spinner_dropdown_item,
+                genera);
+        generaList.setAdapter(generaAdapter);
+        generaList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ArrayAdapter<String> speciesAdapter;
+                List<String> sList = makeSpeciesList(parent.getItemAtPosition(position).toString());
+                speciesAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, sList);
+                speciesList.setAdapter(speciesAdapter);
+                if (xind != 0 & generaList.getSelectedItem().toString() == cgen) {
+                    //Log.e("UUUUUUUUUUUUUUU",String.valueOf(xind));
+                    speciesList.setSelection(xind);
+                }
+                speciesList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        sendSpeciesSelected(parent.getItemAtPosition(position).toString());
+                    }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        buttonQuery.setEnabled(true);
 
 
         CheckBox latinCheck = (CheckBox) view.findViewById(R.id.checkBox);

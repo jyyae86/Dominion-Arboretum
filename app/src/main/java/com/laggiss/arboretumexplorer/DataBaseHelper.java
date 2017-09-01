@@ -16,6 +16,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -410,6 +411,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public void addRowToMaster(ContentValues cv){
         long e = myDataBase.insert("ArboretumData", null, cv);
+    }
+
+    public String[] getGenera(){
+        Cursor table = myDataBase.rawQuery("SELECT DISTINCT substr(trim(sciName),1,instr(trim(sciName)||' ',' ')-1) FROM ArboretumData", null);
+        table.moveToFirst();
+        String[] genera = new String[table.getCount()];
+        int i = 0;
+        for (table.moveToFirst(); !table.isAfterLast(); table.moveToNext()){
+            genera[i] = table.getString(0).split(" ")[0];
+            i++;
+        }
+        return genera;
     }
 
     public void removeTreeFromMyTrees(String id){
