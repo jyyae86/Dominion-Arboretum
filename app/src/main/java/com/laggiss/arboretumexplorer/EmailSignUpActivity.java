@@ -78,7 +78,7 @@ public class EmailSignUpActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                         if(task.isSuccessful()) {
                             FirebaseUser user = task.getResult().getUser();
-                            mReference.child(user.getUid()).setValue(0);
+                            mReference.child(user.getUid()).setValue(1);
 
                             Toast.makeText(EmailSignUpActivity.this, "Sign up successful", Toast.LENGTH_SHORT).show();
                             finish();

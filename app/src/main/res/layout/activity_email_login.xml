@@ -63,13 +63,15 @@
         android:layout_alignParentEnd="true"
         android:text="123456" />
 
-    <TextView
-        android:text="Continue without login"
+    <Button
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView2"
-        android:clickable="true"
+        android:layout_below="@+id/buttonLogin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="23dp"
         android:onClick="createMainActivityWithoutLogin"
-        android:layout_below="@+id/buttonSignUp"
-        android:layout_centerHorizontal="true" />
+        android:text="Continue Without Login" />
+
+
 </RelativeLayout>

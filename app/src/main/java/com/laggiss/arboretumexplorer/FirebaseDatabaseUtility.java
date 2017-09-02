@@ -9,17 +9,20 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * Created by jyyae86 on 2017-06-19.
  */
 
-interface FirebaseGeneraHandler {
-    public void onGeneraReceived(ArrayList<String> list);
+interface FirebaseListHandler {
+    public void onListReceived(ArrayList<String> list);
 }
 
  interface FirebaseTreeHandler {
@@ -271,18 +274,33 @@ public class FirebaseDatabaseUtility {
         }
     }
 
-    public void getGenera(final FirebaseGeneraHandler handler){
-        root.child("genera").addListenerForSingleValueEvent(new ValueEventListener() {
+    public void deleteTree(String id){
+        mRef.child(id).removeValue();
+    }
+
+    public void deleteTreeInMaster(String id){
+        root.child("master").child(id).removeValue();
+    }
+
+    public void deleteAllWithID(final String id, String type){
+        final DatabaseReference reference;
+        if(type.equals("edit")){
+            reference = FirebaseDatabase.getInstance().getReference().child("userEditedTrees");
+        }else{//delete
+            reference = FirebaseDatabase.getInstance().getReference().child("userDeletedTrees");
+        }
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                GenericTypeIndicator<ArrayList<String>> t = new GenericTypeIndicator<ArrayList<String>>() {
-                    @Override
-                    protected Object clone() throws CloneNotSupportedException {
-                        return super.clone();
+                GenericTypeIndicator<Map<String, Map<String, Object>>> genericTypeIndicator = new GenericTypeIndicator<Map<String, Map<String,Object>>>() {};
+                Map<String, Map<String,Object>> map = dataSnapshot.getValue(genericTypeIndicator );
+                for(String k : map.keySet()){
+                    Map<String, Object> t = map.get(k);
+                    String tmp = t.get("firebaseID").toString();
+                    if(tmp.equals(id)){
+                        reference.child(k).removeValue();
                     }
-                };
-                ArrayList<String> list = dataSnapshot.getValue(t);
-                handler.onGeneraReceived(list);
+                }
             }
 
             @Override
@@ -290,13 +308,33 @@ public class FirebaseDatabaseUtility {
 
             }
         });
-    }
 
-    public void deleteTree(String id){
-        mRef.child(id).removeValue();
-    }
-
-    public void deleteTreeInMaster(String id){
-        root.child("master").child(id).removeValue();
+//        Query query = reference.orderByChild("firebaseID").equalTo(id);
+//        query.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+////                reference.child(dataSnapshot.getKey()).removeValue();
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
     }
 }

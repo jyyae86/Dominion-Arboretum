@@ -82,7 +82,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
     protected void downloadTreeData(View v){
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("downloading");
+        progressDialog.setTitle("Downloading...");
+        progressDialog.setMessage("This is a one time thing");
         progressDialog.show();
         mRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

@@ -86,8 +86,8 @@ public class LocalTreeInfoActivity extends AbstractTreeInfoActivity {
                     getInstance().
                     getReference().
                     child("userEditedTrees");
-//            String tmpRef = userEditedTrees.push().getKey();
-            userEditedTrees.child(selected.getFirebaseID()).setValue(selected);
+            String tmpRef = userEditedTrees.push().getKey();
+            userEditedTrees.child(tmpRef).setValue(selected);
             finish();
             startActivity(new Intent(this, MainActivity.class));
         }else{
@@ -96,8 +96,8 @@ public class LocalTreeInfoActivity extends AbstractTreeInfoActivity {
                     getInstance().
                     getReference().
                     child("userDeletedTrees");
-//            String tmpRef = userDeletedTrees.push().getKey();
-            userDeletedTrees.child(selected.getFirebaseID()).setValue(selected);
+            String tmpRef = userDeletedTrees.push().getKey();
+            userDeletedTrees.child(tmpRef).setValue(selected);
             finish();
             startActivity(new Intent(this, MainActivity.class));
         }

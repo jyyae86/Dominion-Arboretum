@@ -30,12 +30,15 @@ public class AdminTreesActivity extends AppCompatActivity {
 
     ListView myTreeList;
 
+    ArrayList<String> refs;
+
 //    private final ArrayList<ArrayList<Tree>> trees;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         type = getIntent().getStringExtra("type");
         mDB = FirebaseDatabase.getInstance();
+        refs = new ArrayList<String>();
 
         if(type.equals("add")){
             mRef = mDB.getReference().child("userAddedTrees");
@@ -55,6 +58,7 @@ public class AdminTreesActivity extends AppCompatActivity {
                 ArrayList<Tree> trees = new ArrayList<Tree>();
                 for (DataSnapshot child: dataSnapshot.getChildren()) {
                     trees.add(child.getValue(Tree.class));
+                    refs.add(child.getKey());
                 }
 
                 populateListView(trees);
@@ -75,8 +79,7 @@ public class AdminTreesActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id){
                 Tree selected = (Tree) parent.getItemAtPosition(position);
                 Intent nIntent = new Intent(getApplicationContext(), RemoteTreeInfoActivity.class);
-                String test = selected.getFirebaseID();
-                nIntent.putExtra("id", selected.getFirebaseID());
+                nIntent.putExtra("id", refs.get(position));
                 nIntent.putExtra("source", "admin");
                 nIntent.putExtra("type", type);
                 startActivity(nIntent);

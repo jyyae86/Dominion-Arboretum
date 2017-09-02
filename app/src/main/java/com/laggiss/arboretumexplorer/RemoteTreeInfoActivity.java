@@ -8,6 +8,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 /**
  * Created by jyyae86 on 2017-06-07.
  */
@@ -15,6 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 public class RemoteTreeInfoActivity extends AbstractTreeInfoActivity {
     @Override
     public void populateInfo(String id) {
+        FirebaseDatabaseUtility n = new FirebaseDatabaseUtility(this);
         editTree.setEnabled(false);
         mRef = FirebaseDatabase.getInstance().getReference();
         if (type.equals("add")){
@@ -56,11 +59,7 @@ public class RemoteTreeInfoActivity extends AbstractTreeInfoActivity {
     }
 
     public void mergeTree(View v){
-        if (type.equals("delete")) {
-            FirebaseDatabaseUtility.getInstance().deleteTreeInMaster(id);
-            FirebaseDatabaseUtility.getInstance().deleteTree(id);
-        } else {
-            FirebaseDatabaseUtility.getInstance().checkIfGeneraExists(selected.getSciName());
+        if (type.equals("add")){
             FirebaseDatabaseUtility.getInstance().getTree(id, new FirebaseTreeHandler() {
                 @Override
                 public void onTreeReceived(Tree tree) {
@@ -68,7 +67,30 @@ public class RemoteTreeInfoActivity extends AbstractTreeInfoActivity {
                     FirebaseDatabaseUtility.getInstance().deleteTree(id);
                 }
             });
+        } else {
+            FirebaseDatabaseUtility.getInstance().deleteAllWithID(selected.getFirebaseID(), type);
         }
+//        if (type.equals("delete")) {
+//            FirebaseDatabaseUtility.getInstance().deleteAllWithID(id, type);
+//        } else if (type.equals("edit")) {
+//            FirebaseDatabaseUtility.getInstance().deleteAllWithID(id, type);
+//            FirebaseDatabaseUtility.getInstance().getTree(id, new FirebaseTreeHandler() {
+//                @Override
+//                public void onTreeReceived(Tree tree) {
+//                    FirebaseDatabaseUtility.getInstance().addTreeToMaster(id, tree);
+//                    FirebaseDatabaseUtility.getInstance().deleteTree(id);
+//                }
+//            });
+//        } else {
+//            FirebaseDatabaseUtility.getInstance().checkIfGeneraExists(selected.getSciName());
+//            FirebaseDatabaseUtility.getInstance().getTree(id, new FirebaseTreeHandler() {
+//                @Override
+//                public void onTreeReceived(Tree tree) {
+//                    FirebaseDatabaseUtility.getInstance().addTreeToMaster(id, tree);
+//                    FirebaseDatabaseUtility.getInstance().deleteTree(id);
+//                }
+//            });
+//        }
         finish();
         startActivity(new Intent(getApplicationContext(),MainActivity.class));
     }

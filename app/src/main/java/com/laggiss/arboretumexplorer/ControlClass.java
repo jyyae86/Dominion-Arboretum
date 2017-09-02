@@ -19,6 +19,7 @@ import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
+import java.util.*;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -268,7 +269,7 @@ public class ControlClass extends Fragment {
         DataBaseHelper mDBHelper = new DataBaseHelper(getActivity());
         mDBHelper.openDataBase();
         genera = mDBHelper.getGenera();
-
+        Arrays.sort(genera);
         myTrees = (Button) view.findViewById(R.id.buttonMyTrees);
         addTree = (Button) view.findViewById(R.id.buttonAddTree);
         allTrees = (Button) view.findViewById(R.id.buttonAllTrees);
