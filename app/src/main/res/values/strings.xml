@@ -27,6 +27,36 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="family">Family</string>
+    <string name="familiar_name">Familiar Name</string>
+    <string name="genus">Genus</string>
+    <string name="species">Species</string>
+    <string name="rank">Rank</string>
+    <string name="type">Type</string>
+    <string name="hybrid_cross">Hybrid Cross</string>
+    <string name="cultivar">Cultivar</string>
+    <string name="name_status">Name Status</string>
+    <string name="authority">Authority</string>
+    <string name="date_introduced">Date Introduced</string>
+    <string name="access_number">Access Number</string>
+    <string name="received_from">Received From</string>
+    <string name="date_received">Date Received</string>
+    <string name="received_through">Received Through</string>
+    <string name="amount_received">Amount Received</string>
+    <string name="name_received">Name Received</string>
+    <string name="common_name">Common Name</string>
+    <string name="nom_commun">Nom Commun</string>
+    <string name="nursery">Nursery</string>
+    <string name="location">Location</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="donor">Donor</string>
+    <string name="origins">Origins</string>
+    <string name="id_by_date">ID By Date</string>
+    <string name="photo1">Photo1</string>
+    <string name="photo2">Photo2</string>
+    <string name="notes">Notes</string>
+    <string name="memo">Memo</string>
     <string-array name="genera">
         <item>Acer</item>
         <item>Actinidia</item>
