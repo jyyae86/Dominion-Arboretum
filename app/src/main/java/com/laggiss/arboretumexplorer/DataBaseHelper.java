@@ -201,7 +201,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             //create a tree object using the columns of the row
             do{
                 Tree newTree = new Tree(c.getString(0),c.getString(1),c.getString(2),c.getString(3),
-                        c.getInt(4),c.getDouble(5),c.getDouble(6));
+                        c.getString(4),c.getString(5),c.getString(6),c.getString(7),
+                        c.getString(8),c.getString(9),c.getString(10),c.getString(11),
+                        c.getString(12),c.getString(13),c.getString(14),c.getString(15),
+                        c.getString(16),c.getString(17),c.getString(18),c.getString(19),
+                        c.getString(20),c.getString(21),c.getString(22),c.getString(23),
+                        c.getString(24),c.getString(25),c.getString(26),c.getString(27),
+                        c.getString(28),c.getString(29),c.getString(30),c.getString(31),
+                        c.getString(32),c.getString(33),c.getDouble(34), c.getDouble(35),
+                        c.getString(36),c.getInt(27));
                 trees.add(newTree);
             }while(c.moveToNext());
         }
@@ -213,7 +221,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 
     public void createMasterFirebaseDatabase(ArrayList<Tree> trees, DatabaseReference mRef){
-        mRef = mRef.child("master");
+//        mRef = mRef.child("master");
         for(int i = 0; i < trees.size(); i++) {
             DatabaseReference tempRef = mRef.push();
             //maybe dont need this
@@ -273,7 +281,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             //create a tree object using the columns of the row
             do{
                 Tree newTree = new Tree(c.getString(0),c.getString(1),c.getString(2),c.getString(3),
-                        c.getInt(4),c.getDouble(5),c.getDouble(6), c.getString(7));
+                        c.getString(4),c.getString(5),c.getString(6),c.getString(7),
+                        c.getString(8),c.getString(9),c.getString(10),c.getString(11),
+                        c.getString(12),c.getString(13),c.getString(14),c.getString(15),
+                        c.getString(16),c.getString(17),c.getString(18),c.getString(19),
+                        c.getString(20),c.getString(21),c.getString(22),c.getString(23),
+                        c.getString(24),c.getString(25),c.getString(26),c.getString(27),
+                        c.getString(28),c.getString(29),c.getString(30),c.getString(31),
+                        c.getString(32),c.getString(33),c.getDouble(34), c.getDouble(35),
+                        c.getString(36),c.getInt(27));
                 addedTrees.add(newTree);
             }while(c.moveToNext());
         }
@@ -285,7 +301,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Cursor c = myDataBase.rawQuery("SELECT * FROM ArboretumData WHERE firebaseID = '" + id + "'", null);
         c.moveToFirst();
         Tree nTree = new Tree(c.getString(0),c.getString(1),c.getString(2),c.getString(3),
-                c.getInt(4),c.getDouble(5),c.getDouble(6), c.getString(7));
+                c.getString(4),c.getString(5),c.getString(6),c.getString(7),
+                c.getString(8),c.getString(9),c.getString(10),c.getString(11),
+                c.getString(12),c.getString(13),c.getString(14),c.getString(15),
+                c.getString(16),c.getString(17),c.getString(18),c.getString(19),
+                c.getString(20),c.getString(21),c.getString(22),c.getString(23),
+                c.getString(24),c.getString(25),c.getString(26),c.getString(27),
+                c.getString(28),c.getString(29),c.getString(30),c.getString(31),
+                c.getString(32),c.getString(33),c.getDouble(34), c.getDouble(35),
+                c.getString(36),c.getInt(27));
         c.close();
         return nTree;
 
@@ -295,7 +319,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Cursor c = myDataBase.rawQuery("SELECT * FROM MyTrees WHERE firebaseID = '" + id + "'", null);
         c.moveToFirst();
         Tree nTree = new Tree(c.getString(0),c.getString(1),c.getString(2),c.getString(3),
-                c.getInt(4),c.getDouble(5),c.getDouble(6), c.getString(7));
+                c.getString(4),c.getString(5),c.getString(6),c.getString(7),
+                c.getString(8),c.getString(9),c.getString(10),c.getString(11),
+                c.getString(12),c.getString(13),c.getString(14),c.getString(15),
+                c.getString(16),c.getString(17),c.getString(18),c.getString(19),
+                c.getString(20),c.getString(21),c.getString(22),c.getString(23),
+                c.getString(24),c.getString(25),c.getString(26),c.getString(27),
+                c.getString(28),c.getString(29),c.getString(30),c.getString(31),
+                c.getString(32),c.getString(33),c.getDouble(34), c.getDouble(35),
+                c.getString(36),c.getInt(27));
         c.close();
         return nTree;
 
@@ -335,14 +367,45 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
             Tree tree = getTreeFromSQL(id);
             ContentValues cv = new ContentValues(); //copy tree
-            cv.put("creatorName",tree.getCreatorName());
-            cv.put("commonName", tree.getCommonName());
-            cv.put("sciName", tree.getSciName());
-            cv.put("crownArea", tree.getCrownArea());
-            cv.put("Lat", tree.getLat());
-            cv.put("lng", tree.getLng());
-            cv.put("changeType", DELETE);
+            cv.put("family", tree.getFamily());
+            cv.put("familiarName",tree.getFamiliarName());
+            cv.put("genus",tree.getGenus());
+            cv.put("species",tree.getSpecies());
+            cv.put("rank",tree.getRank());
+            cv.put("type",tree.getType());
+            cv.put("hybridCross",tree.getHybridCross());
+            cv.put("cultivar",tree.getCultivar());
+            cv.put("nameStatus",tree.getNameStatus());
+            cv.put("authority",tree.getAuthority());
+            cv.put("dateIntro",tree.getDateIntro());
+            cv.put("accessNo",tree.getAccessNo());
+            cv.put("recdFrom",tree.getRecdFrom());
+            cv.put("dateRecd",tree.getDateRecd());
+            cv.put("howRecd",tree.getHowRecd());
+            cv.put("numRecd",tree.getNumRecd());
+            cv.put("nameRecd",tree.getNameRecd());
+            cv.put("commonName",tree.getCommonName());
+            cv.put("nomCommun",tree.getNomCommun());
+            cv.put("nursery",tree.getNursery());
+            cv.put("location",tree.getLocation());
+            cv.put("donor",tree.getDonor());
+            cv.put("collSeed",tree.getCollSeed());
+            cv.put("sourceAcc",tree.getSourceAcc());
+            cv.put("revised",tree.getRevised());
+            cv.put("numberNow",tree.getNumberNow());
+            cv.put("origins",tree.getOrigins());
+            cv.put("herbSpec",tree.getHerbSpec());
+            cv.put("idByDate",tree.getIdByDate());
+            cv.put("photo1",tree.getPhoto1());
+            cv.put("photo2",tree.getPhoto2());
+            cv.put("mortInfo",tree.getMortInfo());
+            cv.put("notes",tree.getNotes());
+            cv.put("memo",tree.getMemo());
+            cv.put("lat",tree.getLat());
+            cv.put("lng",tree.getLng());
             cv.put("firebaseID", id);
+            cv.put("changeType",tree.getChangeType());
+
             myDataBase.insert("MyTrees", null, cv);
 
             Cursor cArboreData = myDataBase.rawQuery("DELETE FROM ArboretumData WHERE firebaseID = '" + id + "'", null); //delete tree from master
@@ -369,14 +432,44 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public void editTree(Tree tree, String firebaseID){
         ContentValues cv = new ContentValues();
-        cv.put("creatorName",tree.getCreatorName());
-        cv.put("commonName", tree.getCommonName());
-        cv.put("sciName", tree.getSciName());
-        cv.put("crownArea", tree.getCrownArea());
-        cv.put("Lat", tree.getLat());
-        cv.put("lng", tree.getLng());
-        cv.put("changeType", tree.getChangeType());
+        cv.put("family", tree.getFamily());
+        cv.put("familiarName",tree.getFamiliarName());
+        cv.put("genus",tree.getGenus());
+        cv.put("species",tree.getSpecies());
+        cv.put("rank",tree.getRank());
+        cv.put("type",tree.getType());
+        cv.put("hybridCross",tree.getHybridCross());
+        cv.put("cultivar",tree.getCultivar());
+        cv.put("nameStatus",tree.getNameStatus());
+        cv.put("authority",tree.getAuthority());
+        cv.put("dateIntro",tree.getDateIntro());
+        cv.put("accessNo",tree.getAccessNo());
+        cv.put("recdFrom",tree.getRecdFrom());
+        cv.put("dateRecd",tree.getDateRecd());
+        cv.put("howRecd",tree.getHowRecd());
+        cv.put("numRecd",tree.getNumRecd());
+        cv.put("nameRecd",tree.getNameRecd());
+        cv.put("commonName",tree.getCommonName());
+        cv.put("nomCommun",tree.getNomCommun());
+        cv.put("nursery",tree.getNursery());
+        cv.put("location",tree.getLocation());
+        cv.put("donor",tree.getDonor());
+        cv.put("collSeed",tree.getCollSeed());
+        cv.put("sourceAcc",tree.getSourceAcc());
+        cv.put("revised",tree.getRevised());
+        cv.put("numberNow",tree.getNumberNow());
+        cv.put("origins",tree.getOrigins());
+        cv.put("herbSpec",tree.getHerbSpec());
+        cv.put("idByDate",tree.getIdByDate());
+        cv.put("photo1",tree.getPhoto1());
+        cv.put("photo2",tree.getPhoto2());
+        cv.put("mortInfo",tree.getMortInfo());
+        cv.put("notes",tree.getNotes());
+        cv.put("memo",tree.getMemo());
+        cv.put("lat",tree.getLat());
+        cv.put("lng",tree.getLng());
         cv.put("firebaseID", firebaseID);
+        cv.put("changeType",tree.getChangeType());
 
         myDataBase.update("ArboretumData", cv, "firebaseID = '" + firebaseID + "'", null);
         if(existsInMyTrees(firebaseID)){
@@ -394,14 +487,44 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             return 0;
         }else{
             ContentValues cv = new ContentValues();
-            cv.put("creatorName",tree.getCreatorName());
-            cv.put("commonName", tree.getCommonName());
-            cv.put("sciName", tree.getSciName());
-            cv.put("crownArea", tree.getCrownArea());
-            cv.put("Lat", tree.getLat());
-            cv.put("lng", tree.getLng());
-            cv.put("changeType", tree.getChangeType());
+            cv.put("family", tree.getFamily());
+            cv.put("familiarName",tree.getFamiliarName());
+            cv.put("genus",tree.getGenus());
+            cv.put("species",tree.getSpecies());
+            cv.put("rank",tree.getRank());
+            cv.put("type",tree.getType());
+            cv.put("hybridCross",tree.getHybridCross());
+            cv.put("cultivar",tree.getCultivar());
+            cv.put("nameStatus",tree.getNameStatus());
+            cv.put("authority",tree.getAuthority());
+            cv.put("dateIntro",tree.getDateIntro());
+            cv.put("accessNo",tree.getAccessNo());
+            cv.put("recdFrom",tree.getRecdFrom());
+            cv.put("dateRecd",tree.getDateRecd());
+            cv.put("howRecd",tree.getHowRecd());
+            cv.put("numRecd",tree.getNumRecd());
+            cv.put("nameRecd",tree.getNameRecd());
+            cv.put("commonName",tree.getCommonName());
+            cv.put("nomCommun",tree.getNomCommun());
+            cv.put("nursery",tree.getNursery());
+            cv.put("location",tree.getLocation());
+            cv.put("donor",tree.getDonor());
+            cv.put("collSeed",tree.getCollSeed());
+            cv.put("sourceAcc",tree.getSourceAcc());
+            cv.put("revised",tree.getRevised());
+            cv.put("numberNow",tree.getNumberNow());
+            cv.put("origins",tree.getOrigins());
+            cv.put("herbSpec",tree.getHerbSpec());
+            cv.put("idByDate",tree.getIdByDate());
+            cv.put("photo1",tree.getPhoto1());
+            cv.put("photo2",tree.getPhoto2());
+            cv.put("mortInfo",tree.getMortInfo());
+            cv.put("notes",tree.getNotes());
+            cv.put("memo",tree.getMemo());
+            cv.put("lat",tree.getLat());
+            cv.put("lng",tree.getLng());
             cv.put("firebaseID", tree.getFirebaseID());
+            cv.put("changeType",tree.getChangeType());
 
             myDataBase.insert("ArboretumData", null, cv);
             return 1;
@@ -414,7 +537,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public String[] getGenera(){
-        Cursor table = myDataBase.rawQuery("SELECT DISTINCT substr(trim(sciName),1,instr(trim(sciName)||' ',' ')-1) FROM ArboretumData", null);
+        Cursor table = myDataBase.rawQuery("select distinct genus from  ArboretumData", null);
         table.moveToFirst();
         String[] genera = new String[table.getCount()];
         int i = 0;

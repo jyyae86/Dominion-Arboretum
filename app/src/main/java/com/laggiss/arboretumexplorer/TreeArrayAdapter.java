@@ -37,7 +37,7 @@ public class TreeArrayAdapter extends ArrayAdapter<Tree> {
 
         //Placing content into recipe List Item
         treeName.setText(curTree.getCommonName());
-        treeCreator.setText(curTree.getCreatorName());
+//        treeCreator.setText(curTree.getCreatorName());
 
         //TODO: Perform decision regarding image selection for recipe prior to setting an image
 

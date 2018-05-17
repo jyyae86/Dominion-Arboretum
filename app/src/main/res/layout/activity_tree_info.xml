@@ -382,7 +382,7 @@
             android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
         <TextView
-            android:text="Revised"
+            android:text="@string/revised_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView27"

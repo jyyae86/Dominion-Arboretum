@@ -21,12 +21,13 @@ import com.google.firebase.database.FirebaseDatabase;
  */
 
 public abstract class AbstractEditTreeActivity extends AppCompatActivity{
-    EditText creatorName;
-    EditText commonName;
-    EditText latitude;
-    EditText longitude;
-    EditText scientificName;
-    EditText crownArea;
+    EditText family, familiarName, genus, species, rank, typeTree,
+        hybridCross, cultivar, nameStatus, authority, dateIntro,
+        accessNo, recdFrom, dateRecd, howRecd, numRecd, nameRecd,
+        commonName, nomCommun, nursery, location, lat, lng, donor,
+        collSeed, sourceAcc, revised, numberNow, origins, herbSpec,
+        idByDate, photo1, photo2, mortInfo, notes, memo;
+
     ProgressDialog progressDialog;
     Button addTree;
 
@@ -62,12 +63,44 @@ public abstract class AbstractEditTreeActivity extends AppCompatActivity{
         mDBHelper = DataBaseHelper.getInstance(this);
 
         setContentView(R.layout.activity_upload_tree);
-        creatorName = (EditText) findViewById(R.id.editTextCreatorName);
+
+        family = (EditText) findViewById(R.id.editTextFamily);
+        familiarName = (EditText) findViewById(R.id.editTextFamiliarName);
+        genus = (EditText) findViewById(R.id.editTextGenus);
+        species = (EditText) findViewById(R.id.editTextSpecies);
+        rank = (EditText) findViewById(R.id.editTextRank);
+        typeTree = (EditText) findViewById(R.id.editTextType);
+        hybridCross = (EditText) findViewById(R.id.editTextHybridCross);
+        cultivar = (EditText) findViewById(R.id.editTextCultivar);
+        nameStatus = (EditText) findViewById(R.id.editTextNameStatus);
+        authority = (EditText) findViewById(R.id.editTextAuthority);
+        dateIntro = (EditText) findViewById(R.id.editTextDateIntro);
+        accessNo = (EditText) findViewById(R.id.editTextAccessno);
+        recdFrom = (EditText) findViewById(R.id.editTextRecdFrom);
+        dateRecd = (EditText) findViewById(R.id.editTextDateRecd);
+        howRecd = (EditText) findViewById(R.id.editTextHowRecd);
+        numRecd = (EditText) findViewById(R.id.editTextNumRecd);
+        nameRecd = (EditText) findViewById(R.id.editTextNameRecd);
         commonName = (EditText) findViewById(R.id.editTextCommonName);
-        latitude = (EditText) findViewById(R.id.editTextLat);
-        longitude = (EditText) findViewById(R.id.editTextLng);
-        scientificName = (EditText) findViewById(R.id.editTextSciName);
-        crownArea = (EditText) findViewById(R.id.editTextCrownArea);
+        nomCommun = (EditText) findViewById(R.id.editTextNomCommun);
+        nursery = (EditText) findViewById(R.id.editTextNursery);
+        location = (EditText) findViewById(R.id.editTextLocation);
+        lat = (EditText) findViewById(R.id.editTextLat);
+        lng = (EditText) findViewById(R.id.editTextLng);
+        donor = (EditText) findViewById(R.id.editTextDonor);
+        collSeed = (EditText) findViewById(R.id.editTextCollSeed);
+        sourceAcc = (EditText) findViewById(R.id.editTextSourceAcc);
+        revised = (EditText) findViewById(R.id.editTextRevised);
+        numberNow = (EditText) findViewById(R.id.editTextNumberNow);
+        origins = (EditText) findViewById(R.id.editTextOrigins);
+        herbSpec = (EditText) findViewById(R.id.editTextHerbSpec);
+        idByDate = (EditText) findViewById(R.id.editTextIdByDate);
+        photo1 = (EditText) findViewById(R.id.editTextPhoto1);
+        photo2 = (EditText) findViewById(R.id.editTextPhoto2);
+        mortInfo = (EditText) findViewById(R.id.editTextMortInfo);
+        notes = (EditText) findViewById(R.id.editTextNotes);
+        memo = (EditText) findViewById(R.id.editTextMemo);
+
         progressDialog = new ProgressDialog(this);
         addTree = (Button) findViewById(R.id.buttonAdd);
 

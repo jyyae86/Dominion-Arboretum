@@ -17,25 +17,25 @@ public class EditTreeActivity extends AbstractEditTreeActivity{
         addTree.setText("Edit Tree");
 
         Tree nTree = mDBHelper.getTreeFromMyTrees(id);
-        creatorName.setText(nTree.getCreatorName());
-        commonName.setText(nTree.getCommonName());
-        latitude.setText(Double.toString(nTree.getLat()));
-        longitude.setText(Double.toString(nTree.getLng()));
-        scientificName.setText(nTree.getSciName());
-        crownArea.setText(nTree.getCrownArea());
+//        creatorName.setText(nTree.getCreatorName());
+//        commonName.setText(nTree.getCommonName());
+//        latitude.setText(Double.toString(nTree.getLat()));
+//        longitude.setText(Double.toString(nTree.getLng()));
+//        scientificName.setText(nTree.getSciName());
+//        crownArea.setText(nTree.getCrownArea());
 
     }
 
     protected void addOrEditTree(View v){
-        String comName = commonName.getText().toString();
-        String creName = creatorName.getText().toString();
-        String cArea = crownArea.getText().toString();
-        String sciName = scientificName.getText().toString();
-        double lat = Double.parseDouble(latitude.getText().toString());
-        double lng = Double.parseDouble(longitude.getText().toString());
-        int changeType = mDBHelper.getTreeFromMyTrees(firebaseID).getChangeType();
-        Tree nTree = new Tree(creName,comName,sciName,cArea,changeType,lat,lng,firebaseID);
-        mDBHelper.editTree(nTree, firebaseID);
+//        String comName = commonName.getText().toString();
+//        String creName = creatorName.getText().toString();
+//        String cArea = crownArea.getText().toString();
+//        String sciName = scientificName.getText().toString();
+//        double lat = Double.parseDouble(latitude.getText().toString());
+//        double lng = Double.parseDouble(longitude.getText().toString());
+//        int changeType = mDBHelper.getTreeFromMyTrees(firebaseID).getChangeType();
+//        Tree nTree = new Tree(creName,comName,sciName,cArea,changeType,lat,lng,firebaseID);
+//        mDBHelper.editTree(nTree, firebaseID);
 
         Intent intent = new Intent(this, LocalTreeInfoActivity.class);
         intent.putExtra("type", type);

@@ -34,11 +34,11 @@ public class RemoteTreeInfoActivity extends AbstractTreeInfoActivity {
             public void onTreeReceived(Tree tree) {
                 selected = tree;
                 commonName.setText(tree.getCommonName());
-                sciName.setText(tree.getSciName());
-                cArea.setText(tree.getCrownArea());
+//                sciName.setText(tree.getSciName());
+//                cArea.setText(tree.getCrownArea());
                 lat.setText(Double.toString(tree.getLat()));
                 lng.setText(Double.toString(tree.getLng()));
-                creatorName.setText(tree.getCreatorName());
+//                creatorName.setText(tree.getCreatorName());
             }
         });
 
