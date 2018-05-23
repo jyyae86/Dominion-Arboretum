@@ -12,37 +12,61 @@ public class UploadTreeActivity extends AbstractEditTreeActivity {
         progressDialog.setMessage("loading, please wait");
         progressDialog.show();
 
-//        String creator = creatorName.getText().toString();
-//        String common = commonName.getText().toString();
-//        String latString = latitude.getText().toString();
-//        String lngString = longitude.getText().toString();
-//        String sciName = scientificName.getText().toString();
-//        String cArea = crownArea.getText().toString();
-//        double lat = Double.parseDouble(latString);
-//        double lng = Double.parseDouble(lngString);
-//        DataBaseHelper SQLiteDB = DataBaseHelper.getInstance(this);
-//
-//        String tempRef = mRef.push().getKey();
-//
-//        Tree nTree = new Tree(creator, common, sciName, cArea, DataBaseHelper.ADD, lat, lng, tempRef);
-//
-//        //for MyTrees
-//        ContentValues values = new ContentValues();
-//        values.put("creatorName",creator);
-//        values.put("commonName", common);
-//        values.put("sciName", sciName);
-//        values.put("crownArea", cArea);
-//        values.put("Lat", lat);
-//        values.put("Lng", lng);
-//        values.put("changeType", DataBaseHelper.ADD);
-//        values.put("firebaseID", tempRef);
-//
-//
-//        long e = SQLiteDB.getMyDataBase().insert("MyTrees", null, values);
-//        long f = SQLiteDB.getMyDataBase().insert("ArboretumData", null, values);
-//
-//        progressDialog.dismiss();
-//        Toast.makeText(this,"finished",Toast.LENGTH_SHORT).show();
+        String familyString = family.getText().toString();
+        String famNameString = familiarName.getText().toString();
+        String genusString = genus.getText().toString();
+        String speciesString = species.getText().toString();
+        String rankString = rank.getText().toString();
+        String typeString = typeTree.getText().toString();
+        String hCrossString= hybridCross.getText().toString();
+        String culString = cultivar.getText().toString();
+        String nameStatString = nameStatus.getText().toString();
+        String authString = authority.getText().toString();
+        String dIntroString = dateIntro.getText().toString();
+        String aNumString = accessNo.getText().toString();
+        String rFromString = recdFrom.getText().toString();
+        String dRecdString = dateRecd.getText().toString();
+        String hRecdString = howRecd.getText().toString();
+        String numRecdString = numRecd.getText().toString();
+        String nameRecdString = nameRecd.getText().toString();
+        String cNameString = commonName.getText().toString();
+        String nCommunString = nomCommun.getText().toString();
+        String nurString = nursery.getText().toString();
+        String locString = location.getText().toString();
+        String donorString = donor.getText().toString();
+        String cSeedString = collSeed.getText().toString();
+        String sAccString = sourceAcc.getText().toString();
+        String revisedString = revised.getText().toString();
+        String numNowString = numberNow.getText().toString();
+        String originsString = origins.getText().toString();
+        String hSpecString = herbSpec.getText().toString();
+        String idByDateString = idByDate.getText().toString();
+        String p1String = photo1.getText().toString();
+        String p2String = photo2.getText().toString();
+        String mInfoString = mortInfo.getText().toString();
+        String notesString = notes.getText().toString();
+        String memoString = memo.getText().toString();
+
+        String latString = lat.getText().toString();
+        String lngString = lng.getText().toString();
+        double lat = Double.parseDouble(latString);
+        double lng = Double.parseDouble(lngString);
+
+        String tempRef = mRef.push().getKey();
+
+        Tree nTree = new Tree( familyString,  famNameString,  genusString,  speciesString,  rankString,
+                 typeString,  hCrossString,  culString,  nameStatString,  authString,
+                 dIntroString,  aNumString,  rFromString,  dRecdString,  hRecdString,
+                 numRecdString,  nameRecdString,  cNameString,  nCommunString,  nurString,
+                 locString,  donorString,  cSeedString,  sAccString,  revisedString,
+                 numNowString,  originsString,  hSpecString,  idByDateString,  p1String,
+                 p2String,  mInfoString,  notesString,  memoString, lat,  lng,
+         firebaseID, DataBaseHelper.ADD);
+        mDBHelper.addTreeToMaster(nTree);
+        mDBHelper.addTreeToMyTrees(nTree);
+
+        progressDialog.dismiss();
+        Toast.makeText(this,"finished",Toast.LENGTH_SHORT).show();
 
         startActivity(new Intent(this,MainActivity.class));
     }

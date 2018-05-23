@@ -209,7 +209,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                         c.getString(24),c.getString(25),c.getString(26),c.getString(27),
                         c.getString(28),c.getString(29),c.getString(30),c.getString(31),
                         c.getString(32),c.getString(33),c.getDouble(34), c.getDouble(35),
-                        c.getString(36),c.getInt(27));
+                        c.getString(36),c.getInt(37));
                 trees.add(newTree);
             }while(c.moveToNext());
         }
@@ -247,9 +247,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public void loop(){
-        Cursor c = myDataBase.rawQuery("SELECT * FROM " +"ArboretumData "+ " ",null);
+        Cursor c = myDataBase.rawQuery("SELECT * FROM " +"MyTrees"+ " ",null);
         c.moveToFirst();
-        for(int i = 0; i < 100; i++){
+        for(int i = 0; i < 1; i++){
 
             Log.e("asdf","asdf");
             Log.e("0", c.getString(0));
@@ -260,6 +260,36 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             Log.e("5", c.getString(5));
             Log.e("6", c.getString(6));
             Log.e("7", c.getString(7));
+            Log.e("8", c.getString(8));
+            Log.e("9", c.getString(9));
+            Log.e("10", c.getString(10));
+            Log.e("11", c.getString(11));
+            Log.e("12", c.getString(12));
+            Log.e("13", c.getString(13));
+            Log.e("14", c.getString(14));
+            Log.e("15", c.getString(15));
+            Log.e("16", c.getString(16));
+            Log.e("17", c.getString(17));
+            Log.e("18", c.getString(18));
+            Log.e("19", c.getString(19));
+            Log.e("20", c.getString(20));
+            Log.e("21", c.getString(21));
+            Log.e("22", c.getString(22));
+            Log.e("23", c.getString(23));
+            Log.e("24", c.getString(24));
+            Log.e("25", c.getString(25));
+            Log.e("26", c.getString(26));
+            Log.e("27", c.getString(27));
+            Log.e("28", c.getString(28));
+            Log.e("29", c.getString(29));
+            Log.e("30", c.getString(30));
+            Log.e("31", c.getString(31));
+            Log.e("32", c.getString(32));
+            Log.e("33", c.getString(33));
+            Log.e("34", Double.toString(c.getDouble(34)));
+            Log.e("35", Double.toString(c.getDouble(35)));
+            Log.e("36", c.getString(36));
+            Log.e("37", Integer.toString(c.getInt(37)));
             c.moveToNext();
         }
         c.close();
@@ -532,6 +562,53 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public int addTreeToMyTrees(Tree tree){
+        ContentValues cv = new ContentValues();
+        cv.put("family", tree.getFamily());
+        cv.put("familiarName",tree.getFamiliarName());
+        cv.put("genus",tree.getGenus());
+        cv.put("species",tree.getSpecies());
+        cv.put("rank",tree.getRank());
+        cv.put("type",tree.getType());
+        cv.put("hybridCross",tree.getHybridCross());
+        cv.put("cultivar",tree.getCultivar());
+        cv.put("nameStatus",tree.getNameStatus());
+        cv.put("authority",tree.getAuthority());
+        cv.put("dateIntro",tree.getDateIntro());
+        cv.put("accessNo",tree.getAccessNo());
+        cv.put("recdFrom",tree.getRecdFrom());
+        cv.put("dateRecd",tree.getDateRecd());
+        cv.put("howRecd",tree.getHowRecd());
+        cv.put("numRecd",tree.getNumRecd());
+        cv.put("nameRecd",tree.getNameRecd());
+        cv.put("commonName",tree.getCommonName());
+        cv.put("nomCommun",tree.getNomCommun());
+        cv.put("nursery",tree.getNursery());
+        cv.put("location",tree.getLocation());
+        cv.put("donor",tree.getDonor());
+        cv.put("collSeed",tree.getCollSeed());
+        cv.put("sourceAcc",tree.getSourceAcc());
+        cv.put("revised",tree.getRevised());
+        cv.put("numberNow",tree.getNumberNow());
+        cv.put("origins",tree.getOrigins());
+        cv.put("herbSpec",tree.getHerbSpec());
+        cv.put("idByDate",tree.getIdByDate());
+        cv.put("photo1",tree.getPhoto1());
+        cv.put("photo2",tree.getPhoto2());
+        cv.put("mortInfo",tree.getMortInfo());
+        cv.put("notes",tree.getNotes());
+        cv.put("memo",tree.getMemo());
+        cv.put("lat",tree.getLat());
+        cv.put("lng",tree.getLng());
+        cv.put("firebaseID", tree.getFirebaseID());
+        cv.put("changeType",tree.getChangeType());
+
+        myDataBase.insert("MyTrees", null, cv);
+        return 1;
+
+
+    }
+
     public void addRowToMaster(ContentValues cv){
         long e = myDataBase.insert("ArboretumData", null, cv);
     }
@@ -567,4 +644,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     // You could return cursors by doing "return myDataBase.query(....)" so it'd be easy
     // to you to create adapters for your views.
 
+
+    public static void setADD(int ADD) {
+        DataBaseHelper.ADD = ADD;
+    }
 }
