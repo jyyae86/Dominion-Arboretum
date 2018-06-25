@@ -1,5 +1,6 @@
 package com.laggiss.arboretumexplorer;
 
+import android.Manifest;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
@@ -7,6 +8,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -14,7 +16,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
 import android.util.Log;
@@ -162,7 +166,10 @@ public class MainActivity extends FragmentActivity implements
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
 
+
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
 
         if (!isGooglePlayServicesAvailable()) {
             finish();
@@ -200,7 +207,6 @@ public class MainActivity extends FragmentActivity implements
             throw sqle;
 
         }
-        myDbHelper.loop();
 
 
         //Log.e("Path isLLLLLLLLL",arboretum.getPath());
@@ -211,7 +217,7 @@ public class MainActivity extends FragmentActivity implements
 //
 //        myDbHelper.loop();
 
-        setContentView(R.layout.activity_main);
+
 
         myFragmentManager = getFragmentManager();
 
@@ -249,6 +255,7 @@ public class MainActivity extends FragmentActivity implements
             });
 
         }
+        updateFragment();
 
 //Log.e("asdf",String.valueOf(isLocationEnabled(this)));
 
@@ -272,7 +279,6 @@ public class MainActivity extends FragmentActivity implements
             updateValuesFromBundle(savedInstanceState);
 
         }
-        updateFragment();
         if(FirebaseDatabaseUtility.getInstance() == null){
             mFirebaseUtil = new FirebaseDatabaseUtility(this);
         }
@@ -638,15 +644,10 @@ public class MainActivity extends FragmentActivity implements
 
     @Override
     public void onConnected(Bundle bundle) {
-
-        lastKnownPosition = LocationServices.FusedLocationApi.getLastLocation(
-                mGoogleApiClient);
-
         if (lastKnownPosition != null) {
             handleNewLocation(lastKnownPosition);
         }
         startLocationUpdates();
-
     }
 
     private void updatePointInDb(String mMarkerParseId, Marker marker) {
@@ -1234,11 +1235,12 @@ public class MainActivity extends FragmentActivity implements
        if(mUser == null){
            myFragment.showButtons(0);
        }else{
-           mRef.addListenerForSingleValueEvent(new ValueEventListener() {
+           DatabaseReference userRef = mRef.child("users");
+           userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                @Override
                public void onDataChange(DataSnapshot dataSnapshot) {
                    String id = mUser.getUid();
-                   userType = dataSnapshot.child("users").child(id).getValue(Integer.class);
+                   userType = dataSnapshot.child(id).getValue(Integer.class);
                    myFragment.showButtons(userType);
                }
 
@@ -1254,6 +1256,10 @@ public class MainActivity extends FragmentActivity implements
         mAuth.signOut();
         finish();
         startActivity(new Intent(this, EmailLoginActivity.class));
+    }
+
+    public void startHelpActivity(View v){
+        startActivity(new Intent(this, HelpActivity.class));
     }
 
 

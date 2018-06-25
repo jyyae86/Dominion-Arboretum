@@ -32,9 +32,7 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".UploadTreeActivity" />
-        <activity android:name=".EmailLoginActivity">
-
-        </activity>
+        <activity android:name=".EmailLoginActivity"></activity>
         <activity android:name=".EmailSignUpActivity" />
         <!-- <activity android:name=".UploadTreeActivity" /> -->
         <activity android:name=".LocalTreeInfoActivity" />
@@ -49,11 +47,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".AdminTreesActivity" />
-        <activity android:name=".AdminMenuActivity">
-
-        </activity>
-        <activity android:name=".EditMasterActivity"/>
-        <activity android:name=".MemberMenuActivity"/>
+        <activity android:name=".AdminMenuActivity"></activity>
+        <activity android:name=".EditMasterActivity" />
+        <activity android:name=".MemberMenuActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -68,8 +64,8 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps">
-        </activity>
+            android:label="@string/title_activity_maps"></activity>
+        <activity android:name=".HelpActivity"></activity>
     </application>
 
 </manifest>

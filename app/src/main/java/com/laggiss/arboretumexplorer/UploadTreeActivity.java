@@ -76,10 +76,10 @@ public class UploadTreeActivity extends AbstractEditTreeActivity {
 
     protected void populateFields(String id){
         Intent intent = getIntent();
-        double lat = intent.getDoubleExtra("lat", 0.0);
-        double lng = intent.getDoubleExtra("lng", 0.0);
-//        latitude.setText(Double.toString(lat));
-//        longitude.setText(Double.toString(lng));
+        double latitude = intent.getDoubleExtra("lat", 0.0);
+        double longitude = intent.getDoubleExtra("lng", 0.0);
+        lat.setText(Double.toString(latitude));
+        lng.setText(Double.toString(longitude));
     }
 
     public void startMainActivity(View v){

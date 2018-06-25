@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HelpActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1) How do I add a tree?"
+            tools:layout_editor_absoluteX="131dp"
+            tools:layout_editor_absoluteY="161dp" />
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="In the main page, click the “Add Tree” button located in the bottom row of buttons. This while open up a new page where you can put in all the necessary information. Clicking the “Add Tree” button will add the tree to your on-device database."
+            tools:layout_editor_absoluteX="131dp"
+            tools:layout_editor_absoluteY="161dp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2) How do I edit a tree?"
+            tools:layout_editor_absoluteX="131dp"
+            tools:layout_editor_absoluteY="161dp" />
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Search for the tree you want to edit, click the google maps marker and then click the “edit tree” button on the top right. You can then change the information and then saved the tree with the “edit tree” button."
+            tools:layout_editor_absoluteX="131dp"
+            tools:layout_editor_absoluteY="161dp" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="3) How do I delete a tree?"
+            tools:layout_editor_absoluteX="131dp"
+            tools:layout_editor_absoluteY="161dp" />
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Search for the tree you want to edit, click the google maps marker and then click the “edit tree” button on the top right. Click the “Delete Tree” button to delete it. The tree will then show up in the “deleted trees” category in “my trees”. You can undo your deletion there."
+            tools:layout_editor_absoluteX="131dp"
+            tools:layout_editor_absoluteY="161dp" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="4) How do I merge my changes?"
+            tools:layout_editor_absoluteX="131dp"
+            tools:layout_editor_absoluteY="161dp" />
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="In the “My Trees” page, choose one of the categories. After you have found the tree you want to merge, click on it until you see its information. Clicking the “merge” button will upload the tree. You will have to wait for an admin to approve of the merge before others can see it."
+            tools:layout_editor_absoluteX="131dp"
+            tools:layout_editor_absoluteY="161dp" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="5) How come other users aren’t seeing my changes?"
+            tools:layout_editor_absoluteX="131dp"
+            tools:layout_editor_absoluteY="161dp" />
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="When you add, edit or delete a tree, it only gets saved locally on your device, this means that others cannot see your changes. You need to merge your change first. Please see #4 for how to merge a change."
+            tools:layout_editor_absoluteX="131dp"
+            tools:layout_editor_absoluteY="161dp" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="6) Why are there some buttons that are greyed out?"
+            tools:layout_editor_absoluteX="131dp"
+            tools:layout_editor_absoluteY="161dp" />
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="To add trees and see your changes, you must have an account. You can make an account in the Login page. To see the trees that other users have added, you need to be an admin. Please contact your local administrator for admin privileges. You can still search for trees without an account, however any of the features mentioned above will be locked."
+            tools:layout_editor_absoluteX="131dp"
+            tools:layout_editor_absoluteY="161dp" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="7) I am an admin, how do I merge a tree?"
+            tools:layout_editor_absoluteX="131dp"
+            tools:layout_editor_absoluteY="161dp" />
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Find the tree you want to merge in the “admin trees” page. Click into it until you see the information. If you want to merge the tree, click the “merge tree” button. The tree will then be merged. "
+            tools:layout_editor_absoluteX="131dp"
+            tools:layout_editor_absoluteY="161dp" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="8) Why is my app is unresponsive when I start it up?"
+            tools:layout_editor_absoluteX="131dp"
+            tools:layout_editor_absoluteY="161dp" />
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="When your app first starts, it is checking the online database for any updates. During this time, there will be some stutters and lag. This is usual and expected. "
+            tools:layout_editor_absoluteX="131dp"
+            tools:layout_editor_absoluteY="161dp" />
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

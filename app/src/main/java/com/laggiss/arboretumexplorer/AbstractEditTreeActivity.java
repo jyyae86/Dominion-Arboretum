@@ -41,6 +41,9 @@ public abstract class AbstractEditTreeActivity extends AppCompatActivity{
     DataBaseHelper mDBHelper;
     String type;
 
+    Button latitude;
+    Button longitutde;
+
     private LocationManager locationManager;
     private LocationListener locationListener;
 
