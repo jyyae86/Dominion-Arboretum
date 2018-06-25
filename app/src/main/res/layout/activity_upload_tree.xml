@@ -29,6 +29,7 @@
             android:inputType="text"
             android:ems="10"
             android:id="@+id/editTextFamily"
+            android:text="test"
             android:hint="@string/hint_family" />
 
         <TextView
@@ -44,6 +45,7 @@
             android:inputType="text"
             android:ems="10"
             android:id="@+id/editTextFamiliarName"
+            android:text="test"
             android:hint="@string/hint_familiar_name" />
 
         <TextView
@@ -59,6 +61,7 @@
             android:inputType="text"
             android:ems="10"
             android:id="@+id/editTextGenus"
+            android:text="test"
             android:hint="@string/hint_genus" />
 
         <TextView
@@ -74,6 +77,7 @@
             android:inputType="text"
             android:ems="10"
             android:id="@+id/editTextSpecies"
+            android:text="test"
             android:hint="@string/hint_species" />
 
         <TextView
@@ -89,6 +93,7 @@
             android:inputType="text"
             android:ems="10"
             android:id="@+id/editTextRank"
+            android:text="test"
             android:hint="Ex: var" />
 
         <TextView
@@ -104,6 +109,7 @@
             android:inputType="text"
             android:ems="10"
             android:id="@+id/editTextType"
+            android:text="test"
             android:hint="@string/hint_type" />
 
         <TextView
@@ -119,6 +125,7 @@
             android:inputType="text"
             android:ems="10"
             android:id="@+id/editTextHybridCross"
+            android:text="test"
             android:hint="@string/hint_hybrid_cross" />
 
         <TextView
@@ -134,6 +141,7 @@
             android:inputType="text"
             android:ems="10"
             android:id="@+id/editTextCultivar"
+            android:text="test"
             android:hint="@string/hint_cultivar" />
 
         <TextView
@@ -149,6 +157,7 @@
             android:inputType="text"
             android:ems="10"
             android:id="@+id/editTextNameStatus"
+            android:text="test"
             android:hint="@string/hint_name_status" />
 
         <TextView
@@ -164,6 +173,7 @@
             android:inputType="text"
             android:ems="10"
             android:id="@+id/editTextAuthority"
+            android:text="test"
             android:hint="@string/hint_authority" />
 
         <TextView
@@ -179,6 +189,7 @@
             android:inputType="date"
             android:ems="10"
             android:id="@+id/editTextDateIntro"
+            android:text="test"
             android:hint="@string/hint_date_intro" />
 
         <TextView
@@ -194,6 +205,7 @@
             android:inputType="numberDecimal"
             android:ems="10"
             android:id="@+id/editTextAccessno"
+            android:text="123456789"
             android:hint="@string/hint_accessno" />
 
         <TextView
@@ -209,6 +221,7 @@
             android:inputType="text"
             android:ems="10"
             android:id="@+id/editTextRecdFrom"
+            android:text="test"
             android:hint="@string/hint_received_from" />
 
         <TextView
@@ -224,6 +237,7 @@
             android:inputType="date"
             android:ems="10"
             android:id="@+id/editTextDateRecd"
+            android:text="1234"
             android:hint="@string/hint_date_received" />
 
         <TextView
@@ -239,6 +253,7 @@
             android:inputType="text"
             android:ems="10"
             android:id="@+id/editTextHowRecd"
+            android:text="test"
             android:hint="@string/hint_received_through" />
 
         <TextView
@@ -254,6 +269,7 @@
             android:inputType="numberDecimal"
             android:ems="10"
             android:id="@+id/editTextNumRecd"
+            android:text="12"
             android:hint="@string/hint_amount_received" />
 
         <TextView
@@ -269,6 +285,7 @@
             android:inputType="numberDecimal"
             android:ems="10"
             android:id="@+id/editTextNameRecd"
+            android:text="test"
             android:hint="@string/hint_name_received" />
 
         <TextView
@@ -284,6 +301,7 @@
             android:inputType="text"
             android:ems="10"
             android:id="@+id/editTextCommonName"
+            android:text="test"
             android:hint="@string/hint_common_name" />
 
         <TextView
@@ -299,6 +317,7 @@
             android:inputType="text"
             android:ems="10"
             android:id="@+id/editTextNomCommun"
+            android:text="test"
             android:hint="@string/hint_nom_commun"/>
 
         <TextView
@@ -314,6 +333,7 @@
             android:inputType="text"
             android:ems="10"
             android:id="@+id/editTextNursery"
+            android:text="test"
             android:hint="Ex: A" />
 
         <TextView
@@ -329,6 +349,7 @@
             android:inputType="number"
             android:ems="10"
             android:id="@+id/editTextLocation"
+            android:text="123-456-789"
             android:hint="@string/hint_location" />
 
         <TextView
@@ -344,6 +365,7 @@
             android:inputType="numberDecimal"
             android:ems="10"
             android:id="@+id/editTextLat"
+            android:text="12.3"
             android:hint="Ex: 45.9" />
 
         <TextView
@@ -359,6 +381,7 @@
             android:inputType="numberDecimal"
             android:ems="10"
             android:id="@+id/editTextLng"
+            android:text="12.3"
             android:hint="Ex: 72.1" />
 
         <TextView
@@ -374,6 +397,7 @@
             android:inputType="text"
             android:ems="10"
             android:id="@+id/editTextDonor"
+            android:text="test"
             android:hint="@string/hint_donor" />
 
         <TextView
@@ -389,6 +413,7 @@
             android:inputType="text"
             android:ems="10"
             android:id="@+id/editTextCollSeed"
+            android:text="1234"
             android:hint="Ex: 2002" />
 
         <TextView
@@ -404,6 +429,7 @@
             android:inputType="text"
             android:ems="10"
             android:id="@+id/editTextSourceAcc"
+            android:text="test"
             android:hint="@string/hint_source_acc" />
 
         <TextView
@@ -419,6 +445,7 @@
             android:inputType="date"
             android:ems="10"
             android:id="@+id/editTextRevised"
+            android:text="12-34-56"
             android:hint="@string/hint_revised" />
 
         <TextView
@@ -434,6 +461,7 @@
             android:inputType="number"
             android:ems="10"
             android:id="@+id/editTextNumberNow"
+            android:text="1"
             android:hint="Ex: 9" />
 
         <TextView
@@ -449,6 +477,7 @@
             android:inputType="text"
             android:ems="10"
             android:id="@+id/editTextOrigins"
+            android:text="test"
             android:hint="@string/hint_origins" />
 
         <TextView
@@ -464,6 +493,7 @@
             android:inputType="text"
             android:ems="10"
             android:id="@+id/editTextHerbSpec"
+            android:text="test"
             android:hint="@string/hint_herbspec" />
 
         <TextView
@@ -479,6 +509,7 @@
             android:inputType="text"
             android:ems="10"
             android:id="@+id/editTextIdByDate"
+            android:text="test"
             android:hint="Ex: REHDER" />
 
         <TextView
@@ -493,6 +524,7 @@
             android:layout_height="wrap_content"
             android:inputType="text"
             android:ems="10"
+            android:text="test"
             android:id="@+id/editTextPhoto1" />
 
         <TextView
@@ -507,6 +539,7 @@
             android:layout_height="wrap_content"
             android:inputType="text"
             android:ems="10"
+            android:text="test"
             android:id="@+id/editTextPhoto2"/>
 
         <TextView
@@ -522,6 +555,7 @@
             android:inputType="text"
             android:ems="10"
             android:id="@+id/editTextMortInfo"
+            android:text="test"
             android:hint="Ex: REMOVED 1973" />
 
         <TextView
@@ -537,6 +571,7 @@
             android:inputType="text"
             android:ems="10"
             android:id="@+id/editTextNotes"
+            android:text="test"
             android:hint="Ex: SIII" />
 
         <TextView
@@ -552,6 +587,7 @@
             android:inputType="text"
             android:ems="10"
             android:id="@+id/editTextMemo"
+            android:text="test"
             android:hint="Ex: 1 planted on main lawn Saunders Bldg.  near Prince of Wales Dr." />
 
 

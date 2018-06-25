@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 
+import org.w3c.dom.Text;
+
 /**
  * Created by jyyae86 on 2017-06-07.
  * 
@@ -64,7 +66,7 @@ public abstract class AbstractTreeInfoActivity extends AppCompatActivity {
         howRecd = (TextView)findViewById(R.id.textViewHowRecd);
         numRecd = (TextView)findViewById(R.id.textViewNumRecd);
         nameRecd = (TextView)findViewById(R.id.textViewNameRecd);
-        commonName = (TextView)findViewById(R.id.editTextCommonName);
+        commonName = (TextView)findViewById(R.id.textViewCommonName);
         nomCommun = (TextView)findViewById(R.id.textViewNomCommun);
         nursery = (TextView)findViewById(R.id.textViewNursery);
         location = (TextView)findViewById(R.id.textViewLocation);
@@ -81,6 +83,9 @@ public abstract class AbstractTreeInfoActivity extends AppCompatActivity {
         mortInfo = (TextView)findViewById(R.id.textViewMortInfo);
         notes = (TextView)findViewById(R.id.textViewNotes);
         memo = (TextView)findViewById(R.id.textViewMemo);
+
+        lat = (TextView)findViewById(R.id.textViewLat);
+        lng = (TextView)findViewById(R.id.textViewLng);
 
 
         Intent intent = getIntent();

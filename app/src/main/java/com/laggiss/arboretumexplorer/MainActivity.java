@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -91,6 +92,7 @@ public class MainActivity extends FragmentActivity implements
         ControlClass.onFollowMeChecked,
         ControlClass.onLatinChecked,
         ControlClass.onSpeciesSpinnerChange,
+        ControlClass.onGenusSpinnerChange,
         ControlClass.onHideButtonClicked,
         ControlClass.onClearButtonClicked,
         ControlClass.onHeatMapChecked,
@@ -125,6 +127,7 @@ public class MainActivity extends FragmentActivity implements
     private boolean heatMapChecked;
     private boolean radiusChecked;
     private String stringCurrentSpecies;
+    private String stringCurrentGenus;
     ArrayList<LatLng> heatMapList = new ArrayList<LatLng>();
     private static final long INTERVAL = 2000;
     private static final long FASTEST_INTERVAL = 1000;
@@ -137,6 +140,7 @@ public class MainActivity extends FragmentActivity implements
     private static final String LAST_UPDATED_TIME_STRING_KEY = "LASTGPSTIME";
     private static final String QUERY_BUTTON_WAS_CLICKED = "QUERYCLICKED";
     private static final String CURRENT_SPECIES_SELECTED = "CURRSPECIES";
+    private static final String CURRENT_GENUS_SELECTED = "CURRGENUS";
     private static final String USE_GPS_VALUE = "USEGPS";
     private String mLastUpdateTime;
     private Location mCurrentLocation;
@@ -356,6 +360,7 @@ public class MainActivity extends FragmentActivity implements
         outState.putString(LAST_UPDATED_TIME_STRING_KEY, mLastUpdateTime);
         outState.putBoolean(QUERY_BUTTON_WAS_CLICKED, wasQuery);
         outState.putString(CURRENT_SPECIES_SELECTED, stringCurrentSpecies);
+        outState.putString(CURRENT_GENUS_SELECTED, stringCurrentGenus);
         outState.putBoolean(USE_GPS_VALUE, useGPS);
 
         super.onSaveInstanceState(outState);
@@ -389,6 +394,11 @@ public class MainActivity extends FragmentActivity implements
             if (savedInstanceState.keySet().contains(CURRENT_SPECIES_SELECTED)) {
                 stringCurrentSpecies = savedInstanceState.getString(
                         CURRENT_SPECIES_SELECTED);
+            }
+
+            if (savedInstanceState.keySet().contains(CURRENT_GENUS_SELECTED)) {
+                stringCurrentGenus = savedInstanceState.getString(
+                        CURRENT_GENUS_SELECTED);
             }
 
             if (savedInstanceState.keySet().contains(USE_GPS_VALUE)) {
@@ -475,7 +485,7 @@ public class MainActivity extends FragmentActivity implements
         String[] selargs = null;
         if (!latinChecked) {
             sel = "genus = ?";
-            selargs = new String[]{stringCurrentSpecies.replace("'", "''")};
+            selargs = new String[]{stringCurrentGenus.replace("'", "''")};
         }
         if (latinChecked) {
             sel = "species = ?";
@@ -498,7 +508,7 @@ public class MainActivity extends FragmentActivity implements
 
                 while (!dbCursor.isAfterLast()) {
 
-                    LatLng cpt = new LatLng(dbCursor.getDouble(5), dbCursor.getDouble(6));
+                    LatLng cpt = new LatLng(dbCursor.getDouble(dbCursor.getColumnIndex("lat")), dbCursor.getDouble(dbCursor.getColumnIndex("lng")));
 //                    Log.e("asdfadfad", selargs[0]);
 //                    Log.e("XXXXXXXXXXXXX", String.valueOf(cpt.latitude));
                     if (heatMapChecked) {
@@ -511,7 +521,7 @@ public class MainActivity extends FragmentActivity implements
                         //Log.e("LTLNG", String.valueOf(cpt.latitude));
                         MarkerOptions thisMarkerOpt = new MarkerOptions()
                                 .position(cpt)
-                                .title(dbCursor.getString(7))
+                                .title(dbCursor.getString(dbCursor.getColumnIndex("firebaseID")))
                                 .snippet(dbCursor.getString(dbCursor.getColumnIndex("species")))
                                 .draggable(true);
 
@@ -570,7 +580,7 @@ public class MainActivity extends FragmentActivity implements
             @Override
             public boolean onMarkerClick(Marker marker) {
                 String id = marker.getTitle();
-                Intent nIntent = new Intent(getApplicationContext(),LocalTreeInfoActivity.class);
+                 Intent nIntent = new Intent(getApplicationContext(),LocalTreeInfoActivity.class);
                 nIntent.putExtra("id", id);
                 nIntent.putExtra("type","master");
                 startActivity(nIntent);
@@ -682,7 +692,7 @@ public class MainActivity extends FragmentActivity implements
             if (dbCursor.moveToFirst()) {
                 while (!dbCursor.isAfterLast()) {
 
-                    LatLng dbPt = new LatLng(dbCursor.getDouble(5), dbCursor.getDouble(6));
+                    LatLng dbPt = new LatLng(dbCursor.getDouble(dbCursor.getColumnIndex("lat")), dbCursor.getDouble(dbCursor.getColumnIndex("lng")));
 
                     darray.add((double) computeDistanceBetween(dbPt, GPSLatLng));
 
@@ -707,11 +717,11 @@ public class MainActivity extends FragmentActivity implements
 
                 MarkerOptions markerOptions = new MarkerOptions()
                         .icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(dbCursor.getString(dbCursor.getColumnIndex(name)))))
-                        .position(new LatLng(dbCursor.getDouble(5), dbCursor.getDouble(6)))
+                        .position(new LatLng(dbCursor.getDouble(dbCursor.getColumnIndex("lat")), dbCursor.getDouble(dbCursor.getColumnIndex("lng"))))
                         .anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV());
 
                 MarkerOptions thisMarkerOpt = new MarkerOptions()
-                        .position(new LatLng(dbCursor.getDouble(5), dbCursor.getDouble(6)))
+                        .position(new LatLng(dbCursor.getDouble(dbCursor.getColumnIndex("lat")), dbCursor.getDouble(dbCursor.getColumnIndex("lng"))))
                         .title(dbCursor.getString(dbCursor.getColumnIndex("genus")))
                         .snippet(dbCursor.getString(dbCursor.getColumnIndex("species")))
                         .anchor(0.5f, 0f)
@@ -726,7 +736,7 @@ public class MainActivity extends FragmentActivity implements
                     }
                 }
                 line = mMap.addPolyline(new PolylineOptions()
-                        .add(GPSLatLng, new LatLng(dbCursor.getDouble(5), dbCursor.getDouble(6)))
+                        .add(GPSLatLng, new LatLng(dbCursor.getDouble(dbCursor.getColumnIndex("lat")), dbCursor.getDouble(dbCursor.getColumnIndex("lng"))))
                         .width(5)
                         .color(Color.RED));
 
@@ -767,15 +777,18 @@ public class MainActivity extends FragmentActivity implements
 
 
         String sel = null;
+        String[] selargs;
         if (!latinChecked) {
             sel = "Lat > ? AND Lat < ? AND Lng > ? AND Lng < ? AND genus = ?";
+            selargs = new String[]{String.valueOf(x.getMinLat()), String.valueOf(x.getMaxLat()), String.valueOf(x.getMinLong()), String.valueOf(x.getMaxLong()), stringCurrentGenus};
 
         } else {
             sel = "Lat > ? AND Lat < ? AND Lng > ? AND Lng < ? AND species = ?";
+            selargs = new String[]{String.valueOf(x.getMinLat()), String.valueOf(x.getMaxLat()), String.valueOf(x.getMinLong()), String.valueOf(x.getMaxLong()), stringCurrentSpecies};
 
         }
 
-        String[] selargs = new String[]{String.valueOf(x.getMinLat()), String.valueOf(x.getMaxLat()), String.valueOf(x.getMinLong()), String.valueOf(x.getMaxLong()), stringCurrentSpecies};
+
         String orderby = null;
 
         ArrayList darray = new ArrayList();
@@ -785,7 +798,7 @@ public class MainActivity extends FragmentActivity implements
             if (dbCursor.moveToFirst()) {
                 while (!dbCursor.isAfterLast()) {
 
-                    LatLng dbPt = new LatLng(dbCursor.getDouble(5), dbCursor.getDouble(6));
+                    LatLng dbPt = new LatLng(dbCursor.getDouble(dbCursor.getColumnIndex("lat")), dbCursor.getDouble(dbCursor.getColumnIndex("lng")));
 
                     if (computeDistanceBetween(dbPt, GPSLatLng) < radius) {
                         if (heatMapChecked) {
@@ -805,7 +818,7 @@ public class MainActivity extends FragmentActivity implements
 //                        markerOptions.anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV());
 
                             MarkerOptions thisMarkerOpt = new MarkerOptions();
-                            thisMarkerOpt.position(new LatLng(dbCursor.getDouble(5), dbCursor.getDouble(6)));
+                            thisMarkerOpt.position(new LatLng(dbCursor.getDouble(dbCursor.getColumnIndex("lat")), dbCursor.getDouble(dbCursor.getColumnIndex("lng"))));
                             thisMarkerOpt.title(dbCursor.getString(dbCursor.getColumnIndex("species")));
                             thisMarkerOpt.snippet(dbCursor.getString(dbCursor.getColumnIndex("genus")));
                             thisMarkerOpt.anchor(0.5f, 0.5f);
@@ -821,7 +834,7 @@ public class MainActivity extends FragmentActivity implements
 //                            }
 //                        }
                             line = mMap.addPolyline(new PolylineOptions()
-                                    .add(GPSLatLng, new LatLng(dbCursor.getDouble(5), dbCursor.getDouble(6)))
+                                    .add(GPSLatLng, new LatLng(dbCursor.getDouble(dbCursor.getColumnIndex("lat")), dbCursor.getDouble(dbCursor.getColumnIndex("lng"))))
                                     .width(5)
 
                                     .color(Color.argb(20, 44, 33, 11)));
@@ -879,14 +892,14 @@ public class MainActivity extends FragmentActivity implements
 
         String table = dbaseName;
         String[] columns = new String[]{"genus", "species"};
-        String sel = "species LIKE ?";
-        String[] selargs = new String[]{inGenera + "%"};
+        String sel = "genus = ?";
+        String[] selargs = new String[]{inGenera};
 
         String orderby = null;
         if (!latinChecked) {
-            orderby = "genus";
-        } else {
             orderby = "species";
+        } else {
+            orderby = "genus";
         }
 
         // try (Cursor dbCursor = arboretum.query(table, columns, sel, selargs, orderby, null, null, null)) {
@@ -895,9 +908,9 @@ public class MainActivity extends FragmentActivity implements
                 while (!dbCursor.isAfterLast()) {
                     //Log.e("asdfas",dbCursor.getString(0));
                     if (!latinChecked) {
-                        labels.add(dbCursor.getString(0));
+                        labels.add(dbCursor.getString(dbCursor.getColumnIndex("species")));
                     } else {
-                        labels.add(dbCursor.getString(1));
+                        labels.add(dbCursor.getString(dbCursor.getColumnIndex("genus")));
                     }
 
 
@@ -958,6 +971,11 @@ public class MainActivity extends FragmentActivity implements
     public void speciesSpinnerChanged(String currentSpecies) {
         stringCurrentSpecies = currentSpecies;
         //Toast.makeText(this, stringCurrentSpecies, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void genusSpinnerChanged(String currentGenus) {
+        stringCurrentGenus = currentGenus;
     }
 
     @Override
@@ -1237,6 +1255,7 @@ public class MainActivity extends FragmentActivity implements
         finish();
         startActivity(new Intent(this, EmailLoginActivity.class));
     }
+
 
 //    public void updateDB(View v){
 //        ProgressDialog progressDialog = new ProgressDialog(this);

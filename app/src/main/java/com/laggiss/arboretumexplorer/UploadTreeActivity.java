@@ -3,6 +3,7 @@ package com.laggiss.arboretumexplorer;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -52,7 +53,7 @@ public class UploadTreeActivity extends AbstractEditTreeActivity {
         double lat = Double.parseDouble(latString);
         double lng = Double.parseDouble(lngString);
 
-        String tempRef = mRef.push().getKey();
+        String firebaseID = mRef.push().getKey();
 
         Tree nTree = new Tree( familyString,  famNameString,  genusString,  speciesString,  rankString,
                  typeString,  hCrossString,  culString,  nameStatString,  authString,
@@ -64,6 +65,8 @@ public class UploadTreeActivity extends AbstractEditTreeActivity {
          firebaseID, DataBaseHelper.ADD);
         mDBHelper.addTreeToMaster(nTree);
         mDBHelper.addTreeToMyTrees(nTree);
+        Log.e("firebaseID", firebaseID);
+        Log.e("num of trees in myTrees", Integer.toString(mDBHelper.getMyTreesCount()));
 
         progressDialog.dismiss();
         Toast.makeText(this,"finished",Toast.LENGTH_SHORT).show();

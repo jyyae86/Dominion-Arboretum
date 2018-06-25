@@ -25,6 +25,44 @@ public class LocalTreeInfoActivity extends AbstractTreeInfoActivity {
 //        lng.setText(Double.toString(nTree.getLng()));
 //        creatorName.setText(nTree.getCreatorName());
 //        creatorName.setText("");
+        family.setText(nTree.getFamily());
+        familiarName.setText(nTree.getFamiliarName());
+        genus.setText(nTree.getGenus());
+        species.setText(nTree.getSpecies());
+        rank.setText(nTree.getRank());
+        treeType.setText(nTree.getType());
+        hybridCross.setText(nTree.getHybridCross());
+        cultivar.setText(nTree.getCultivar());
+        nameStatus.setText(nTree.getNameStatus());
+        authority.setText(nTree.getAuthority());
+        dateIntro.setText(nTree.getDateIntro());
+        accessNo.setText(nTree.getAccessNo());
+        recdFrom.setText(nTree.getRecdFrom());
+        dateRecd.setText(nTree.getDateRecd());
+        howRecd.setText(nTree.getHowRecd());
+        numRecd.setText(nTree.getNumRecd());
+        nameRecd.setText(nTree.getNameRecd());
+        commonName.setText(nTree.getCommonName());
+        nomCommun.setText(nTree.getNomCommun());
+        nursery.setText(nTree.getNursery());
+        location.setText(nTree.getLocation());
+        lat.setText(Double.toString(nTree.getLat()));
+        lng.setText(Double.toString(nTree.getLng()));
+        donor.setText(nTree.getDonor());
+        collSeed.setText(nTree.getCollSeed());
+        sourceAcc.setText(nTree.getSourceAcc());
+        revised.setText(nTree.getRevised());
+        numberNow.setText(nTree.getNumberNow());
+        origins.setText(nTree.getOrigins());
+        herbSpec.setText(nTree.getHerbSpec());
+        idByDate.setText(nTree.getIdByDate());
+        photo1.setText(nTree.getPhoto1());
+        photo2.setText(nTree.getPhoto2());
+        mortInfo.setText(nTree.getMortInfo());
+        notes.setText(nTree.getNotes());
+        memo.setText(nTree.getMemo());
+
+
 
         if(type.equals("delete")){
             editTree.setEnabled(false);

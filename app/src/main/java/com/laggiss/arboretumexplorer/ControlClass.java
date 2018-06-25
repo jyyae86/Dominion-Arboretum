@@ -35,6 +35,7 @@ public class ControlClass extends Fragment {
     private onHideButtonClicked listenerHideButton;
     private onFollowMeChecked listenerSwitchFollowMe;
     private onSpeciesSpinnerChange listenerSpeciesSpinner;
+    private onGenusSpinnerChange listenerGenusSpinner;
     private onClearButtonClicked listenerClearButton;
     private onHeatMapChecked listenerSwitchHeatMap;
     private onRadiusChecked listenerSwitchRadius;
@@ -149,6 +150,10 @@ public class ControlClass extends Fragment {
         void speciesSpinnerChanged(String currentSpecies);
     }
 
+    public interface onGenusSpinnerChange {
+        void genusSpinnerChanged(String currentGenus);
+    }
+
     public interface onHideButtonClicked {
         void buttonHideClicked();
     }
@@ -233,6 +238,12 @@ public class ControlClass extends Fragment {
         }
         if (activity instanceof onSpeciesSpinnerChange) {
             listenerSpeciesSpinner = (onSpeciesSpinnerChange) activity;
+        } else {
+            throw new ClassCastException(activity.toString()
+                    + " must implement MyListFragment.OnItemSelectedListener");
+        }
+        if (activity instanceof onGenusSpinnerChange) {
+            listenerGenusSpinner = (onGenusSpinnerChange) activity;
         } else {
             throw new ClassCastException(activity.toString()
                     + " must implement MyListFragment.OnItemSelectedListener");
@@ -374,6 +385,7 @@ public class ControlClass extends Fragment {
         generaList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                sendGenusSelected(parent.getItemAtPosition(position).toString());
                 ArrayAdapter<String> speciesAdapter;
                 List<String> sList = makeSpeciesList(parent.getItemAtPosition(position).toString());
                 speciesAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, sList);
@@ -482,6 +494,12 @@ public class ControlClass extends Fragment {
     private void sendSpeciesSelected(String s) {
 
         listenerSpeciesSpinner.speciesSpinnerChanged(s);
+
+    }
+
+    private void sendGenusSelected(String s) {
+
+        listenerGenusSpinner.genusSpinnerChanged(s);
 
     }
 

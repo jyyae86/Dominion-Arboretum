@@ -363,6 +363,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public int getMyTreesCount(){
+        Cursor c = myDataBase.rawQuery("select * from myTrees", null);
+        c.moveToFirst();
+        return c.getCount();
+    }
+
     public boolean exists(String id){
         boolean result = true;
         Cursor c = myDataBase.rawQuery("SELECT * FROM ArboretumData WHERE firebaseID = '" + id + "'", null);
@@ -434,7 +440,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             cv.put("lat",tree.getLat());
             cv.put("lng",tree.getLng());
             cv.put("firebaseID", id);
-            cv.put("changeType",tree.getChangeType());
+            if(tree.getType().equals("2")){
+                cv.put("changeType",tree.getChangeType());
+            }else{
+                cv.put("changeType",DELETE);
+            }
+
 
             myDataBase.insert("MyTrees", null, cv);
 
@@ -508,6 +519,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             myDataBase.insert("MyTrees", null, cv);
         }
 
+
     }
 
     public int addTreeToMaster(Tree tree){
@@ -556,7 +568,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             cv.put("firebaseID", tree.getFirebaseID());
             cv.put("changeType",tree.getChangeType());
 
-            myDataBase.insert("ArboretumData", null, cv);
+            myDataBase.insertOrThrow("ArboretumData", null, cv);
             return 1;
         }
 
@@ -603,7 +615,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put("firebaseID", tree.getFirebaseID());
         cv.put("changeType",tree.getChangeType());
 
-        myDataBase.insert("MyTrees", null, cv);
+        long e = myDataBase.insert("MyTrees", null, cv);
         return 1;
 
 
@@ -635,7 +647,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void clearDB(){
+    public void clearDB (){
         myDataBase.rawQuery("DELETE FROM ArboretumData", null);
     }
 

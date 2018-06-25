@@ -33,12 +33,42 @@ public class RemoteTreeInfoActivity extends AbstractTreeInfoActivity {
             @Override
             public void onTreeReceived(Tree tree) {
                 selected = tree;
+                family.setText(tree.getFamily());
+                familiarName.setText(tree.getFamiliarName());
+                genus.setText(tree.getGenus());
+                species.setText(tree.getSpecies());
+                rank.setText(tree.getRank());
+                treeType.setText(tree.getType());
+                hybridCross.setText(tree.getHybridCross());
+                cultivar.setText(tree.getCultivar());
+                nameStatus.setText(tree.getNameStatus());
+                authority.setText(tree.getAuthority());
+                dateIntro.setText(tree.getDateIntro());
+                accessNo.setText(tree.getAccessNo());
+                recdFrom.setText(tree.getRecdFrom());
+                dateRecd.setText(tree.getDateRecd());
+                howRecd.setText(tree.getHowRecd());
+                numRecd.setText(tree.getNumRecd());
+                nameRecd.setText(tree.getNameRecd());
                 commonName.setText(tree.getCommonName());
-//                sciName.setText(tree.getSciName());
-//                cArea.setText(tree.getCrownArea());
+                nomCommun.setText(tree.getNomCommun());
+                nursery.setText(tree.getNursery());
+                location.setText(tree.getLocation());
                 lat.setText(Double.toString(tree.getLat()));
                 lng.setText(Double.toString(tree.getLng()));
-//                creatorName.setText(tree.getCreatorName());
+                donor.setText(tree.getDonor());
+                collSeed.setText(tree.getCollSeed());
+                sourceAcc.setText(tree.getSourceAcc());
+                revised.setText(tree.getRevised());
+                numberNow.setText(tree.getNumberNow());
+                origins.setText(tree.getOrigins());
+                herbSpec.setText(tree.getHerbSpec());
+                idByDate.setText(tree.getIdByDate());
+                photo1.setText(tree.getPhoto1());
+                photo2.setText(tree.getPhoto2());
+                mortInfo.setText(tree.getMortInfo());
+                notes.setText(tree.getNotes());
+                memo.setText(tree.getMemo());
             }
         });
 
