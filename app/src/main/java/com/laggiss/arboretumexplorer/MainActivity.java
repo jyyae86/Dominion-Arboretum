@@ -490,8 +490,8 @@ public class MainActivity extends FragmentActivity implements
         String sel = null;
         String[] selargs = null;
         if (!latinChecked) {
-            sel = "genus = ?";
-            selargs = new String[]{stringCurrentGenus.replace("'", "''")};
+            sel = "genus = ? AND species = ?";
+            selargs = new String[]{stringCurrentGenus.replace("'", "''"), stringCurrentSpecies.replace("'", "''")};
         }
         if (latinChecked) {
             sel = "species = ?";
