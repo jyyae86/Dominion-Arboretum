@@ -9,19 +9,19 @@ import android.view.View;
 
 public class MemberMenuActivity extends AbstractMenuActivity {
 
-    protected void startAddedTreesActivity(View v){
+    public void startAddedTreesActivity(View v){
         Intent nIntent = new Intent(this, MemberMyTreesActivity.class);
         nIntent.putExtra("type", "add");
         startActivity(nIntent);
     }
 
-    protected void startEditedTreesActivity(View v){
+    public void startEditedTreesActivity(View v){
         Intent nIntent = new Intent(this, MemberMyTreesActivity.class);
         nIntent.putExtra("type", "edit");
         startActivity(nIntent);
     }
 
-    protected void startDeletedTreesActivity(View v){
+    public void startDeletedTreesActivity(View v){
         Intent nIntent = new Intent(this, MemberMyTreesActivity.class);
         nIntent.putExtra("type", "delete");
         startActivity(nIntent);

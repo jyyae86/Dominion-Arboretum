@@ -283,6 +283,10 @@ public class MainActivity extends FragmentActivity implements
             mFirebaseUtil = new FirebaseDatabaseUtility(this);
         }
 
+        String e = Integer.toString(myDbHelper.getCount());
+        Log.e("number of trees: ",e);
+        Toast.makeText(this, "Number of Trees: " + e, Toast.LENGTH_LONG).show();
+
     }
 //    public static boolean isLocationEnabled(Context context) {
 //        int locationMode = 0;
@@ -494,7 +498,8 @@ public class MainActivity extends FragmentActivity implements
             selargs = new String[]{stringCurrentGenus.replace("'", "''"), stringCurrentSpecies.replace("'", "''")};
         }
         if (latinChecked) {
-            sel = "species = ?";
+//            sel = "species = ?";
+            sel = "genus = ? AND commonName = ? ";
             selargs = new String[]{stringCurrentSpecies.replace("'", "\'")};
         }
 
@@ -586,7 +591,7 @@ public class MainActivity extends FragmentActivity implements
             @Override
             public boolean onMarkerClick(Marker marker) {
                 String id = marker.getTitle();
-                 Intent nIntent = new Intent(getApplicationContext(),LocalTreeInfoActivity.class);
+                Intent nIntent = new Intent(getApplicationContext(),LocalTreeInfoActivity.class);
                 nIntent.putExtra("id", id);
                 nIntent.putExtra("type","master");
                 startActivity(nIntent);
@@ -713,18 +718,19 @@ public class MainActivity extends FragmentActivity implements
                 if (latinChecked) {
                     name = "species";
                 } else {
-                    name = "genus";
+                    name = "commonName";
                 }
 
                 MarkerOptions markerOptions = new MarkerOptions()
                         .icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(dbCursor.getString(dbCursor.getColumnIndex(name)))))
                         .position(new LatLng(dbCursor.getDouble(dbCursor.getColumnIndex("lat")), dbCursor.getDouble(dbCursor.getColumnIndex("lng"))))
+                        .title(dbCursor.getString(dbCursor.getColumnIndex("firebaseID")))
                         .anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV());
 
                 MarkerOptions thisMarkerOpt = new MarkerOptions()
                         .position(new LatLng(dbCursor.getDouble(dbCursor.getColumnIndex("lat")), dbCursor.getDouble(dbCursor.getColumnIndex("lng"))))
-                        .title(dbCursor.getString(dbCursor.getColumnIndex("genus")))
-                        .snippet(dbCursor.getString(dbCursor.getColumnIndex("species")))
+                        .title(dbCursor.getString(dbCursor.getColumnIndex("firebaseID")))
+                        .snippet(dbCursor.getString(dbCursor.getColumnIndex("firebaseID")))
                         .anchor(0.5f, 0f)
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.pticonsm));
 
@@ -740,7 +746,6 @@ public class MainActivity extends FragmentActivity implements
                         .add(GPSLatLng, new LatLng(dbCursor.getDouble(dbCursor.getColumnIndex("lat")), dbCursor.getDouble(dbCursor.getColumnIndex("lng"))))
                         .width(5)
                         .color(Color.RED));
-
 
                 dbCursor.close();
                 //arboretum.close();
@@ -820,8 +825,8 @@ public class MainActivity extends FragmentActivity implements
 
                             MarkerOptions thisMarkerOpt = new MarkerOptions();
                             thisMarkerOpt.position(new LatLng(dbCursor.getDouble(dbCursor.getColumnIndex("lat")), dbCursor.getDouble(dbCursor.getColumnIndex("lng"))));
-                            thisMarkerOpt.title(dbCursor.getString(dbCursor.getColumnIndex("species")));
-                            thisMarkerOpt.snippet(dbCursor.getString(dbCursor.getColumnIndex("genus")));
+                            thisMarkerOpt.title(dbCursor.getString(dbCursor.getColumnIndex("firebaseID")));
+                            thisMarkerOpt.snippet(dbCursor.getString(dbCursor.getColumnIndex("firebaseID")));
                             thisMarkerOpt.anchor(0.5f, 0.5f);
                             thisMarkerOpt.icon(BitmapDescriptorFactory.fromResource(R.drawable.pticonsm));
 
@@ -1181,7 +1186,7 @@ public class MainActivity extends FragmentActivity implements
 
 
 
-//    private void setUpMapIfNeeded() {
+    //    private void setUpMapIfNeeded() {
 //
 //        if (mMap == null) {
 //
@@ -1232,24 +1237,24 @@ public class MainActivity extends FragmentActivity implements
     }
 
     public void updateFragment(){
-       if(mUser == null){
-           myFragment.showButtons(0);
-       }else{
-           DatabaseReference userRef = mRef.child("users");
-           userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-               @Override
-               public void onDataChange(DataSnapshot dataSnapshot) {
-                   String id = mUser.getUid();
-                   userType = dataSnapshot.child(id).getValue(Integer.class);
-                   myFragment.showButtons(userType);
-               }
+        if(mUser == null){
+            myFragment.showButtons(0);
+        }else{
+            DatabaseReference userRef = mRef.child("users");
+            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String id = mUser.getUid();
+                    userType = dataSnapshot.child(id).getValue(Integer.class);
+                    myFragment.showButtons(userType);
+                }
 
-               @Override
-               public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-               }
-           });
-       }
+                }
+            });
+        }
     }
 
     public void signOut(View v){
@@ -1300,5 +1305,3 @@ public class MainActivity extends FragmentActivity implements
 //        progressDialog.dismiss();
 //    }
 }
-
-

@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 public class UploadTreeActivity extends AbstractEditTreeActivity {
 
-    protected void addOrEditTree(View v){
+    public void addOrEditTree(View v){
         progressDialog.setMessage("loading, please wait");
         progressDialog.show();
 
@@ -74,12 +74,71 @@ public class UploadTreeActivity extends AbstractEditTreeActivity {
         startActivity(new Intent(this,MainActivity.class));
     }
 
-    protected void populateFields(String id){
+    public void populateFields(String id){
         Intent intent = getIntent();
         double latitude = intent.getDoubleExtra("lat", 0.0);
         double longitude = intent.getDoubleExtra("lng", 0.0);
         lat.setText(Double.toString(latitude));
         lng.setText(Double.toString(longitude));
+        family.setVisibility(View.GONE);
+        familiarName.setVisibility(View.GONE);
+        rank.setVisibility(View.GONE);
+        hybridCross.setVisibility(View.GONE);
+        nameStatus.setVisibility(View.GONE);
+        authority.setVisibility(View.GONE);
+        dateIntro.setVisibility(View.GONE);
+        accessNo.setVisibility(View.GONE);
+        recdFrom.setVisibility(View.GONE);
+        dateRecd.setVisibility(View.GONE);
+        howRecd.setVisibility(View.GONE);
+        numRecd.setVisibility(View.GONE);
+        nameRecd.setVisibility(View.GONE);
+        commonName.setVisibility(View.GONE);
+        nomCommun.setVisibility(View.GONE);
+        nursery.setVisibility(View.GONE);
+        donor.setVisibility(View.GONE);
+        collSeed.setVisibility(View.GONE);
+        sourceAcc.setVisibility(View.GONE);
+        revised.setVisibility(View.GONE);
+        numberNow.setVisibility(View.GONE);
+        origins.setVisibility(View.GONE);
+        herbSpec.setVisibility(View.GONE);
+        idByDate.setVisibility(View.GONE);
+        photo1.setVisibility(View.GONE);
+        photo2.setVisibility(View.GONE);
+        mortInfo.setVisibility(View.GONE);
+        notes.setVisibility(View.GONE);
+        memo.setVisibility(View.GONE);
+
+        familyText.setVisibility(View.GONE);
+        familiarNameText.setVisibility(View.GONE);
+        rankText.setVisibility(View.GONE);
+        hybridCrossText.setVisibility(View.GONE);
+        nameStatusText.setVisibility(View.GONE);
+        authorityText.setVisibility(View.GONE);
+        dateIntroText.setVisibility(View.GONE);
+        accessNoText.setVisibility(View.GONE);
+        recdFromText.setVisibility(View.GONE);
+        dateRecdText.setVisibility(View.GONE);
+        howRecdText.setVisibility(View.GONE);
+        numRecdText.setVisibility(View.GONE);
+        nameRecdText.setVisibility(View.GONE);
+        commonNameText.setVisibility(View.GONE);
+        nomCommunText.setVisibility(View.GONE);
+        nurseryText.setVisibility(View.GONE);
+        donorText.setVisibility(View.GONE);
+        collSeedText.setVisibility(View.GONE);
+        sourceAccText.setVisibility(View.GONE);
+        revisedText.setVisibility(View.GONE);
+        numberNowText.setVisibility(View.GONE);
+        originsText.setVisibility(View.GONE);
+        herbSpecText.setVisibility(View.GONE);
+        idByDateText.setVisibility(View.GONE);
+        photo1Text.setVisibility(View.GONE);
+        photo2Text.setVisibility(View.GONE);
+        mortInfoText.setVisibility(View.GONE);
+        notesText.setVisibility(View.GONE);
+        memoText.setVisibility(View.GONE);
     }
 
     public void startMainActivity(View v){

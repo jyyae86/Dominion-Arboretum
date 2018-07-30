@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.gms.location.LocationListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,6 +28,13 @@ public abstract class AbstractEditTreeActivity extends AppCompatActivity{
         commonName, nomCommun, nursery, location, lat, lng, donor,
         collSeed, sourceAcc, revised, numberNow, origins, herbSpec,
         idByDate, photo1, photo2, mortInfo, notes, memo;
+
+    TextView familyText, familiarNameText, rankText,
+            hybridCrossText, nameStatusText, authorityText, dateIntroText,
+            accessNoText, recdFromText, dateRecdText, howRecdText, numRecdText, nameRecdText,
+            commonNameText, nomCommunText, nurseryText, locationText, donorText,
+            collSeedText, sourceAccText, revisedText, numberNowText, originsText, herbSpecText,
+            idByDateText, photo1Text, photo2Text, mortInfoText, notesText, memoText;
 
     ProgressDialog progressDialog;
     Button addTree;
@@ -104,6 +112,37 @@ public abstract class AbstractEditTreeActivity extends AppCompatActivity{
         notes = (EditText) findViewById(R.id.editTextNotes);
         memo = (EditText) findViewById(R.id.editTextMemo);
 
+        familyText = (TextView) findViewById(R.id.textView1);
+        familiarNameText = (TextView) findViewById(R.id.textView2);
+        rankText = (TextView) findViewById(R.id.textView5);
+        hybridCrossText = (TextView) findViewById(R.id.textView7);
+        nameStatusText = (TextView) findViewById(R.id.textView9);
+        authorityText = (TextView) findViewById(R.id.textView10);
+        dateIntroText = (TextView) findViewById(R.id.textView11);
+        accessNoText = (TextView) findViewById(R.id.textView12);
+        recdFromText = (TextView) findViewById(R.id.textView13);
+        dateRecdText = (TextView) findViewById(R.id.textView14);
+        howRecdText = (TextView) findViewById(R.id.textView15);
+        numRecdText= (TextView) findViewById(R.id.textView16);
+        nameRecdText = (TextView) findViewById(R.id.textView17);
+        commonNameText = (TextView) findViewById(R.id.textView18);
+        nomCommunText = (TextView) findViewById(R.id.textView19);
+        nurseryText = (TextView) findViewById(R.id.textView20);
+        locationText = (TextView) findViewById(R.id.textView21);
+        donorText = (TextView) findViewById(R.id.textView22);
+        collSeedText = (TextView) findViewById(R.id.textView23);
+        sourceAccText = (TextView) findViewById(R.id.textView24);
+        revisedText = (TextView) findViewById(R.id.textView27);
+        numberNowText = (TextView) findViewById(R.id.textView28);
+        originsText = (TextView) findViewById(R.id.textView29);
+        herbSpecText = (TextView) findViewById(R.id.textView30);
+        idByDateText = (TextView) findViewById(R.id.textView31);
+        photo1Text = (TextView) findViewById(R.id.textView32);
+        photo2Text = (TextView) findViewById(R.id.textView33);
+        mortInfoText = (TextView) findViewById(R.id.textView34);
+        notesText = (TextView) findViewById(R.id.textView35);
+        memoText = (TextView) findViewById(R.id.textView);
+
         progressDialog = new ProgressDialog(this);
         addTree = (Button) findViewById(R.id.buttonAdd);
 
@@ -131,9 +170,9 @@ public abstract class AbstractEditTreeActivity extends AppCompatActivity{
 
     }
 
-    protected abstract void populateFields(String id);
+    public abstract void populateFields(String id);
 
-    protected void startMainActivity(View v){
+    public void startMainActivity(View v){
         startActivity(new Intent(this, MainActivity.class));
     }
 

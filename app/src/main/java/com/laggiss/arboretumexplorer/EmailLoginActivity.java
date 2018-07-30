@@ -48,7 +48,7 @@ public class EmailLoginActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
     }
 
-    protected void loginWithEmail(View v){
+    public void loginWithEmail(View v){
         String eml = email.getText().toString();
         String pswd = password.getText().toString();
 
@@ -81,12 +81,12 @@ public class EmailLoginActivity extends AppCompatActivity {
                 });
     }
 
-    protected void createSignUpActivity(View v){
+    public void createSignUpActivity(View v){
         //redirects to signup
         startActivity(new Intent(this,EmailSignUpActivity.class));
     }
 
-    protected void createMainActivityWithoutLogin(View v){
+    public void createMainActivityWithoutLogin(View v){
         //temp
         startActivity(new Intent(this,MainActivity.class));
     }

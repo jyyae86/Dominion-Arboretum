@@ -52,7 +52,7 @@ public class EmailSignUpActivity extends AppCompatActivity {
 
     }
 
-    protected void signUpWithEmail(View v){
+    public void signUpWithEmail(View v){
         String eml = email.getText().toString();
         String pswd = password.getText().toString();
 
@@ -91,7 +91,7 @@ public class EmailSignUpActivity extends AppCompatActivity {
 
     }
 
-    protected void createLoginActivity(View v){
+    public void createLoginActivity(View v){
         startActivity(new Intent(this, EmailLoginActivity.class));
     }
 }

@@ -295,6 +295,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         c.close();
     }
 
+    public int getCount(){
+        Cursor c = myDataBase.rawQuery("Select * from ArboretumData",null);
+        c.moveToFirst();
+        return c.getCount();
+    }
+
     public ArrayList<Tree> getTrees(String type){
         ArrayList<Tree> addedTrees = new ArrayList<Tree>();
         int changeType;

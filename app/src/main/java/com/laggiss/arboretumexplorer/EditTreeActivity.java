@@ -13,7 +13,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class EditTreeActivity extends AbstractEditTreeActivity{
 
-    protected void populateFields(String id){
+    public void populateFields(String id){
         addTree.setText("Edit Tree");
 
         Tree nTree = mDBHelper.getTreeFromMyTrees(id);
@@ -62,7 +62,7 @@ public class EditTreeActivity extends AbstractEditTreeActivity{
 
     }
 
-    protected void addOrEditTree(View v){
+    public void addOrEditTree(View v){
         String familyString = family.getText().toString();
         String famNameString = familiarName.getText().toString();
         String genusString = genus.getText().toString();

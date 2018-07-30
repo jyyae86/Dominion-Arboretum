@@ -164,7 +164,7 @@ public class WelcomeActivity extends AppCompatActivity {
         }
     }
 
-    protected void downloadTreeData(View v){
+    public void downloadTreeData(View v){
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Downloading...");
         progressDialog.setMessage("This is a one time thing");
@@ -185,6 +185,7 @@ public class WelcomeActivity extends AppCompatActivity {
                             }catch(Exception f){
                                 cv.put(k1, (long)m1.get(k1));
                             }
+
                         }
                     }
                     mDBHelper.addRowToMaster(cv);
