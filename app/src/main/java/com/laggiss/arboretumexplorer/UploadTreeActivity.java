@@ -56,10 +56,10 @@ public class UploadTreeActivity extends AbstractEditTreeActivity {
         String firebaseID = mRef.push().getKey();
 
         Tree nTree = new Tree( familyString,  famNameString,  genusString,  speciesString,  rankString,
-                 typeString,  hCrossString,  culString,  nameStatString,  authString,
+                 typeString,  hCrossString,  culString,  Boolean.parseBoolean(nameStatString),  authString,
                  dIntroString,  aNumString,  rFromString,  dRecdString,  hRecdString,
                  numRecdString,  nameRecdString,  cNameString,  nCommunString,  nurString,
-                 locString,  donorString,  cSeedString,  sAccString,  revisedString,
+                 locString,  Boolean.parseBoolean(donorString),  cSeedString,  sAccString,  revisedString,
                  numNowString,  originsString,  hSpecString,  idByDateString,  p1String,
                  p2String,  mInfoString,  notesString,  memoString, lat,  lng,
          firebaseID, DataBaseHelper.ADD);
@@ -108,7 +108,7 @@ public class UploadTreeActivity extends AbstractEditTreeActivity {
         photo2.setVisibility(View.GONE);
         mortInfo.setVisibility(View.GONE);
         notes.setVisibility(View.GONE);
-        memo.setVisibility(View.GONE);
+        location.setVisibility(View.GONE);
 
         familyText.setVisibility(View.GONE);
         familiarNameText.setVisibility(View.GONE);
@@ -138,7 +138,7 @@ public class UploadTreeActivity extends AbstractEditTreeActivity {
         photo2Text.setVisibility(View.GONE);
         mortInfoText.setVisibility(View.GONE);
         notesText.setVisibility(View.GONE);
-        memoText.setVisibility(View.GONE);
+        locationText.setVisibility(View.GONE);
     }
 
     public void startMainActivity(View v){

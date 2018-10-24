@@ -15,23 +15,24 @@ public class Tree {
 //    private String firebaseID;
 
     private String family, familiarName, genus, species, rank, type,
-            hybridCross, cultivar, nameStatus, authority, dateIntro,
-            accessNo, recdFrom, dateRecd, howRecd, numRecd, nameRecd,
-            commonName, nomCommun, nursery, location, donor,
+            hybridCross, cultivar, authority, dateIntro, accessNo, recdFrom, dateRecd, howRecd, numRecd, nameRecd,
+            commonName, nomCommun, nursery, location,
             collSeed, sourceAcc, revised, numberNow, origins, herbSpec,
             idByDate, photo1, photo2, mortInfo, notes, memo, firebaseID;
 
+    private boolean donor, nameStatus;
     private int changeType;
+
 
     private double lat, lng;
 
     public Tree(){}
 
     public Tree(String family, String familiarName, String genus, String species, String rank,
-                String type, String hybridCross, String cultivar, String nameStatus, String authority,
+                String type, String hybridCross, String cultivar, boolean nameStatus, String authority,
                 String dateIntro, String accessNo, String recdFrom, String dateRecd, String howRecd,
                 String numRecd, String nameRecd, String commonName, String nomCommun, String nursery,
-                String location, String donor, String collSeed, String sourceAcc, String revised,
+                String location, boolean donor, String collSeed, String sourceAcc, String revised,
                 String numberNow, String origins, String herbSpec, String idByDate, String photo1,
                 String photo2, String mortInfo, String notes, String memo, double lat, double lng,
                 String firebaseID, int changeType){
@@ -76,10 +77,10 @@ public class Tree {
     }
 
     public Tree(String family, String familiarName, String genus, String species, String rank,
-                String type, String hybridCross, String cultivar, String nameStatus, String authority,
+                String type, String hybridCross, String cultivar, boolean nameStatus, String authority,
                 String dateIntro, String accessNo, String recdFrom, String dateRecd, String howRecd,
                 String numRecd, String nameRecd, String commonName, String nomCommun, String nursery,
-                String location, String donor, String collSeed, String sourceAcc, String revised,
+                String location, boolean donor, String collSeed, String sourceAcc, String revised,
                 String numberNow, String origins, String herbSpec, String idByDate, String photo1,
                 String photo2, String mortInfo, String notes, String memo, double lat, double lng, int changeType){
         this.family = family;
@@ -122,10 +123,10 @@ public class Tree {
     }
 
     public Tree(String family, String familiarName, String genus, String species, String rank,
-                String type, String hybridCross, String cultivar, String nameStatus, String authority,
+                String type, String hybridCross, String cultivar, boolean nameStatus, String authority,
                 String dateIntro, String accessNo, String recdFrom, String dateRecd, String howRecd,
                 String numRecd, String nameRecd, String commonName, String nomCommun, String nursery,
-                String location, String donor, String collSeed, String sourceAcc, String revised,
+                String location, boolean donor, String collSeed, String sourceAcc, String revised,
                 String numberNow, String origins, String herbSpec, String idByDate, String photo1,
                 String photo2, String mortInfo, String notes, String memo, double lat, double lng){
         this.family = family;
@@ -230,11 +231,15 @@ public class Tree {
         this.cultivar = cultivar;
     }
 
-    public String getNameStatus() {
+    public boolean getNameStatus() {
         return nameStatus;
     }
 
-    public void setNameStatus(String nameStatus) {
+    public String getStringNameStatus(){
+        return String.valueOf(nameStatus);
+    }
+
+    public void setNameStatus(boolean nameStatus) {
         this.nameStatus = nameStatus;
     }
 
@@ -350,11 +355,15 @@ public class Tree {
         this.lng = lng;
     }
 
-    public String getDonor() {
+    public boolean getDonor() {
         return donor;
     }
 
-    public void setDonor(String donor) {
+    public String getStringDonor(){
+        return String.valueOf(donor);
+    }
+
+    public void setDonor(boolean donor) {
         this.donor = donor;
     }
 

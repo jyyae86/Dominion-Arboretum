@@ -202,10 +202,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             do{
                 Tree newTree = new Tree(c.getString(0),c.getString(1),c.getString(2),c.getString(3),
                         c.getString(4),c.getString(5),c.getString(6),c.getString(7),
-                        c.getString(8),c.getString(9),c.getString(10),c.getString(11),
+                        Boolean.parseBoolean(c.getString(8)),c.getString(9),c.getString(10),c.getString(11),
                         c.getString(12),c.getString(13),c.getString(14),c.getString(15),
                         c.getString(16),c.getString(17),c.getString(18),c.getString(19),
-                        c.getString(20),c.getString(21),c.getString(22),c.getString(23),
+                        c.getString(20),Boolean.parseBoolean(c.getString(21)),c.getString(22),c.getString(23),
                         c.getString(24),c.getString(25),c.getString(26),c.getString(27),
                         c.getString(28),c.getString(29),c.getString(30),c.getString(31),
                         c.getString(32),c.getString(33),c.getDouble(34), c.getDouble(35),
@@ -247,7 +247,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public void loop(){
-        Cursor c = myDataBase.rawQuery("SELECT * FROM " +"MyTrees"+ " ",null);
+        Cursor c = myDataBase.rawQuery("SELECT * FROM " +"ArboretumData"+ " ",null);
         c.moveToFirst();
         for(int i = 0; i < 1; i++){
 
@@ -318,10 +318,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             do{
                 Tree newTree = new Tree(c.getString(0),c.getString(1),c.getString(2),c.getString(3),
                         c.getString(4),c.getString(5),c.getString(6),c.getString(7),
-                        c.getString(8),c.getString(9),c.getString(10),c.getString(11),
+                        Boolean.parseBoolean(c.getString(8)),c.getString(9),c.getString(10),c.getString(11),
                         c.getString(12),c.getString(13),c.getString(14),c.getString(15),
                         c.getString(16),c.getString(17),c.getString(18),c.getString(19),
-                        c.getString(20),c.getString(21),c.getString(22),c.getString(23),
+                        c.getString(20),Boolean.parseBoolean(c.getString(21)),c.getString(22),c.getString(23),
                         c.getString(24),c.getString(25),c.getString(26),c.getString(27),
                         c.getString(28),c.getString(29),c.getString(30),c.getString(31),
                         c.getString(32),c.getString(33),c.getDouble(34), c.getDouble(35),
@@ -338,10 +338,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         c.moveToFirst();
         Tree nTree = new Tree(c.getString(0),c.getString(1),c.getString(2),c.getString(3),
                 c.getString(4),c.getString(5),c.getString(6),c.getString(7),
-                c.getString(8),c.getString(9),c.getString(10),c.getString(11),
+                Boolean.parseBoolean(c.getString(8)),c.getString(9),c.getString(10),c.getString(11),
                 c.getString(12),c.getString(13),c.getString(14),c.getString(15),
                 c.getString(16),c.getString(17),c.getString(18),c.getString(19),
-                c.getString(20),c.getString(21),c.getString(22),c.getString(23),
+                c.getString(20),Boolean.parseBoolean(c.getString(21)),c.getString(22),c.getString(23),
                 c.getString(24),c.getString(25),c.getString(26),c.getString(27),
                 c.getString(28),c.getString(29),c.getString(30),c.getString(31),
                 c.getString(32),c.getString(33),c.getDouble(34), c.getDouble(35),
@@ -356,10 +356,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         c.moveToFirst();
         Tree nTree = new Tree(c.getString(0),c.getString(1),c.getString(2),c.getString(3),
                 c.getString(4),c.getString(5),c.getString(6),c.getString(7),
-                c.getString(8),c.getString(9),c.getString(10),c.getString(11),
+                Boolean.parseBoolean(c.getString(8)),c.getString(9),c.getString(10),c.getString(11),
                 c.getString(12),c.getString(13),c.getString(14),c.getString(15),
                 c.getString(16),c.getString(17),c.getString(18),c.getString(19),
-                c.getString(20),c.getString(21),c.getString(22),c.getString(23),
+                c.getString(20),Boolean.parseBoolean(c.getString(21)),c.getString(22),c.getString(23),
                 c.getString(24),c.getString(25),c.getString(26),c.getString(27),
                 c.getString(28),c.getString(29),c.getString(30),c.getString(31),
                 c.getString(32),c.getString(33),c.getDouble(34), c.getDouble(35),
@@ -390,6 +390,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         boolean result = true;
         Cursor c = myDataBase.rawQuery("SELECT * FROM MyTrees WHERE firebaseID = '" + id + "'", null);
         c.moveToFirst();
+        int count = c.getCount();
         if(c.getCount() <= 0){
             result = false;
         }
@@ -417,7 +418,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             cv.put("type",tree.getType());
             cv.put("hybridCross",tree.getHybridCross());
             cv.put("cultivar",tree.getCultivar());
-            cv.put("nameStatus",tree.getNameStatus());
+            cv.put("nameStatus",tree.getStringNameStatus());
             cv.put("authority",tree.getAuthority());
             cv.put("dateIntro",tree.getDateIntro());
             cv.put("accessNo",tree.getAccessNo());
@@ -430,7 +431,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             cv.put("nomCommun",tree.getNomCommun());
             cv.put("nursery",tree.getNursery());
             cv.put("location",tree.getLocation());
-            cv.put("donor",tree.getDonor());
+            cv.put("donor",tree.getStringDonor());
             cv.put("collSeed",tree.getCollSeed());
             cv.put("sourceAcc",tree.getSourceAcc());
             cv.put("revised",tree.getRevised());
@@ -446,7 +447,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             cv.put("lat",tree.getLat());
             cv.put("lng",tree.getLng());
             cv.put("firebaseID", id);
-            if(tree.getType().equals("2")){
+            if(tree.getChangeType() == EDIT){
                 cv.put("changeType",tree.getChangeType());
             }else{
                 cv.put("changeType",DELETE);
@@ -487,7 +488,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put("type",tree.getType());
         cv.put("hybridCross",tree.getHybridCross());
         cv.put("cultivar",tree.getCultivar());
-        cv.put("nameStatus",tree.getNameStatus());
+        cv.put("nameStatus",tree.getStringNameStatus());
         cv.put("authority",tree.getAuthority());
         cv.put("dateIntro",tree.getDateIntro());
         cv.put("accessNo",tree.getAccessNo());
@@ -500,7 +501,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put("nomCommun",tree.getNomCommun());
         cv.put("nursery",tree.getNursery());
         cv.put("location",tree.getLocation());
-        cv.put("donor",tree.getDonor());
+        cv.put("donor",tree.getStringDonor());
         cv.put("collSeed",tree.getCollSeed());
         cv.put("sourceAcc",tree.getSourceAcc());
         cv.put("revised",tree.getRevised());
@@ -543,7 +544,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             cv.put("type",tree.getType());
             cv.put("hybridCross",tree.getHybridCross());
             cv.put("cultivar",tree.getCultivar());
-            cv.put("nameStatus",tree.getNameStatus());
+            cv.put("nameStatus",tree.getStringNameStatus());
             cv.put("authority",tree.getAuthority());
             cv.put("dateIntro",tree.getDateIntro());
             cv.put("accessNo",tree.getAccessNo());
@@ -556,7 +557,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             cv.put("nomCommun",tree.getNomCommun());
             cv.put("nursery",tree.getNursery());
             cv.put("location",tree.getLocation());
-            cv.put("donor",tree.getDonor());
+            cv.put("donor",tree.getStringDonor());
             cv.put("collSeed",tree.getCollSeed());
             cv.put("sourceAcc",tree.getSourceAcc());
             cv.put("revised",tree.getRevised());
@@ -590,7 +591,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put("type",tree.getType());
         cv.put("hybridCross",tree.getHybridCross());
         cv.put("cultivar",tree.getCultivar());
-        cv.put("nameStatus",tree.getNameStatus());
+        cv.put("nameStatus",tree.getStringNameStatus());
         cv.put("authority",tree.getAuthority());
         cv.put("dateIntro",tree.getDateIntro());
         cv.put("accessNo",tree.getAccessNo());
@@ -603,7 +604,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put("nomCommun",tree.getNomCommun());
         cv.put("nursery",tree.getNursery());
         cv.put("location",tree.getLocation());
-        cv.put("donor",tree.getDonor());
+        cv.put("donor",tree.getStringDonor());
         cv.put("collSeed",tree.getCollSeed());
         cv.put("sourceAcc",tree.getSourceAcc());
         cv.put("revised",tree.getRevised());

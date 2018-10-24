@@ -1245,7 +1245,7 @@ public class MainActivity extends FragmentActivity implements
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     String id = mUser.getUid();
-                    userType = dataSnapshot.child(id).getValue(Integer.class);
+                    userType = 2;//dataSnapshot.child(id).getValue(Integer.class);
                     myFragment.showButtons(userType);
                 }
 

@@ -18,6 +18,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -94,7 +95,6 @@ public class WelcomeActivity extends AppCompatActivity {
             finish();
             startActivity(new Intent(this,EmailLoginActivity.class));
         }
-
     }
 
     private void requestLocationPermission(){
@@ -183,7 +183,12 @@ public class WelcomeActivity extends AppCompatActivity {
                             try{
                                 cv.put(k1, (double)m1.get(k1));
                             }catch(Exception f){
-                                cv.put(k1, (long)m1.get(k1));
+                                try{
+                                    cv.put(k1, (long)m1.get(k1));
+                                }catch(Exception a){
+                                    cv.put(k1, (boolean)m1.get(k1));
+                                }
+
                             }
 
                         }
@@ -204,6 +209,7 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         });
         //add preference
-
+        String e = Integer.toString(mDBHelper.getCount());
+        Log.e("number of trees: ",e);
     }
 }

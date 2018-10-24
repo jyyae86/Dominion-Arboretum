@@ -171,7 +171,7 @@
         android:layout_alignParentStart="true"
         android:id="@+id/linearLayout2">
         <Button
-            android:layout_weight="20"
+            android:layout_weight="25"
             android:id="@+id/buttonMyTrees"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -182,7 +182,7 @@
             android:layout_alignBottom="@+id/buttonAddTree" />
 
         <Button
-            android:layout_weight="20"
+            android:layout_weight="25"
             android:id="@+id/buttonAddTree"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -193,19 +193,19 @@
             android:visibility="visible"
             android:layout_alignBottom="@+id/buttonAllTrees" />
 
-        <Button
-            android:layout_weight="20"
-            android:id="@+id/buttonAllTrees"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/hideButton"
-            android:layout_toEndOf="@+id/buttonAddTree"
-            android:onClick="startAdminMenuActivity"
-            android:text="All Trees"
-            android:visibility="visible" />
+        <!--<Button-->
+            <!--android:layout_weight="20"-->
+            <!--android:id="@+id/buttonAllTrees"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/hideButton"-->
+            <!--android:layout_toEndOf="@+id/buttonAddTree"-->
+            <!--android:onClick="startAdminMenuActivity"-->
+            <!--android:text="All Trees"-->
+            <!--android:visibility="visible" />-->
 
         <Button
-            android:layout_weight="20"
+            android:layout_weight="25"
             android:id="@+id/buttonSignOut"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -219,7 +219,7 @@
             android:id="@+id/buttonHelp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="20"
+            android:layout_weight="25"
             android:text="Help"
             android:onClick="startHelpActivity"/>
     </LinearLayout>

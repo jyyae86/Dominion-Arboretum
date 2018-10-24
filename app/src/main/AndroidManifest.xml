@@ -34,11 +34,13 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".UploadTreeActivity" />
-        <activity android:name=".EmailLoginActivity"></activity>
+        <activity android:name=".EmailLoginActivity">
+        </activity>
         <activity android:name=".EmailSignUpActivity" />
         <!-- <activity android:name=".UploadTreeActivity" /> -->
         <activity android:name=".LocalTreeInfoActivity" />
         <activity android:name=".MemberMyTreesActivity" />
+        <activity android:name=".HelpActivity" />
         <activity android:name=".RemoteTreeInfoActivity" />
         <activity android:name=".EditTreeActivity" />
         <activity android:name=".WelcomeActivity">

@@ -33,7 +33,7 @@ public class LocalTreeInfoActivity extends AbstractTreeInfoActivity {
         treeType.setText(nTree.getType());
         hybridCross.setText(nTree.getHybridCross());
         cultivar.setText(nTree.getCultivar());
-        nameStatus.setText(nTree.getNameStatus());
+        nameStatus.setText(nTree.getStringNameStatus());
         authority.setText(nTree.getAuthority());
         dateIntro.setText(nTree.getDateIntro());
         accessNo.setText(nTree.getAccessNo());
@@ -48,7 +48,7 @@ public class LocalTreeInfoActivity extends AbstractTreeInfoActivity {
         location.setText(nTree.getLocation());
         lat.setText(Double.toString(nTree.getLat()));
         lng.setText(Double.toString(nTree.getLng()));
-        donor.setText(nTree.getDonor());
+        donor.setText(nTree.getStringDonor());
         collSeed.setText(nTree.getCollSeed());
         sourceAcc.setText(nTree.getSourceAcc());
         revised.setText(nTree.getRevised());
@@ -135,8 +135,8 @@ public class LocalTreeInfoActivity extends AbstractTreeInfoActivity {
                     getInstance().
                     getReference().
                     child("userDeletedTrees");
-            String tmpRef = userDeletedTrees.push().getKey();
-            userDeletedTrees.child(tmpRef).setValue(selected);
+//            String tmpRef = userDeletedTrees.push().getKey();
+            userDeletedTrees.child(selected.getFirebaseID()).setValue(selected);
             finish();
             startActivity(new Intent(this, MainActivity.class));
         }

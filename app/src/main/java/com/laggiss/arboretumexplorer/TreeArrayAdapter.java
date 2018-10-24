@@ -33,11 +33,12 @@ public class TreeArrayAdapter extends ArrayAdapter<Tree> {
 
         View rowView = inflater.inflate(R.layout.tree_item_layout, parent, false);
         TextView treeName = (TextView) rowView.findViewById(R.id.treeCommonName);
-        TextView treeCreator = (TextView) rowView.findViewById(R.id.treeCreator);
+        TextView memo = (TextView) rowView.findViewById(R.id.treeCreator);
 
         //Placing content into recipe List Item
-        treeName.setText(curTree.getCommonName());
-//        treeCreator.setText(curTree.getCreatorName());
+        String title = curTree.getGenus() + " " + curTree.getSpecies();
+        treeName.setText(title);
+        memo.setText(curTree.getMemo());
 
         //TODO: Perform decision regarding image selection for recipe prior to setting an image
 

@@ -41,7 +41,7 @@ public class RemoteTreeInfoActivity extends AbstractTreeInfoActivity {
                 treeType.setText(tree.getType());
                 hybridCross.setText(tree.getHybridCross());
                 cultivar.setText(tree.getCultivar());
-                nameStatus.setText(tree.getNameStatus());
+                nameStatus.setText(tree.getStringNameStatus());
                 authority.setText(tree.getAuthority());
                 dateIntro.setText(tree.getDateIntro());
                 accessNo.setText(tree.getAccessNo());
@@ -56,7 +56,7 @@ public class RemoteTreeInfoActivity extends AbstractTreeInfoActivity {
                 location.setText(tree.getLocation());
                 lat.setText(Double.toString(tree.getLat()));
                 lng.setText(Double.toString(tree.getLng()));
-                donor.setText(tree.getDonor());
+                donor.setText(tree.getStringDonor());
                 collSeed.setText(tree.getCollSeed());
                 sourceAcc.setText(tree.getSourceAcc());
                 revised.setText(tree.getRevised());

@@ -111,7 +111,7 @@ public class ControlClass extends Fragment {
 
     private Button addTree;
     private Button myTrees;
-    private Button allTrees;
+//    private Button allTrees;
     private Button signOut;
     private Button buttonQuery;
 
@@ -169,14 +169,14 @@ public class ControlClass extends Fragment {
 
     public void showButtons(int userType){
         if(userType == 1){
-            addTree.setEnabled(true);
-            myTrees.setEnabled(true);
-            signOut.setEnabled(true);
+//            addTree.setEnabled(true);
+//            myTrees.setEnabled(true);
+//            signOut.setEnabled(true);
         }else if(userType == 2){
-            addTree.setEnabled(true);
-            myTrees.setEnabled(true);
-            signOut.setEnabled(true);
-            allTrees.setEnabled(true);
+//            addTree.setEnabled(true);
+//            myTrees.setEnabled(true);
+//            signOut.setEnabled(true);
+//            allTrees.setEnabled(true);
         }
     }
 
@@ -281,15 +281,15 @@ public class ControlClass extends Fragment {
         mDBHelper.openDataBase();
         genera = mDBHelper.getGenera();
         Arrays.sort(genera);
-        myTrees = (Button) view.findViewById(R.id.buttonMyTrees);
-        addTree = (Button) view.findViewById(R.id.buttonAddTree);
-        allTrees = (Button) view.findViewById(R.id.buttonAllTrees);
+//        myTrees = (Button) view.findViewById(R.id.buttonMyTrees);
+//        addTree = (Button) view.findViewById(R.id.buttonAddTree);
+//        allTrees = (Button) view.findViewById(R.id.buttonAllTrees);
         signOut = (Button) view.findViewById(R.id.buttonSignOut);
 
-        addTree.setEnabled(false);
-        myTrees.setEnabled(false);
-        signOut.setEnabled(false);
-        allTrees.setEnabled(false);
+//        addTree.setEnabled(false);
+//        myTrees.setEnabled(false);
+//        signOut.setEnabled(false);
+//        allTrees.setEnabled(false);
 
         buttonQuery = (Button) view.findViewById(R.id.buttonQuery);
         buttonQuery.setOnClickListener(new View.OnClickListener() {

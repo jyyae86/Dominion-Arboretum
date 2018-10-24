@@ -2,6 +2,7 @@ package com.laggiss.arboretumexplorer;
 
 import android.content.Context;
 import android.provider.ContactsContract;
+import android.util.Log;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -53,20 +54,35 @@ public class FirebaseDatabaseUtility {
         master.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Tree t = dataSnapshot.getValue(Tree.class);
-                int i = myDBHelper.addTreeToMaster(t);
+                try{
+                    Tree t = dataSnapshot.getValue(Tree.class);
+                    int i = myDBHelper.addTreeToMaster(t);
+                }catch(Exception e){
+                    Log.e("key", dataSnapshot.getKey());
+                }
+
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Tree t = dataSnapshot.getValue(Tree.class);
-                myDBHelper.editTree(t, t.getFirebaseID());
+                try{
+                    Tree t = dataSnapshot.getValue(Tree.class);
+                    myDBHelper.editTree(t, t.getFirebaseID());
+                }catch(Exception e){
+                    Log.e("key", dataSnapshot.getKey());
+                }
+
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Tree t = dataSnapshot.getValue(Tree.class);
-                myDBHelper.removeTreeFromMyTrees(t.getFirebaseID());
+                try{
+                    Tree t = dataSnapshot.getValue(Tree.class);
+                    myDBHelper.removeTreeFromMyTrees(t.getFirebaseID());
+                }catch(Exception e){
+                    Log.e("key", dataSnapshot.getKey());
+                }
+
             }
 
             @Override
@@ -96,8 +112,13 @@ public class FirebaseDatabaseUtility {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Tree selected = dataSnapshot.getValue(Tree.class);
-                myDBHelper.removeTreeFromMyTrees(selected.getFirebaseID());
+                try{
+                    Tree selected = dataSnapshot.getValue(Tree.class);
+                    myDBHelper.removeTreeFromMyTrees(selected.getFirebaseID());
+                }catch(Exception e){
+                    Log.e("key removed", selected.getFirebaseID());
+                }
+
             }
 
             @Override
@@ -125,8 +146,13 @@ public class FirebaseDatabaseUtility {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Tree selected = dataSnapshot.getValue(Tree.class);
-                myDBHelper.removeTreeFromMyTrees(selected.getFirebaseID());
+                try{
+                    Tree selected = dataSnapshot.getValue(Tree.class);
+                    myDBHelper.removeTreeFromMyTrees(selected.getFirebaseID());
+                }catch(Exception e){
+                    Log.e("key removed", selected.getFirebaseID());
+                }
+
             }
 
             @Override
@@ -154,8 +180,13 @@ public class FirebaseDatabaseUtility {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Tree selected = dataSnapshot.getValue(Tree.class);
-                myDBHelper.removeTreeFromMyTrees(selected.getFirebaseID());
+                try{
+                    Tree selected = dataSnapshot.getValue(Tree.class);
+                    myDBHelper.removeTreeFromMyTrees(selected.getFirebaseID());
+                }catch(Exception e){
+                    Log.e("key removed", selected.getFirebaseID());
+                }
+
             }
 
             @Override

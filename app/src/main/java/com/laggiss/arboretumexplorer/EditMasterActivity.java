@@ -32,7 +32,7 @@ public class EditMasterActivity extends AbstractEditTreeActivity {
         typeTree.setText(nTree.getType());
         hybridCross.setText(nTree.getHybridCross());
         cultivar.setText(nTree.getCultivar());
-        nameStatus.setText(nTree.getNameStatus());
+        nameStatus.setText(nTree.getStringNameStatus());
         authority.setText(nTree.getAuthority());
         dateIntro.setText(nTree.getDateIntro());
         accessNo.setText(nTree.getAccessNo());
@@ -47,7 +47,7 @@ public class EditMasterActivity extends AbstractEditTreeActivity {
         location.setText(nTree.getLocation());
         lat.setText(Double.toString(nTree.getLat()));
         lng.setText(Double.toString(nTree.getLng()));
-        donor.setText(nTree.getDonor());
+        donor.setText(nTree.getStringDonor());
         collSeed.setText(nTree.getCollSeed());
         sourceAcc.setText(nTree.getSourceAcc());
         revised.setText(nTree.getRevised());
@@ -105,10 +105,10 @@ public class EditMasterActivity extends AbstractEditTreeActivity {
 
 
         Tree nTree = new Tree( familyString,  famNameString,  genusString,  speciesString,  rankString,
-                typeString,  hCrossString,  culString,  nameStatString,  authString,
+                typeString,  hCrossString,  culString,  Boolean.parseBoolean(nameStatString),  authString,
                 dIntroString,  aNumString,  rFromString,  dRecdString,  hRecdString,
                 numRecdString,  nameRecdString,  cNameString,  nCommunString,  nurString,
-                locString,  donorString,  cSeedString,  sAccString,  revisedString,
+                locString,  Boolean.parseBoolean(donorString),  cSeedString,  sAccString,  revisedString,
                 numNowString,  originsString,  hSpecString,  idByDateString,  p1String,
                 p2String,  mInfoString,  notesString,  memoString, lat,  lng,
                 firebaseID, DataBaseHelper.EDIT);
